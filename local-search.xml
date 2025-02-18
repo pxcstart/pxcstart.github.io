@@ -8,7 +8,7 @@
     <link href="/2025/02/18/20250218/"/>
     <url>/2025/02/18/20250218/</url>
     
-    <content type="html"><![CDATA[<h1 id="Graph-RAG"><a href="#Graph-RAG" class="headerlink" title="Graph + RAG"></a>Graph + RAG</h1><p>图RAG相比于传统RAG的优势：</p><ol><li>多跳推理能力 2. 关系建模能力 3. 高效的知识更新与管理 4. 减少检索的噪声和生成的幻觉</li></ol><p>最近看了几篇图RAG的论文：</p><h3 id="G-Retriever-Retrieval-Augmented-Generation-for-Textual-Graph-Understanding-and-Question-Answering（https-arxiv-org-pdf-2402-07630）"><a href="#G-Retriever-Retrieval-Augmented-Generation-for-Textual-Graph-Understanding-and-Question-Answering（https-arxiv-org-pdf-2402-07630）" class="headerlink" title="G-Retriever: Retrieval-Augmented Generation for Textual Graph Understanding and Question Answering（https://arxiv.org/pdf/2402.07630）"></a>G-Retriever: Retrieval-Augmented Generation for Textual Graph Understanding and Question Answering（<a href="https://arxiv.org/pdf/2402.07630%EF%BC%89">https://arxiv.org/pdf/2402.07630）</a></h3><p>Motivation: 引入文本图进行检索增强</p><p>开源代码：<a href="https://github.com/XiaoxinHe/G-Retriever">https://github.com/XiaoxinHe/G-Retriever</a></p><p>首先根据已有的外部知识构建知识图谱，并对每个节点和关系，利用其固有的文本属性进行特征编码。针对用户的query，进行相似度检索，得到节点和边的topk子集。然后设计了一种强化学习策略基于检索得到的子集构建subgraph。在生成阶段，LLM的参数被冻结，除了用户的query以外，还有检索子图的文本属性所构成的hard prompt和基于可训练graph encoder得到的soft prompt <img src="/article_img/20250218_01.png" alt="img"></p><h3 id="Knowledge-Graph-Retrieval-Augmented-Generation-For-LLM-Based-Recommendation-https-arxiv-org-pdf-2501-02226"><a href="#Knowledge-Graph-Retrieval-Augmented-Generation-For-LLM-Based-Recommendation-https-arxiv-org-pdf-2501-02226" class="headerlink" title="Knowledge Graph Retrieval-Augmented Generation For LLM-Based Recommendation(https://arxiv.org/pdf/2501.02226)"></a>Knowledge Graph Retrieval-Augmented Generation For LLM-Based Recommendation(<a href="https://arxiv.org/pdf/2501.02226">https://arxiv.org/pdf/2501.02226</a>)</h3><p>Motivation: 传统的RAG方法忽视了知识的结构关系，借助外部知识构建KG，对推荐进行检索增强；</p><p>检索阶段，首先训练一个GNN网络用来对item-entity知识图谱的每个节点和关系进行编码，并以每个节点作为中心节点生成的多跳特征表示收集起来，构建向量数据库。对于待预测的用户节点，根据其交互历史中的每个节点，利用其文本特征从KG VecDB中检索相关子图，并对检索得到的所有子图进行重排序用于构建soft prompt，从而增强LLM的推荐能力。<img src="/article_img/20250218_02.png" alt="img"></p><h3 id="KG-Retriever-Efficient-Knowledge-Indexing-for-Retrieval-Augmented-Large-Language-Models（https-arxiv-org-pdf-2412-05547）"><a href="#KG-Retriever-Efficient-Knowledge-Indexing-for-Retrieval-Augmented-Large-Language-Models（https-arxiv-org-pdf-2412-05547）" class="headerlink" title="KG-Retriever: Efficient Knowledge Indexing for Retrieval-Augmented Large Language Models（https://arxiv.org/pdf/2412.05547）"></a>KG-Retriever: Efficient Knowledge Indexing for Retrieval-Augmented Large Language Models（<a href="https://arxiv.org/pdf/2412.05547%EF%BC%89">https://arxiv.org/pdf/2412.05547）</a></h3><p>Motivation: 对结构信息分层检索，从根本上缓解信息碎片化的问题</p><p>设计了Doc层(Document-level Graph)和KG层(Entity-level Graph)分别用于建立文档内和文档间的连接，Doc Graph的构建是对每个文档进行文本编码，并基于语义相似性获得每个节点的K近邻居；KG Graph的构建是对每个文档进行信息抽取，从而获得对应的知识图谱。检索策略上，作者考虑了两级检索：文档级检索和实体级检索，前者除了考虑用户查询和每个文档的语义相似性以外，还根据Doc Graph获取这些topN文档的one-hop邻居；后者则针对上一阶段检索的所有文档所对应的kg图检索语义相关的实体集，和query一起作为最终LLM的输入<br><img src="/article_img/20250218_03.png" alt="img"></p>]]></content>
+    <content type="html"><![CDATA[<h1 id="Graph-RAG"><a href="#Graph-RAG" class="headerlink" title="Graph + RAG"></a>Graph + RAG</h1><p>图RAG相比于传统RAG的优势：</p><ol><li>多跳推理能力 2. 关系建模能力 3. 高效的知识更新与管理 4. 减少检索的噪声和生成的幻觉</li></ol><p>最近看了几篇图RAG的论文：</p><h3 id="G-Retriever-Retrieval-Augmented-Generation-for-Textual-Graph-Understanding-and-Question-Answering（https-arxiv-org-pdf-2402-07630）"><a href="#G-Retriever-Retrieval-Augmented-Generation-for-Textual-Graph-Understanding-and-Question-Answering（https-arxiv-org-pdf-2402-07630）" class="headerlink" title="G-Retriever: Retrieval-Augmented Generation for Textual Graph Understanding and Question Answering（https://arxiv.org/pdf/2402.07630）"></a>G-Retriever: Retrieval-Augmented Generation for Textual Graph Understanding and Question Answering（<a href="https://arxiv.org/pdf/2402.07630%EF%BC%89">https://arxiv.org/pdf/2402.07630）</a></h3><p>Motivation: 引入文本图进行检索增强</p><p>开源代码：<a href="https://github.com/XiaoxinHe/G-Retriever">https://github.com/XiaoxinHe/G-Retriever</a></p><p>首先根据已有的外部知识构建知识图谱，并对每个节点和关系，利用其固有的文本属性进行特征编码。针对用户的query，进行相似度检索，得到节点和边的topk子集。然后设计了一种强化学习策略基于检索得到的子集构建subgraph。在生成阶段，LLM的参数被冻结，除了用户的query以外，还有检索子图的文本属性所构成的hard prompt和基于可训练graph encoder得到的soft prompt <img src="/article_img/20250218/20250218_01.png" alt="G-Retriever"></p><h3 id="Knowledge-Graph-Retrieval-Augmented-Generation-For-LLM-Based-Recommendation-https-arxiv-org-pdf-2501-02226"><a href="#Knowledge-Graph-Retrieval-Augmented-Generation-For-LLM-Based-Recommendation-https-arxiv-org-pdf-2501-02226" class="headerlink" title="Knowledge Graph Retrieval-Augmented Generation For LLM-Based Recommendation(https://arxiv.org/pdf/2501.02226)"></a>Knowledge Graph Retrieval-Augmented Generation For LLM-Based Recommendation(<a href="https://arxiv.org/pdf/2501.02226">https://arxiv.org/pdf/2501.02226</a>)</h3><p>Motivation: 传统的RAG方法忽视了知识的结构关系，借助外部知识构建KG，对推荐进行检索增强；</p><p>检索阶段，首先训练一个GNN网络用来对item-entity知识图谱的每个节点和关系进行编码，并以每个节点作为中心节点生成的多跳特征表示收集起来，构建向量数据库。对于待预测的用户节点，根据其交互历史中的每个节点，利用其文本特征从KG VecDB中检索相关子图，并对检索得到的所有子图进行重排序用于构建soft prompt，从而增强LLM的推荐能力。<img src="/article_img/20250218/20250218_02.png" alt="K-RagRec"></p><h3 id="KG-Retriever-Efficient-Knowledge-Indexing-for-Retrieval-Augmented-Large-Language-Models（https-arxiv-org-pdf-2412-05547）"><a href="#KG-Retriever-Efficient-Knowledge-Indexing-for-Retrieval-Augmented-Large-Language-Models（https-arxiv-org-pdf-2412-05547）" class="headerlink" title="KG-Retriever: Efficient Knowledge Indexing for Retrieval-Augmented Large Language Models（https://arxiv.org/pdf/2412.05547）"></a>KG-Retriever: Efficient Knowledge Indexing for Retrieval-Augmented Large Language Models（<a href="https://arxiv.org/pdf/2412.05547%EF%BC%89">https://arxiv.org/pdf/2412.05547）</a></h3><p>Motivation: 对结构信息分层检索，从根本上缓解信息碎片化的问题</p><p>设计了Doc层(Document-level Graph)和KG层(Entity-level Graph)分别用于建立文档内和文档间的连接，Doc Graph的构建是对每个文档进行文本编码，并基于语义相似性获得每个节点的K近邻居；KG Graph的构建是对每个文档进行信息抽取，从而获得对应的知识图谱。检索策略上，作者考虑了两级检索：文档级检索和实体级检索，前者除了考虑用户查询和每个文档的语义相似性以外，还根据Doc Graph获取这些topN文档的one-hop邻居；后者则针对上一阶段检索的所有文档所对应的kg图检索语义相关的实体集，和query一起作为最终LLM的输入<br><img src="/article_img/20250218/20250218_03.png" alt="KG-Retriever"></p>]]></content>
     
     
     
@@ -17,6 +17,65 @@
       <tag>LLM</tag>
       
       <tag>RAG</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>关于模型padding左对齐和右对齐的问题</title>
+    <link href="/2025/02/17/LLM%20padding/"/>
+    <url>/2025/02/17/LLM%20padding/</url>
+    
+    <content type="html"><![CDATA[<p>最近微调模型进行原因预测任务训练的时候，在eval阶段进行推理生成时遇到了一个警告：“A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set <code>padding_side=&#39;left&#39;</code> when initializing the tokenizer.”，我将tokenizer初始化的定义设置为左填充依然出现该警告，问了下身边对大模型比较了解的同学，发现是token序列结尾加了eos符号导致出现的warning，下面是transformers库中该警告出现的条件：</p><p><img src="/article_img/LLM%20padding/warning.png" alt="warning"></p><p>为什么模型训练选择右填充，推理时选择左填充；为什么训练时需要在结尾添加<eos>标记符，而推理时则不需要，下面给出解释说明：</p><p>训练：Q+A[EOS]  </p><p>模型训练时，对于输入的token序列，我们知道其真实标签（Ques部分可直接用-100作为 <strong>mask</strong> 填充或无效标签，以确保这些位置不会影响损失计算），采用右填充是为了让每个batch内的样本长度对齐。在结尾添加eos标记符是为了告诉模型输入序列的结束位置，如果没有 EOS token，模型可能会将序列当作是没有结束的，进而可能会试图无限制地生成下一个 token，导致训练不稳定或生成行为不正确</p><p>推理：Q</p><p>自回归模型在推理时，从bos标记符开始从左到右依次预测下一个词来生成内容，如下面的图所示：</p><p><img src="/article_img/LLM%20padding/padding.png" alt="padding"></p><p>如果采用右填充，<pad>将被放置在In-Context的右端，从而改变了In-Context内容，这将导致生成时模型的上下文理解出现偏差，结果可能会影响到生成的质量或连贯性。此外，如果在In-Context的结尾处加入eos标记符，这将导致模型停止生成。</p><p>参考链接：<a href="https://zhuanlan.zhihu.com/p/4581421783">模型训练选择right填充，推理选择left填充，为什么？ - 知乎</a></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Bug</tag>
+      
+      <tag>Code</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>Recsys大牛实验室官网链接</title>
+    <link href="/2025/02/01/lab/"/>
+    <url>/2025/02/01/lab/</url>
+    
+    <content type="html"><![CDATA[<p>Xiangnan He：<a href="https://hexiangnan.github.io/">https://hexiangnan.github.io/</a><br>Yuan Fang@SMU: <a href="https://www.yfang.site/">https://www.yfang.site/</a><br>Huang Chao: <a href="https://sites.google.com/view/chaoh">https://sites.google.com/view/chaoh</a></p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Study</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>人工智能竞赛汇总</title>
+    <link href="/2025/02/01/competition/"/>
+    <url>/2025/02/01/competition/</url>
+    
+    <content type="html"><![CDATA[<h2 id="1-人工智能竞赛平台-Biendata：Data-Competition-Community-Biendata"><a href="#1-人工智能竞赛平台-Biendata：Data-Competition-Community-Biendata" class="headerlink" title="1.人工智能竞赛平台 Biendata：Data Competition Community - Biendata"></a><strong>1.人工智能竞赛平台 Biendata：</strong><a href="https://link.zhihu.com/?target=https://www.biendata.xyz/">Data Competition Community - Biendata</a></h2><p><strong>介绍：</strong></p><blockquote><p>2018 年 5 月，人工智能和大数据的竞赛平台 Biendata 完成天使轮融资，由DeepTech深科技投资，旨在打造中国人工智能赛事顶级 IP，赛事相关媒体运营。Biendata 的比赛客户既包括<strong>今日头条、知乎、摩拜、搜狐等企业，也包括了 IEEE、ACM、中国计算机学会、中国人工智能学会</strong>等国内外顶尖学术组织。</p></blockquote><p>总体上来说就是一个各自AI比赛汇总的平台（除了一些大厂有自己的大规模AI赛事比如阿里云天池、华为云、百度、腾讯），类似的办赛平台IP还有</p><ul><li><strong>datafountain：</strong><a href="https://www.datafountain.cn/competitions">数据科学竞赛&#x2F;大数据 竞赛 - DataFountain</a></li><li><strong>Kaggle(国外)：</strong><a href="https://www.kaggle.com/competitions">Kaggle Competitions</a></li></ul><p><strong>时间：</strong>基本上是什么时间都有，需要持续关注官网，同一个企业基本每年举办的timeline不变</p><h2 id="2-阿里云天池：算法大赛-天池大数据竞赛-天池大赛-阿里云天池"><a href="#2-阿里云天池：算法大赛-天池大数据竞赛-天池大赛-阿里云天池" class="headerlink" title="2.阿里云天池：算法大赛-天池大数据竞赛-天池大赛-阿里云天池"></a><strong>2.阿里云天池：</strong><a href="https://tianchi.aliyun.com/competition/gameList/algorithmList">算法大赛-天池大数据竞赛-天池大赛-阿里云天池</a></h2><p><strong>介绍：</strong>老牌，2014年启办，面向全世界科研人员和高校师生，业务场景丰富（2B2C都有cover），奖金池也丰富。</p><p><strong>时间：</strong>基本上是5月份开始报名——夏天初赛\复赛——10月决赛答辩</p><h2 id="3-华为云-：华为云大赛平台"><a href="#3-华为云-：华为云大赛平台" class="headerlink" title="3.华为云 ：华为云大赛平台"></a><strong>3.华为云 ：</strong><a href="https://competition.huaweicloud.com/competitions">华为云大赛平台</a></h2><p><strong>介绍：</strong>众所周知华为对研发投入比例很大，也十分重视创新大赛的举办，会联合各种高校、产品线、学术机构\组织办赛，每年任何时间节点都可能会有比赛。相关领域的同学需要持续关注。</p><p><strong>时间：</strong>一年中任意时刻</p><h2 id="4-百度飞桨AI-Studio大赛：飞桨AI-Studio-人工智能学习与实训社区"><a href="#4-百度飞桨AI-Studio大赛：飞桨AI-Studio-人工智能学习与实训社区" class="headerlink" title="4. 百度飞桨AI Studio大赛：飞桨AI Studio - 人工智能学习与实训社区"></a><strong>4. 百度飞桨AI Studio大赛：</strong><a href="https://aistudio.baidu.com/aistudio/competition/1/1">飞桨AI Studio - 人工智能学习与实训社区</a></h2><p><strong>介绍：</strong>AI Studio是基于百度深度学习平台飞桨的人工智能学习与实训社区，整体跟华为云的形式差异不大，但赛程周期会紧凑一些，内容也和百度的业务内容强相关（如<strong>NLP</strong>\图像检测\导航路径）。个人感觉场景会更专精于NLP，比如事件抽取\机器翻译\QA\阅读理解\情感分析。</p><p><strong>时间：</strong>每年3-5月</p><h2 id="5-腾讯：-2021腾讯广告算法大赛"><a href="#5-腾讯：-2021腾讯广告算法大赛" class="headerlink" title="5.腾讯： 2021腾讯广告算法大赛"></a><strong>5.腾讯：</strong> <a href="https://algo.qq.com/index.html%3Flang%3Dcn">2021腾讯广告算法大赛</a></h2><p><strong>介绍：</strong>腾讯AI赛事做的不是特别好，除了广告算法大赛还比较成规模（基本每年有延续），其他的都很分散，没有统一的平台。</p><blockquote><p>AI Lab偶尔有些算法挑战赛，AI温室种番茄什么的: <a href="https://ai.tencent.com/ailab/zh/index">腾讯 AI Lab - 腾讯人工智能实验室官网</a></p></blockquote><p><strong>时间：</strong>三月开始报名——夏季初赛\复赛——八月决赛答辩</p><h2 id="6-AIOps-Challenge智能运维挑战赛：竞赛列表"><a href="#6-AIOps-Challenge智能运维挑战赛：竞赛列表" class="headerlink" title="6.AIOps Challenge智能运维挑战赛：竞赛列表"></a><strong>6.AIOps Challenge智能运维挑战赛</strong>：<a href="https://iops.ai/competition_list/">竞赛列表</a></h2><p><strong>介绍：</strong>规模较小，每年承办方会有变化，但是主题围绕着AIOps不变</p><p><strong>时间：</strong>基本上是1月年初开始报名——春季初赛\复赛——五月决赛答辩</p><h2 id="7-KDD-CUP：KDD-2021-Singapore"><a href="#7-KDD-CUP：KDD-2021-Singapore" class="headerlink" title="7.KDD CUP：KDD 2021 | Singapore"></a><strong>7.KDD CUP：</strong><a href="https://www.kdd.org/kdd2021/%23">KDD 2021 | Singapore</a></h2><p><strong>介绍:</strong> 国外赛事，商业性质较弱所以奖金池较小，主题是多源数据时序异常检测\OGB-LSC\城市大脑挑战，延续性比较好。</p><p><strong>时间：</strong>每年五月-八月</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Study</tag>
       
     </tags>
     
