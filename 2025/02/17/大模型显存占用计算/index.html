@@ -21,31 +21,25 @@
   <meta name="author" content="Peter">
   <meta name="keywords" content="">
   
-    <meta name="description" content="panxiang2020@163.com                    ·                                      pxcstart                    ·                                      My Blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="关于">
-<meta property="og:url" content="http://example.com/about/index.html">
+    <meta name="description" content="1. 显存单位换算在讨论显存占用时，首先要明白“B”和“G”的含义。通常，“B”指的是十亿（1B &#x3D; 10^9），而“G”则表示千兆字节（1G &#x3D; 10^9字节）。例如，1B参数意味着有10亿个参数。显存的单位通常以字节计算，而1个字节等于8位。🎈如果使用全精度训练（fp32），每个参数需要占用32位（即4个字节），因此1B的参数需要占用4GB的显存。🎈如果使用半精度（fp">
+<meta property="og:type" content="article">
+<meta property="og:title" content="大模型显存占用计算">
+<meta property="og:url" content="http://example.com/2025/02/17/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%98%BE%E5%AD%98%E5%8D%A0%E7%94%A8%E8%AE%A1%E7%AE%97/index.html">
 <meta property="og:site_name" content="Peter ThinkTank">
-<meta property="og:description" content="panxiang2020@163.com                    ·                                      pxcstart                    ·                                      My Blog">
+<meta property="og:description" content="1. 显存单位换算在讨论显存占用时，首先要明白“B”和“G”的含义。通常，“B”指的是十亿（1B &#x3D; 10^9），而“G”则表示千兆字节（1G &#x3D; 10^9字节）。例如，1B参数意味着有10亿个参数。显存的单位通常以字节计算，而1个字节等于8位。🎈如果使用全精度训练（fp32），每个参数需要占用32位（即4个字节），因此1B的参数需要占用4GB的显存。🎈如果使用半精度（fp">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/about/assets/envelope-solid.svg">
-<meta property="og:image" content="http://example.com/about/assets/github-brands.svg">
-<meta property="og:image" content="http://example.com/about/assets/rss-solid.svg">
-<meta property="og:image" content="http://example.com/about/assets/info-circle-solid.svg">
-<meta property="og:image" content="http://example.com/about/assets/graduation-cap-solid.svg">
-<meta property="og:image" content="http://example.com/about/assets/briefcase-solid.svg">
-<meta property="og:image" content="http://example.com/about/assets/project-diagram-solid.svg">
-<meta property="og:image" content="http://example.com/about/assets/tools-solid.svg">
-<meta property="og:image" content="http://example.com/about/assets/cloud.png">
-<meta property="article:published_time" content="2025-02-04T09:07:22.988Z">
-<meta property="article:modified_time" content="2025-02-04T09:07:22.988Z">
+<meta property="og:image" content="http://example.com/article_img/figure.jpeg">
+<meta property="article:published_time" content="2025-02-16T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-02-18T18:16:39.198Z">
 <meta property="article:author" content="Peter">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="Code">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/about/assets/envelope-solid.svg">
+<meta name="twitter:image" content="http://example.com/article_img/figure.jpeg">
   
   
   
-  <title>关于 - Peter ThinkTank</title>
+  <title>大模型显存占用计算 - Peter ThinkTank</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -122,7 +116,7 @@
   <header>
     
 
-<div class="header-inner" style="height: 60vh;">
+<div class="header-inner" style="height: 70vh;">
   <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand" href="/">
@@ -262,15 +256,62 @@
   
 
 <div id="banner" class="banner" parallax=true
-     style="background: url('/image/banner2.jpg') no-repeat center center; background-size: cover;">
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
   <div class="full-bg-img">
     <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="关于"></span>
+            <span id="subtitle" data-typed-text="大模型显存占用计算"></span>
           
         </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Peter
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-02-17 00:00" pubdate>
+           2025 年 02 月 17 日 , 凌晨 12:00 , 星期一
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          424 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          4 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
 
         
       </div>
@@ -286,122 +327,176 @@
 
   <main>
     
-      <div class="container nopadding-x-md">
-        <div id="board"
-          >
-          
-            <div class="about-avatar">
-              <img src="/image/avater.jpg" srcset="/img/loading.gif" lazyload class="img-fluid" alt="avatar">
-            </div>
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
+      
 
-<div class="text-center">
-  <div class="about-info">
-    <div class="about-name">Peter</div>
-    <div class="about-intro">Never say I can't</div>
-    <div class="about-icons">
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
       
-        
-        
-        
-        <a href=https://github.com/pxcstart class="
-           hint--bottom hint--rounded"
-           aria-label="GitHub"
-           target="_blank"
-        >
-          <i class="iconfont icon-GitHub" aria-hidden="true"></i>
-          
-        </a>
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">大模型显存占用计算</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <h2 id="1-显存单位换算"><a href="#1-显存单位换算" class="headerlink" title="1. 显存单位换算"></a>1. 显存单位换算</h2><p>在讨论显存占用时，首先要明白“B”和“G”的含义。通常，“B”指的是十亿（1B &#x3D; 10^9），而“G”则表示千兆字节（1G &#x3D; 10^9字节）。例如，1B参数意味着有10亿个参数。显存的单位通常以字节计算，而1个字节等于8位。<br>🎈如果使用全精度训练（fp32），每个参数需要占用32位（即4个字节），因此1B的参数需要占用4GB的显存。<br>🎈如果使用半精度（fp16或bf16），则每个参数占用2字节，1B的参数只需占用2GB的显存。</p>
+<h2 id="2-显存开销的其他组成部分"><a href="#2-显存开销的其他组成部分" class="headerlink" title="2. 显存开销的其他组成部分"></a>2. 显存开销的其他组成部分</h2><p>除了模型参数本身外，训练过程中还会消耗一定的显存，主要包括以下几部分：<br>🎈梯度：每个参数对应一个梯度，因此梯度的显存占用与参数量相同。<br>🎈优化器状态：优化器，如Adam，通常会为每个参数保存一阶动量和二阶动量，因此优化器的显存开销为参数量的2倍（对于Adam）。对于其他优化器（如SGD），则取决于优化器的具体实现，若是带动量的SGD，则为参数量的1倍。</p>
+<h2 id="3-显存总占用计算"><a href="#3-显存总占用计算" class="headerlink" title="3. 显存总占用计算"></a>3. 显存总占用计算</h2><p>假设我们训练一个参数量为1B的模型，采用全精度（fp32）并使用Adam优化器，显存的占用计算如下：<br>🎈参数：1B × 4GB &#x3D; 4GB<br>🎈梯度：1B × 4GB &#x3D; 4GB<br>🎈优化器状态：1B × 8GB &#x3D; 8GB<br>因此，总显存占用为16GB。如果使用半精度（bf16），则显存占用减半，为8GB。混合精度训练则会根据各部分精度调整计算结果。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
       
-        
-        
-        
-        <a href=https://blog.csdn.net/m0_51633770 class="
-           hint--bottom hint--rounded"
-           aria-label="CSDN"
-           target="_blank"
-        >
-          <i class="iconfont icon-csdn" aria-hidden="true"></i>
-          
-        </a>
+        <a href="/tags/LLM/" class="print-no-link">#LLM</a>
       
-        
-        
-        
-        <a href=https://space.bilibili.com/499204695 class="
-           hint--bottom hint--rounded"
-           aria-label="Bilibili"
-           target="_blank"
-        >
-          <i class="iconfont icon-bilibili" aria-hidden="true"></i>
-          
-        </a>
+        <a href="/tags/Code/" class="print-no-link">#Code</a>
       
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>大模型显存占用计算</div>
+      <div>http://example.com/2025/02/17/大模型显存占用计算/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Peter</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年2月17日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/02/17/LLM%20padding/" title="关于模型padding左对齐和右对齐的问题">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">关于模型padding左对齐和右对齐的问题</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/02/01/lab/" title="Recsys大牛实验室官网链接">
+                        <span class="hidden-mobile">Recsys大牛实验室官网链接</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"bFZ2utAtP6QxKUNJxwibP07k-gzGzoHsz","appKey":"rWP0FjbzaXytusY91AFDmytV","path":"window.location.pathname","placeholder":"留言仅限讨论，禁止广告等行为","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://bfz2utat.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
     </div>
   </div>
 </div>
 
-<article class="about-content page-content mt-5">
-  <div class="markdown-body">
-     <center>
-     <div>
-         <span>
-             <img src="assets/envelope-solid.svg" srcset="/img/loading.gif" lazyload width="18px">
-             panxiang2020@163.com
-         </span>
-         ·
-         <span>
-             <img src="assets/github-brands.svg" srcset="/img/loading.gif" lazyload width="18px">
-             <a target="_blank" rel="noopener" href="https://github.com/pxcstart">pxcstart</a>
-         </span>
-         ·
-         <span>
-             <img src="assets/rss-solid.svg" srcset="/img/loading.gif" lazyload width="18px">
-             <a href="#">My Blog</a>
-         </span>
-     </div>
- </center>
-
-<h2 id="个人信息"><a href="#个人信息" class="headerlink" title=" 个人信息"></a><img src="assets/info-circle-solid.svg" srcset="/img/loading.gif" lazyload width="30px"> 个人信息</h2><ul>
-<li>男，2001，现居武汉</li>
-<li>研究方向：推荐系统，信息检索，图神经网络，大模型</li>
-<li>未来目标：UCB，UIUC</li>
-<li>个人爱好：动漫，日剧，二游，桌游，乒乓&#x2F;羽毛球，旅行</li>
-</ul>
-<h2 id="教育经历"><a href="#教育经历" class="headerlink" title=" 教育经历"></a><img src="assets/graduation-cap-solid.svg" srcset="/img/loading.gif" lazyload width="30px"> 教育经历</h2><ul>
-<li>硕士，华中科技大学，计算机科学与技术专业，2024.9~2027.7</li>
-<li>学士，华中科技大学，网络空间安全专业，2020.9~2024.7</li>
-<li>CSP: 250, CET-4: 601, CET-6: 525</li>
-<li>华中科技大学2024届优秀毕业生</li>
-</ul>
-<h2 id="工作经历"><a href="#工作经历" class="headerlink" title=" 工作经历"></a><img src="assets/briefcase-solid.svg" srcset="/img/loading.gif" lazyload width="30px"> 工作经历</h2><ul>
-<li>绿盟科技公司，产品研发线，实习研发工程师，2022.08<br> 开发了一款自动化数据收集系统</li>
-</ul>
-<h2 id="项目经历"><a href="#项目经历" class="headerlink" title=" 项目经历"></a><img src="assets/project-diagram-solid.svg" srcset="/img/loading.gif" lazyload width="30px"> 项目经历</h2><ul>
-<li><p><strong>线索清洗大模型 项目</strong></p>
-<p>相关技术：LLM，Milvus, VUE&#x2F;Django<br>通过使用大模型微调技术实现开放域对话和垂域功能性问答（意图识别、情绪识别、话术精准定位），外接基于Milvus实现的知识库，用于检索生成更精准真实的回答。系统使用Django进行接口设计，前端采用VUE进行实现。</p>
-<!-- 本项目为实验室-企业联合项目，我为项目的对接人和技术实现人员。 -->
-<!-- 使用一两句话描述项目的主要功能，然后介绍自己在项目中的角色，解决了什么问题，使用什么方式解决，比别人的方法相比有什么优势（尽量用数据来说明）。 --></li>
-</ul>
-<h2 id="技能清单"><a href="#技能清单" class="headerlink" title=" 技能清单"></a><img src="assets/tools-solid.svg" srcset="/img/loading.gif" lazyload width="30px"> 技能清单</h2><ul>
-<li>★★★ Python</li>
-<li>★★★ Pytorch</li>
-<li>★★★ MySQL</li>
-<li>★★☆ C++</li>
-<li>★★☆ VUE，Django</li>
-<li>★☆☆ Unity</li>
-<li>★☆☆ Spark<br><img src="/about/assets/cloud.png" srcset="/img/loading.gif" lazyload></li>
-</ul>
-
-  </div>
-
-  
-</article>
-
 
 
 
@@ -434,11 +529,8 @@
 
 
 
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+
+
     
 
     
@@ -530,6 +622,46 @@
   
 
 
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
 
 
   <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
