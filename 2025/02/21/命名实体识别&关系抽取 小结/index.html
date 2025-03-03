@@ -21,24 +21,24 @@
   <meta name="author" content="Peter">
   <meta name="keywords" content="">
   
-    <meta name="description" content="1.人工智能竞赛平台 Biendata：Data Competition Community - Biendata介绍：  2018 年 5 月，人工智能和大数据的竞赛平台 Biendata 完成天使轮融资，由DeepTech深科技投资，旨在打造中国人工智能赛事顶级 IP，赛事相关媒体运营。Biendata 的比赛客户既包括今日头条、知乎、摩拜、搜狐等企业，也包括了 IEEE、ACM、中国计算机学">
+    <meta name="description" content="BIO标记法B-（Begin）：表示一个实体的开始（首个 token）。 I-（Inside）：表示实体的内部（除首个 token 以外的部分）。 O-（Outside）：表示非实体的 token。 例如：**”Apple Inc. is based in California.” BIO 标注：    Token BIO 标签    Apple B-ORG   Inc. I-ORG   is O">
 <meta property="og:type" content="article">
-<meta property="og:title" content="人工智能竞赛汇总">
-<meta property="og:url" content="http://example.com/2025/02/01/competition/index.html">
+<meta property="og:title" content="命名实体识别&amp;关系抽取 小结">
+<meta property="og:url" content="http://example.com/2025/02/21/%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB&%E5%85%B3%E7%B3%BB%E6%8A%BD%E5%8F%96%20%E5%B0%8F%E7%BB%93/index.html">
 <meta property="og:site_name" content="Peter ThinkTank">
-<meta property="og:description" content="1.人工智能竞赛平台 Biendata：Data Competition Community - Biendata介绍：  2018 年 5 月，人工智能和大数据的竞赛平台 Biendata 完成天使轮融资，由DeepTech深科技投资，旨在打造中国人工智能赛事顶级 IP，赛事相关媒体运营。Biendata 的比赛客户既包括今日头条、知乎、摩拜、搜狐等企业，也包括了 IEEE、ACM、中国计算机学">
+<meta property="og:description" content="BIO标记法B-（Begin）：表示一个实体的开始（首个 token）。 I-（Inside）：表示实体的内部（除首个 token 以外的部分）。 O-（Outside）：表示非实体的 token。 例如：**”Apple Inc. is based in California.” BIO 标注：    Token BIO 标签    Apple B-ORG   Inc. I-ORG   is O">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/article_img/competition/competition.png">
-<meta property="article:published_time" content="2025-01-31T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-02-18T16:44:50.775Z">
+<meta property="og:image" content="http://example.com/article_img/NER/NER.png">
+<meta property="article:published_time" content="2025-02-20T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-02-22T13:20:48.790Z">
 <meta property="article:author" content="Peter">
-<meta property="article:tag" content="Study">
+<meta property="article:tag" content="NER">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="http://example.com/article_img/competition/competition.png">
+<meta name="twitter:image" content="http://example.com/article_img/NER/NER.png">
   
   
   
-  <title>人工智能竞赛汇总 - Peter ThinkTank</title>
+  <title>命名实体识别&amp;关系抽取 小结 - Peter ThinkTank</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -261,7 +261,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="人工智能竞赛汇总"></span>
+            <span id="subtitle" data-typed-text="命名实体识别&amp;关系抽取 小结"></span>
           
         </div>
 
@@ -277,8 +277,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-02-01 00:00" pubdate>
-           2025 年 02 月 01 日 , 凌晨 12:00 , 星期六
+        <time datetime="2025-02-21 00:00" pubdate>
+           2025 年 02 月 21 日 , 凌晨 12:00 , 星期五
         </time>
       </span>
     
@@ -290,7 +290,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          782 字
+          527 字
         
       </span>
     
@@ -302,7 +302,7 @@
         
         
           <!-- compatible with older versions-->
-          7 分钟
+          5 分钟
         
       </span>
     
@@ -339,36 +339,99 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">人工智能竞赛汇总</h1>
+            <h1 id="seo-header">命名实体识别&amp;关系抽取 小结</h1>
             
             
               <div class="markdown-body">
                 
-                <h2 id="1-人工智能竞赛平台-Biendata：Data-Competition-Community-Biendata"><a href="#1-人工智能竞赛平台-Biendata：Data-Competition-Community-Biendata" class="headerlink" title="1.人工智能竞赛平台 Biendata：Data Competition Community - Biendata"></a><strong>1.人工智能竞赛平台 Biendata：</strong><a href="https://link.zhihu.com/?target=https://www.biendata.xyz/">Data Competition Community - Biendata</a></h2><p><strong>介绍：</strong></p>
-<blockquote>
-<p>2018 年 5 月，人工智能和大数据的竞赛平台 Biendata 完成天使轮融资，由DeepTech深科技投资，旨在打造中国人工智能赛事顶级 IP，赛事相关媒体运营。Biendata 的比赛客户既包括<strong>今日头条、知乎、摩拜、搜狐等企业，也包括了 IEEE、ACM、中国计算机学会、中国人工智能学会</strong>等国内外顶尖学术组织。</p>
-</blockquote>
-<p>总体上来说就是一个各自AI比赛汇总的平台（除了一些大厂有自己的大规模AI赛事比如阿里云天池、华为云、百度、腾讯），类似的办赛平台IP还有</p>
+                <h4 id="BIO标记法"><a href="#BIO标记法" class="headerlink" title="BIO标记法"></a>BIO标记法</h4><p><strong>B-（Begin）</strong>：表示一个实体的<strong>开始</strong>（首个 token）。</p>
+<p><strong>I-（Inside）</strong>：表示实体的<strong>内部</strong>（除首个 token 以外的部分）。</p>
+<p><strong>O-（Outside）</strong>：表示<strong>非实体</strong>的 token。</p>
+<p>例如：**”Apple Inc. is based in California.”</p>
+<p>BIO 标注：</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>BIO 标签</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Apple</td>
+<td><strong>B-ORG</strong></td>
+</tr>
+<tr>
+<td>Inc.</td>
+<td><strong>I-ORG</strong></td>
+</tr>
+<tr>
+<td>is</td>
+<td><strong>O</strong></td>
+</tr>
+<tr>
+<td>based</td>
+<td><strong>O</strong></td>
+</tr>
+<tr>
+<td>in</td>
+<td><strong>O</strong></td>
+</tr>
+<tr>
+<td>California</td>
+<td><strong>B-LOC</strong></td>
+</tr>
+<tr>
+<td>.</td>
+<td><strong>O</strong></td>
+</tr>
+</tbody></table>
+<p><strong>常见的实体类别</strong></p>
+<table>
+<thead>
+<tr>
+<th>实体类别</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>PER</strong> (Person)</td>
+<td>人名（例如：Elon Musk, Bill Gates）</td>
+</tr>
+<tr>
+<td><strong>ORG</strong> (Organization)</td>
+<td>组织名（例如：Apple, Google, NASA）</td>
+</tr>
+<tr>
+<td><strong>LOC</strong> (Location)</td>
+<td>地名（例如：California, Beijing, Paris）</td>
+</tr>
+<tr>
+<td><strong>MISC</strong> (Miscellaneous)</td>
+<td>其他（例如：品牌名、事件名等）</td>
+</tr>
+</tbody></table>
+<p>在 <strong>NER 任务</strong> 中，BIO 标签常作为<strong>序列标注模型</strong>（如 BiLSTM-CRF、Transformer）训练的目标</p>
+<p><strong>训练模型</strong></p>
 <ul>
-<li><strong>datafountain：</strong><a target="_blank" rel="noopener" href="https://www.datafountain.cn/competitions">数据科学竞赛&#x2F;大数据 竞赛 - DataFountain</a></li>
-<li><strong>Kaggle(国外)：</strong><a target="_blank" rel="noopener" href="https://www.kaggle.com/competitions">Kaggle Competitions</a></li>
+<li><strong>输入</strong>：Word Embeddings（如 BERT, GloVe）</li>
+<li><strong>模型</strong>：BiLSTM + CRF &#x2F; Transformer</li>
+<li><strong>输出</strong>：BIO 标注序列</li>
 </ul>
-<p><strong>时间：</strong>基本上是什么时间都有，需要持续关注官网，同一个企业基本每年举办的timeline不变</p>
-<h2 id="2-阿里云天池：算法大赛-天池大数据竞赛-天池大赛-阿里云天池"><a href="#2-阿里云天池：算法大赛-天池大数据竞赛-天池大赛-阿里云天池" class="headerlink" title="2.阿里云天池：算法大赛-天池大数据竞赛-天池大赛-阿里云天池"></a><strong>2.阿里云天池：</strong><a target="_blank" rel="noopener" href="https://tianchi.aliyun.com/competition/gameList/algorithmList">算法大赛-天池大数据竞赛-天池大赛-阿里云天池</a></h2><p><strong>介绍：</strong>老牌，2014年启办，面向全世界科研人员和高校师生，业务场景丰富（2B2C都有cover），奖金池也丰富。</p>
-<p><strong>时间：</strong>基本上是5月份开始报名——夏天初赛\复赛——10月决赛答辩</p>
-<h2 id="3-华为云-：华为云大赛平台"><a href="#3-华为云-：华为云大赛平台" class="headerlink" title="3.华为云 ：华为云大赛平台"></a><strong>3.华为云 ：</strong><a target="_blank" rel="noopener" href="https://competition.huaweicloud.com/competitions">华为云大赛平台</a></h2><p><strong>介绍：</strong>众所周知华为对研发投入比例很大，也十分重视创新大赛的举办，会联合各种高校、产品线、学术机构\组织办赛，每年任何时间节点都可能会有比赛。相关领域的同学需要持续关注。</p>
-<p><strong>时间：</strong>一年中任意时刻</p>
-<h2 id="4-百度飞桨AI-Studio大赛：飞桨AI-Studio-人工智能学习与实训社区"><a href="#4-百度飞桨AI-Studio大赛：飞桨AI-Studio-人工智能学习与实训社区" class="headerlink" title="4. 百度飞桨AI Studio大赛：飞桨AI Studio - 人工智能学习与实训社区"></a><strong>4. 百度飞桨AI Studio大赛：</strong><a target="_blank" rel="noopener" href="https://aistudio.baidu.com/aistudio/competition/1/1">飞桨AI Studio - 人工智能学习与实训社区</a></h2><p><strong>介绍：</strong>AI Studio是基于百度深度学习平台飞桨的人工智能学习与实训社区，整体跟华为云的形式差异不大，但赛程周期会紧凑一些，内容也和百度的业务内容强相关（如<strong>NLP</strong>\图像检测\导航路径）。个人感觉场景会更专精于NLP，比如事件抽取\机器翻译\QA\阅读理解\情感分析。</p>
-<p><strong>时间：</strong>每年3-5月</p>
-<h2 id="5-腾讯：-2021腾讯广告算法大赛"><a href="#5-腾讯：-2021腾讯广告算法大赛" class="headerlink" title="5.腾讯： 2021腾讯广告算法大赛"></a><strong>5.腾讯：</strong> <a target="_blank" rel="noopener" href="https://algo.qq.com/index.html%3Flang%3Dcn">2021腾讯广告算法大赛</a></h2><p><strong>介绍：</strong>腾讯AI赛事做的不是特别好，除了广告算法大赛还比较成规模（基本每年有延续），其他的都很分散，没有统一的平台。</p>
-<blockquote>
-<p>AI Lab偶尔有些算法挑战赛，AI温室种番茄什么的: <a target="_blank" rel="noopener" href="https://ai.tencent.com/ailab/zh/index">腾讯 AI Lab - 腾讯人工智能实验室官网</a></p>
-</blockquote>
-<p><strong>时间：</strong>三月开始报名——夏季初赛\复赛——八月决赛答辩</p>
-<h2 id="6-AIOps-Challenge智能运维挑战赛：竞赛列表"><a href="#6-AIOps-Challenge智能运维挑战赛：竞赛列表" class="headerlink" title="6.AIOps Challenge智能运维挑战赛：竞赛列表"></a><strong>6.AIOps Challenge智能运维挑战赛</strong>：<a target="_blank" rel="noopener" href="https://iops.ai/competition_list/">竞赛列表</a></h2><p><strong>介绍：</strong>规模较小，每年承办方会有变化，但是主题围绕着AIOps不变</p>
-<p><strong>时间：</strong>基本上是1月年初开始报名——春季初赛\复赛——五月决赛答辩</p>
-<h2 id="7-KDD-CUP：KDD-2021-Singapore"><a href="#7-KDD-CUP：KDD-2021-Singapore" class="headerlink" title="7.KDD CUP：KDD 2021 | Singapore"></a><strong>7.KDD CUP：</strong><a target="_blank" rel="noopener" href="https://www.kdd.org/kdd2021/%23">KDD 2021 | Singapore</a></h2><p><strong>介绍:</strong> 国外赛事，商业性质较弱所以奖金池较小，主题是多源数据时序异常检测\OGB-LSC\城市大脑挑战，延续性比较好。</p>
-<p><strong>时间：</strong>每年五月-八月</p>
+<p><strong>预测新文本</strong></p>
+<p>输入新文本后，模型预测对应的 BIO 标签，从而<strong>提取实体</strong>。</p>
+<h4 id="RE-Relation-Extraction-训练集"><a href="#RE-Relation-Extraction-训练集" class="headerlink" title="RE(Relation Extraction)训练集"></a>RE(Relation Extraction)训练集</h4><p><strong>spo:</strong> subject-predicate-object 头实体-关系-尾实体</p>
+<p><strong>训练集中的Predicate列表</strong></p>
+<p>​	{<br>      “O”: 0,<br>      “I”: 1,<br>      “注册资本”: 2,<br>      “作者”: 3,<br>      “所属专辑”: 4,<br>      “歌手”: 5,<br>      …<br>      “上映时间_@value”: 8,<br>      “上映时间_@area”: 9,<br>      …<br>​	}</p>
+<p>对于同一个S-P，句子中是可能存在多个不同的合法O的，那我们就需要使用两个或多个不同的S-P来对应这些不同的O。一种最常见的方法就是对P再进行细分。如上面示例中的“上映时间_@value”和”上映时间_@area“</p>
+<p><strong>训练集中的spo列表</strong></p>
+<p>​	{<br>      “predicate”: [“empty”, “empty”, “注册资本”, “作者”, “所属专辑”, …],<br>      “subject_type”: [“empty”, “empty”, “企业”, “图书作品”, “歌曲”, …],<br>      “object_type”: [“empty”, “empty”, “Number”, “人物”, “音乐专辑”, …]<br>​	}</p>
+<p>前两个empty是为了O和I标签留的,因为之前定义的predicate列表中的前2个标签分别为O、I，这两个标签不会起到连接首尾实体的作用，因此需要置为empty。</p>
+<h4 id="NER模型的训练原理"><a href="#NER模型的训练原理" class="headerlink" title="NER模型的训练原理"></a>NER模型的训练原理</h4><p>将实体抽取问题转化为Token Classfication问题。</p>
+<p>Ques：如何实现关系抽取？ </p>
+<p>Ans：在字符类别中添加入「关系标签」，即该字符是否能和这句话当中的其他字符产生关联关系。</p>
+<p><img src="/article_img/NER/NER.png" srcset="/img/loading.gif" lazyload alt="NER model"></p>
+<p>对每个token，label一共有（2N + 2）维，其中 N 为 Predicate 的类别个数</p>
+<p>损失函数一般使用BCE Loss</p>
 
                 
               </div>
@@ -381,7 +444,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/Study/" class="print-no-link">#Study</a>
+        <a href="/tags/NER/" class="print-no-link">#NER</a>
       
     </div>
   
@@ -393,8 +456,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>人工智能竞赛汇总</div>
-      <div>http://example.com/2025/02/01/competition/</div>
+      <div>命名实体识别&amp;关系抽取 小结</div>
+      <div>http://example.com/2025/02/21/命名实体识别&amp;关系抽取 小结/</div>
     </div>
     <div class="license-meta">
       
@@ -406,7 +469,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年2月1日</div>
+          <div>2025年2月21日</div>
         </div>
       
       
@@ -438,9 +501,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/02/17/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%98%BE%E5%AD%98%E5%8D%A0%E7%94%A8%E8%AE%A1%E7%AE%97/" title="大模型显存占用计算">
+                      <a href="/2025/02/25/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" title="Reinforencement Learning">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">大模型显存占用计算</span>
+                        <span class="hidden-mobile">Reinforencement Learning</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
@@ -448,8 +511,8 @@
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/02/01/lab/" title="Recsys大牛实验室官网链接">
-                        <span class="hidden-mobile">Recsys大牛实验室官网链接</span>
+                      <a href="/2025/02/20/GraphRAG/" title="Path-Level GNN-Based Retrievers">
+                        <span class="hidden-mobile">Path-Level GNN-Based Retrievers</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
