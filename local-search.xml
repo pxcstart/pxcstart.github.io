@@ -210,27 +210,6 @@
   
   
   <entry>
-    <title>Scheme about MMRAG4Rec</title>
-    <link href="/2025/03/07/MMRec/"/>
-    <url>/2025/03/07/MMRec/</url>
-    
-    <content type="html"><![CDATA[<p><strong>Title:</strong> 基于多模态检索的大模型可解释推荐</p><p><strong>Motivation:</strong> 解决多模态场景下大模型推荐的Modality Gap和Modality Unbalance问题</p><p><strong>推荐任务:</strong> 基于大模型的可解释推荐（给定user和item，分析user喜欢item的原因）</p><p><strong>Framework:</strong> 基于多模态特征的多路径检索（Path Retriever） + 基于提示的检索知识集成（Explanation Generator）<br><img src="/article_img/MM/MMRAG4Rec.png" alt="MMRAG4Rec"></p><h3 id="关于Path-Retriever的设计逻辑："><a href="#关于Path-Retriever的设计逻辑：" class="headerlink" title="关于Path-Retriever的设计逻辑："></a>关于Path-Retriever的设计逻辑：</h3><p>首先要有一个使用推荐交互数据已经训好的GNN Model</p><p>然后寻找每个模态特征下与待分析item i最相似的k个item候选项，然后在user和item交互图中探索user节点u与候选商品集${i,i_1,i_2,…,i_k}$中每个item节点的“最短路径”作为检索路径用于Generation阶段的知识。下面是关于最短路径的定义:</p><p>假设从user u到candidate item $i_a$之间存在多条路径，以路径$p&#x3D;{u,v_1,v_2,…,v_m,i_a}$为例</p><p>$Score(p) &#x3D; log \prod_{v \in p} Score(v)$   其中Score(v)的定义如下：</p><div align="center">$$Score(v) =\begin{cases} Deg(v)\cdot (1-Sim(H(v), H(i))), & v \in U \\Deg(v)\cdot (1-Sim(H(v), H(u))), & v \in I\end{cases}$$</div>最终选择Score最小的top-n条路径作为该模态下用户u与候选商品$i_a$的检索路径<p>why choose mini Score：我们希望检索路径不要过长，以免推理信息中出现太多噪声；对于每个节点，我们希望它的度数尽可能的小（流行度高的节点反映偏好信息的能力会变弱），并且我们希望它与待分析的节点的行为相似性越接近越好（这体现在交互图上就是特征向量的相似性）</p><p>why retrieveled path can help inference: 我们假设行为交互图上用户与候选商品之间的远距离连接所经历的其他项在模态特征上具备相似性。因此我们认为根据多个模态得到的检索路径集能够在一定程度上真实的反映用户偏好</p><h3 id="关于Explanation-Generator的设计逻辑："><a href="#关于Explanation-Generator的设计逻辑：" class="headerlink" title="关于Explanation Generator的设计逻辑："></a>关于Explanation Generator的设计逻辑：</h3><p>在Retrieval模块得到了多个模态下用户u的多条检索路径后，我们将其用形式化的语言进行描述作为提示的一部分，下面给出prompt示例：</p><p>Given the item title, item profile, and some retrieval paths about the user, please explain why the user would enjoy this item. Item title: <strong>[Item title]</strong>. Item profile: <strong>[Item summary]</strong>. User Profile: <strong>[User summary]</strong>.For the given item, here are some related items. Items: <strong>[Top-k similar item summary]</strong>. For the given user, here are several related paths which may reflect his&#x2F;her preference. <strong>[Retrievaled paths]</strong> (each formatted as “<User profile> -&gt; buys -&gt; <Item profile> -&gt; bought by -&gt; <User profile> -&gt; …”). Explanations:</p><p>虽然我们将不同模态的特征通过检索路径以文本的形式反馈给了大模型，缓解了Modality Gap的问题。然而这里有两个问题尚待探讨，一个是不同模态得到的检索路径孰优孰劣，另外用户的协同行为与大模型语义空间存在gap，如何更好地融入检索路径所携带的协同信息。</p><p>针对第一个问题，我们设计了一个可训练权重参数$W_{modality}$，用来控制每个模态在推理时所占用的比重；针对第二个问题，我们设计一个可学习的Adapter模块，用于将检索路径的协同信息映射到LLM语义空间</p><p>Adapter Input: $H_p &#x3D; Mean(H(v)) v \in p$  Adapter Output: $T_p \in R^{d_{llm}}$  </p><p>针对第二阶段的训练，为了进一步提高效率，LLM参数冻结，根据ground truth Explanation（使用Chagpt基于user review生成explanation）与generated explanation计算交叉熵损失，反向梯度传播时只更新Adapter和$W_{modality}$即可</p><h3 id="Novalty-and-Advantage"><a href="#Novalty-and-Advantage" class="headerlink" title="Novalty and Advantage:"></a>Novalty and Advantage:</h3><ol><li><p>缓解了基于大模型的多模态推荐场景中的模态鸿沟和模态不均衡问题</p></li><li><p>提出了一种轻便式检索和高效微调的可解释方案</p></li></ol>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>LLM</tag>
-      
-      <tag>RAG</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>强化学习系列（一）:基础概念</title>
     <link href="/2025/03/05/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89/"/>
     <url>/2025/03/05/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89/</url>
@@ -479,7 +458,7 @@
     <link href="/2025/01/01/%E6%97%A5%E8%AF%AD%E8%AF%8D%E6%B1%87%E7%A7%AF%E7%B4%AF/"/>
     <url>/2025/01/01/%E6%97%A5%E8%AF%AD%E8%AF%8D%E6%B1%87%E7%A7%AF%E7%B4%AF/</url>
     
-    <content type="html"><![CDATA[<p>2025.03.17<br><code>愛(あい)</code>爱 <code>池(いけ)</code>鱼塘 <code>おはよう</code>早上好 <code>おねがい</code>拜托了 <code>はい</code>是的 <code>うるさい</code>烦人的 <code>いいえ</code>不，不是 <code>かわいい</code>可爱的 <code>かっこいい</code>帅的 <code>傘(かさ)</code>伞 <code>おてあらい</code>厕所<br>2025.03.19<br><code>海(うみ)</code>海 <code>嘘(うそ)</code>假话 <code>世界(せかい)</code>世界 <code>寿司(すし)</code>寿司 <code>おいしい</code>好吃 <code>お菓子(おかし)</code>点心 <code>菊(きく)</code>菊花 <code>君(きみ)</code>你 <code>声(こえ)</code>声音 <code>柿(かき)</code>柿子<br>2025.03.21<br><code>最高(さいこう)</code>最高，最好 <code>顔(かお)</code>面孔，脸 <code>猫(ねこ)</code>猫 <code>ちち</code>父亲 <code>たこやき</code>章鱼烧 <code>机(つくえ)</code>桌子 <code>何(なに)</code>什么 <code>年(とし)</code>年龄　<code>夏(なつ)</code>夏天 <code>梨(なし)</code>梨<br>2025.03.23<br><code>招き猫(まねきねこ)</code>招财猫 <code>あほ</code>白痴 <code>兄(あに)</code>哥哥 <code>西(にし)</code>西 <code>下手(へた)</code>不擅长 <code>地下鉄(ちかてつ)</code>地铁 <code>うまい</code>好吃 <code>耳(みみ)</code>耳朵 <code>味增汁(みそしる)</code> 味增汤 <code>雨(あめ)</code>雨<br>2025.03.25<br><code>山(やま)</code>山 <code>彼(かれ)</code>他 <code>無理(むり)</code>无理 <code>娘(むすめ)</code>女儿 <code>もしもし</code>喂（电话用语）<code>鳥(とり)</code>鸟 <code>雲り(くもり)</code>阴天 <code>奈良(なら)</code>奈良县 <code>桜(さくら)</code>樱花 <code>花嫁(はなよめ)</code>新娘<br>2025.03.27<br><code>ぜろ</code> 0 <code>いち</code> 1 <code>に</code> 2 <code>さん</code> 3 <code>よん</code> 4　<code>ろく</code> 6 <code>なな</code> 7 <code>あか</code> 红色 <code>あお</code> 蓝色 <code>くろ</code> 黑色 <code>しろ</code> 白色</p>]]></content>
+    <content type="html"><![CDATA[<p>2025.03.17<br><code>愛(あい)</code>爱 <code>池(いけ)</code>鱼塘 <code>おはよう</code>早上好 <code>おねがい</code>拜托了 <code>はい</code>是的 <code>うるさい</code>烦人的 <code>いいえ</code>不，不是 <code>かわいい</code>可爱的 <code>かっこいい</code>帅的 <code>傘(かさ)</code>伞 <code>おてあらい</code>厕所<br>2025.03.19<br><code>海(うみ)</code>海 <code>嘘(うそ)</code>假话 <code>世界(せかい)</code>世界 <code>寿司(すし)</code>寿司 <code>おいしい</code>好吃 <code>お菓子(おかし)</code>点心 <code>菊(きく)</code>菊花 <code>君(きみ)</code>你 <code>声(こえ)</code>声音 <code>柿(かき)</code>柿子<br>2025.03.21<br><code>最高(さいこう)</code>最高，最好 <code>顔(かお)</code>面孔，脸 <code>猫(ねこ)</code>猫 <code>ちち</code>父亲 <code>たこやき</code>章鱼烧 <code>机(つくえ)</code>桌子 <code>何(なに)</code>什么 <code>年(とし)</code>年龄　<code>夏(なつ)</code>夏天 <code>梨(なし)</code>梨<br>2025.03.23<br><code>招き猫(まねきねこ)</code>招财猫 <code>あほ</code>白痴 <code>兄(あに)</code>哥哥 <code>西(にし)</code>西 <code>下手(へた)</code>不擅长 <code>地下鉄(ちかてつ)</code>地铁 <code>うまい</code>好吃 <code>耳(みみ)</code>耳朵 <code>味增汁(みそしる)</code> 味增汤 <code>雨(あめ)</code>雨<br>2025.03.25<br><code>山(やま)</code>山 <code>彼(かれ)</code>他 <code>無理(むり)</code>无理 <code>娘(むすめ)</code>女儿 <code>もしもし</code>喂（电话用语）<code>鳥(とり)</code>鸟 <code>雲り(くもり)</code>阴天 <code>奈良(なら)</code>奈良县 <code>桜(さくら)</code>樱花 <code>花嫁(はなよめ)</code>新娘<br>2025.03.27<br><code>ぜろ</code> 0 <code>いち</code> 1 <code>に</code> 2 <code>さん</code> 3 <code>よん</code> 4　<code>ろく</code> 6 <code>なな</code> 7 <code>あか</code> 红色 <code>あお</code> 蓝色 <code>くろ</code> 黑色 <code>しろ</code> 白色</p><p>问候语整理：</p>]]></content>
     
     
     
