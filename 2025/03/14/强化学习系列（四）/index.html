@@ -1,0 +1,803 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/image/title.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Peter">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="写在前面：前面讲解了在On-Policy和Off-Policy环境下如何进行策略提升的几种常用方法，但是在实际应用场景中，state的数量可能是非常庞大的，为了存储每个state-action pair所需要的lookup-table所需要的空间会很庞大，无法通过遍历的方式去evaluate每个state-action pair。这就需要我们考虑如何对Q，V进行建模，通过函数逼近的方法估计连续空间">
+<meta property="og:type" content="article">
+<meta property="og:title" content="强化学习系列（四）：DQN算法">
+<meta property="og:url" content="http://example.com/2025/03/14/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E5%9B%9B%EF%BC%89/index.html">
+<meta property="og:site_name" content="Peter ThinkTank">
+<meta property="og:description" content="写在前面：前面讲解了在On-Policy和Off-Policy环境下如何进行策略提升的几种常用方法，但是在实际应用场景中，state的数量可能是非常庞大的，为了存储每个state-action pair所需要的lookup-table所需要的空间会很庞大，无法通过遍历的方式去evaluate每个state-action pair。这就需要我们考虑如何对Q，V进行建模，通过函数逼近的方法估计连续空间">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/article_img/Reinforcement/img1-1.png">
+<meta property="article:published_time" content="2025-03-14T14:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-16T16:13:58.852Z">
+<meta property="article:author" content="Peter">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Algorithm">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/article_img/Reinforcement/img1-1.png">
+  
+  
+  
+  <title>强化学习系列（四）：DQN算法 - Peter ThinkTank</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_4448993_m6xmkls2kf.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/gundongtiao.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Peter Think Tank</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-shouye"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives" target="_self">
+                <i class="iconfont icon-guidang"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-biaoqian"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-guanyu"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-youqinglianjie"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-book"></i>
+                <span>文档</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/" target="_self">
+                    
+                    <span>主题博客</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/guide/" target="_self">
+                    
+                    <span>配置指南</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/icon/" target="_self">
+                    
+                    <span>图标用法</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/article_img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="强化学习系列（四）：DQN算法"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Peter
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-03-14 22:00" pubdate>
+           2025 年 03 月 14 日 , 晚上 10:00 , 星期五
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          14 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">强化学习系列（四）：DQN算法</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>写在前面：前面讲解了在On-Policy和Off-Policy环境下如何进行策略提升的几种常用方法，但是在实际应用场景中，state的数量可能是非常庞大的，为了存储每个state-action pair所需要的lookup-table所需要的空间会很庞大，无法通过遍历的方式去evaluate每个state-action pair。这就需要我们考虑如何对Q，V进行建模，通过函数逼近的方法估计连续空间下的state value</p>
+<span id="more"></span>
+
+<h3 id="1-Value-Approximation"><a href="#1-Value-Approximation" class="headerlink" title="1. Value Approximation"></a>1. Value Approximation</h3><p>Target: 寻找到合适的参数w使得mse loss尽可能的小  $J(w)&#x3D;E_\pi[(v_\pi(S)-\hat{v}(S,w))^2]$<br>通过梯度下降来更新w: $\Delta w&#x3D;-\frac{1}{2}\alpha \nabla_w J(w)&#x3D;\alpha(v_\pi(S)-\hat{v}(S,w))\nabla_w\hat{v}(S_t,w)$</p>
+<p>使用特征向量表示state $x(S)&#x3D;(x_1(S)…x_n(S))$<br>$\hat{v}(S_t,w)$可以通过线性加权得到，即$\hat{v}(S,w)&#x3D;x(S)^Tw&#x3D;\sum_{j&#x3D;1}^n x_j(S)w_j$ </p>
+<p>于是我们便有：$\Delta w&#x3D;\alpha(v_\pi(S)-\hat{v}(S_t,w))x(S)$</p>
+<p>现在思考一个问题，我们如何得到$v_\pi(S)$的真实表示？依然是采用MC&#x2F;TD等方法进行泛化估计<br>MC: $\Delta w&#x3D;\alpha(G_t-\hat{v}(S,w))\nabla_w\hat{v}(S_t,w)$<br>TD(0): $\Delta w&#x3D;\alpha(R_{t+1}+\gamma\hat{v}(S_{t+1},w)-\hat{v}(S_t,w))\nabla_w\hat{v}(S_t,w)$</p>
+<h3 id="2-Replay-Buffer"><a href="#2-Replay-Buffer" class="headerlink" title="2. Replay Buffer"></a>2. Replay Buffer</h3><p>replay buffer是一个 <strong>存储智能体交互经验</strong> 的数据结构（通常是一个队列或数组），用来保存智能体与环境交互的轨迹样本：$(S_t, A_t, S_{t+1}, A_{t+1}, <code>done</code>)$<br>✅ 打破时间相关性 (Break Correlation)<br>强化学习中的数据是按时间顺序生成的，彼此高度相关。Replay Buffer让我们从过去的经验中随机采样，打乱数据顺序，降低相关性，提升训练稳定性。</p>
+<p>✅ 提高数据利用率 (Improve Data Efficiency)<br>每次交互生成的数据如果只用一次就丢掉，效率太低了。Replay Buffer让数据能被多次复用，大大提高训练效率。</p>
+<p>✅ 平滑训练 (Smooth Training)<br>缓冲区里的经验包括成功和失败的多种场景，防止模型被最近的几次失败经验“误导”得太严重。</p>
+<p>✅ 支持 Off-Policy 学习<br>DQN 是 Off-Policy 算法，目标策略是贪婪策略，行为策略是<strong>ϵ-greedy</strong>。Replay Buffer让我们从过去的经验中训练，不必跟当前行为策略严格匹配。</p>
+<h3 id="3-DQN算法"><a href="#3-DQN算法" class="headerlink" title="3. DQN算法"></a>3. DQN算法</h3><p>DQN算法是结合了Q-Learning和深度神经网络的强化学习算法。它用深度神经网络替代传统的Q表格，近似的学习Q值函数：$Q(s,a;\theta) \approx Q*(s,a)$<br>下面对该算法进行介绍：<br>（1）经验回放（Experience Replay）<br>在传统Q-Learning中，每次训练都用最新的数据更新Q值，可能导致网络过拟合最近的经验，收敛不稳定。<br>DQN引入经验回放机制，将每次经历 (s, a, r, s’) 保存到回放缓冲池（Replay Buffer），每次训练时随机采样一批数据进行训练。<br>（2）目标网络（Target Network）<br>DQN使用<strong>在线网络</strong>和<strong>目标网络</strong>两个网络，前者用于实时更新，输出$Q(s,a;\theta)$;后者每隔一段时间赋值在线网络参数$\theta$到目标网络$\theta’$，输出$Q(s’,a’;\theta’)$<br>目标网络的Q值用作训练的目标： $Loss&#x3D;(r + \gamma max_{a’}Q(s’,a’;\theta’)-Q(s,a;\theta))^2$<br><img src="/../article_img/Reinforcement/img4-1.png" srcset="/img/loading.gif" lazyload alt="DQN framework"><br>（3）使用Epsilon Greedy策略在探索与利用之间做权衡</p>
+<p>下面给出DQN算法的伪代码：<br><img src="/../article_img/Reinforcement/img4-2.png" srcset="/img/loading.gif" lazyload alt="DQN Algorithm"></p>
+<p>Ques: DQN网络如何实现端到端的学习<br>Ans: 中间层是常规的卷积网络用来学习state表征，输出层通过映射到一个output空间，定义每个维度代表一个value</p>
+<h3 id="4-DQN算法的延伸"><a href="#4-DQN算法的延伸" class="headerlink" title="4. DQN算法的延伸"></a>4. DQN算法的延伸</h3><h4 id="Double-DQN"><a href="#Double-DQN" class="headerlink" title="Double DQN"></a>Double DQN</h4><p>DQN算法存在的问题：使用同一个网络既选择动作又评估价值，可能会导致over estimate的问题<br>改进方案：$Q(s_t,a_t) \leftarrow r_t + Q’(s_{t+1}, argmax_a Q(s_{t+1}，a))$ 内层的Q用来选择action，外层的Q用来评估价值</p>
+<h4 id="Dueling-DQN"><a href="#Dueling-DQN" class="headerlink" title="Dueling DQN"></a>Dueling DQN</h4><p>DQN算法存在的问题：在很多状态下，动作的价值差别不大。比如：游戏中站在原地等待 vs 随便走一步 这种情况下，DQN仍然必须给每个动作单独估计 Q 值，浪费了大量学习能力，导致训练效率下降。<br>Dueling DQN的核心思想：将Q值分成两部分，<strong>状态值函数 V(s)：</strong>描述当前状态本身的“好坏” <strong>优势函数 A(s, a)：</strong>描述某个具体动作比其他动作好多少<br>于是，我们便有：$Q(s,a)&#x3D;V(s)+A(s,a)$<br>优点：状态价值主导训练，不用每次都算所有动作；更高效地学习，尤其在动作多、动作差别小的场景；收敛更快，性能更好<br><img src="/../article_img/Reinforcement/img4-3.png" srcset="/img/loading.gif" lazyload alt="Dueling DQN"></p>
+<h4 id="Batch-Constraint-DQN-BCQ"><a href="#Batch-Constraint-DQN-BCQ" class="headerlink" title="Batch-Constraint DQN(BCQ)"></a>Batch-Constraint DQN(BCQ)</h4><p>DQN算法存在的外推误差（extrapolation error）问题：Q网络在没见过的state-action pair上会over estimate Q值<br>问题的根源在于：<strong>有限的数据集：</strong>训练数据无法覆盖所有可能的状态-动作对。<strong>目标网络延迟更新：</strong>目标 Q 值用的是旧网络（延迟更新），可能不准确。<strong>最大化操作带来的偏差：</strong>maxQ 倾向于选更高估的值。<br>核心思想：尽可能让agent action和batch中sample action产生的结果相近，即<strong>约束策略不要偏离已收集的数据分布，同时最大化回报</strong></p>
+<p>下面给出BCQ算法的伪代码：<br><img src="/../article_img/Reinforcement/img4-4.png" srcset="/img/loading.gif" lazyload alt="BCQ Algorithm"><br>可以看到，在行为选择时，除了考虑高Q值以外，我们还希望它能够接近数据分布的action，伪代码的第5行中我们通过设定阈值的方式筛选掉了一些发生概率较低的action</p>
+<h4 id="Distributional-Q-function"><a href="#Distributional-Q-function" class="headerlink" title="Distributional Q-function"></a>Distributional Q-function</h4><p>DQN算法存在的问题：在DQN中，我们学的是Q值的期望，$Q(s,a)&#x3D;E[R(s,a)]$ 但问题是，期望值无法描述奖励的不确定性和波动。也就是说，DQN 只学到了平均回报，没学到“回报的分布情况”。<br>👉 举个例子：假设有两个动作$a_1$和$a_2$，它们的期望回报都是 10。$a_1$的回报是 [10, 10, 10]，非常稳定。$a_2$的回报是 [0, 10, 20]，波动很大。传统 DQN 认为它俩一样好，但显然$a_1$更可靠<br>核心观点：学习回报的“完整分布” $Q(s,a)&#x3D;E[Z(s,a)]$ 这里的Z(s,a)为一个概率分布<br>step：定义回报范围$[v_min,v_max]$,划分为n个小区间；学习每个bin的概率$p_i$,形成一个回报的离散分布；训练目标变成让网络预测整个分布，而不是单一Q值</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AI/" class="print-no-link">#AI</a>
+      
+        <a href="/tags/Algorithm/" class="print-no-link">#Algorithm</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>强化学习系列（四）：DQN算法</div>
+      <div>http://example.com/2025/03/14/强化学习系列（四）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Peter</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年3月14日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/03/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%94%EF%BC%89/" title="强化学习系列（五）：Policy Gradient">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">强化学习系列（五）：Policy Gradient</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/03/12/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%89%EF%BC%89/" title="强化学习系列（三）：Model-Free Control">
+                        <span class="hidden-mobile">强化学习系列（三）：Model-Free Control</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"bFZ2utAtP6QxKUNJxwibP07k-gzGzoHsz","appKey":"rWP0FjbzaXytusY91AFDmytV","path":"window.location.pathname","placeholder":"留言仅限讨论，禁止广告等行为","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://bfz2utat.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/love.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxingxing.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/caidai.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

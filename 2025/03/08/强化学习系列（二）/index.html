@@ -1,0 +1,903 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/image/title.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Peter">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="写在前面: Prediction任务是用来在给定策略$\pi$的前提下，基于价值函数和奖励函数来评估该策略的好坏。Control任务用来对策略进行提升和改进。根据是否已知状态转移矩阵(MDP transition)分为Model-Based Prediction和Model-free Prediction">
+<meta property="og:type" content="article">
+<meta property="og:title" content="强化学习系列（二）：Model-free Prediction">
+<meta property="og:url" content="http://example.com/2025/03/08/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89/index.html">
+<meta property="og:site_name" content="Peter ThinkTank">
+<meta property="og:description" content="写在前面: Prediction任务是用来在给定策略$\pi$的前提下，基于价值函数和奖励函数来评估该策略的好坏。Control任务用来对策略进行提升和改进。根据是否已知状态转移矩阵(MDP transition)分为Model-Based Prediction和Model-free Prediction">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/article_img/Reinforcement/img1-1.png">
+<meta property="article:published_time" content="2025-03-08T14:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-16T16:12:14.157Z">
+<meta property="article:author" content="Peter">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Algorithm">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/article_img/Reinforcement/img1-1.png">
+  
+  
+  
+  <title>强化学习系列（二）：Model-free Prediction - Peter ThinkTank</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_4448993_m6xmkls2kf.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/gundongtiao.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Peter Think Tank</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-shouye"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives" target="_self">
+                <i class="iconfont icon-guidang"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-biaoqian"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-guanyu"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-youqinglianjie"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-book"></i>
+                <span>文档</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/" target="_self">
+                    
+                    <span>主题博客</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/guide/" target="_self">
+                    
+                    <span>配置指南</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/icon/" target="_self">
+                    
+                    <span>图标用法</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/article_img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="强化学习系列（二）：Model-free Prediction"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Peter
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-03-08 22:00" pubdate>
+           2025 年 03 月 08 日 , 晚上 10:00 , 星期六
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.3k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          12 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">强化学习系列（二）：Model-free Prediction</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>写在前面: Prediction任务是用来在给定策略$\pi$的前提下，基于价值函数和奖励函数来评估该策略的好坏。Control任务用来对策略进行提升和改进。根据是否已知状态转移矩阵(MDP transition)分为Model-Based Prediction和Model-free Prediction</p>
+<span id="more"></span>
+
+<h3 id="Model-Based-Prediction-Control"><a href="#Model-Based-Prediction-Control" class="headerlink" title="Model-Based Prediction&amp;Control"></a>Model-Based Prediction&amp;Control</h3><h4 id="1-Policy-Iteration"><a href="#1-Policy-Iteration" class="headerlink" title="1. Policy Iteration"></a>1. Policy Iteration</h4><p>策略迭代（Policy Iteration）是一种用于求解马尔可夫决策过程（MDP）的动态规划算法。它主要用于寻找最优策略，即在给定MDP的情况下，使得累计奖励最大的策略。<br>step: （1）<strong>策略评估（Policy Evaluation）</strong> Prediction Phase<br>在当前策略$\pi$下，计算所有状态s的状态函数$V^{\pi}(s)$, $V^{\pi}(s)&#x3D;\sum_{a}\pi(a|s)[R_s^a +\gamma \sum_{s’}P_{ss’}^a V^\pi(s’)]$<br>(2) <strong>策略改进（Policy Improvement）</strong> Control Phase<br>利用贪心策略来改进当前策略：$\pi’&#x3D;greedy(\pi)$<br>具体来说，对于每个状态s，找到使得价值函数最大的动作a，从而得到最优策略$\pi*$<br>$\pi*(s)&#x3D;argmax_a\sum_{s’}P_{ss’}^a[R_s^a + \gamma V^\pi(s’)]$</p>
+<h4 id="2-Value-Iteration"><a href="#2-Value-Iteration" class="headerlink" title="2. Value Iteration"></a>2. Value Iteration</h4><p>价值迭代（Value Iteration）在更新状态时并不涉及策略$\pi$，它将根据最大的动作奖励与转移后的状态价值之和所对应的那个动作作为新的策略。即$V_{k+1}(s)&#x3D;max_{a \in A}(R_s^a + \gamma \sum_{s’ \in S}P_{ss’}^a V_k(s’))$<br>下面给出Policy Iteration和Value Iteration的对比：</p>
+<table>
+<thead>
+<tr>
+<th><strong>特点</strong></th>
+<th><strong>Value Iteration (值迭代)</strong></th>
+<th><strong>Policy Iteration (策略迭代)</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>思路</strong></td>
+<td>直接迭代更新值函数直到收敛，再提取最优策略</td>
+<td>交替执行策略评估和策略改进，不断迭代优化策略</td>
+</tr>
+<tr>
+<td><strong>主要步骤</strong></td>
+<td>1. 更新值函数 → 2. 提取策略</td>
+<td>1. 策略评估 → 2. 策略改进 → 3. 重复直到策略收敛</td>
+</tr>
+<tr>
+<td><strong>收敛条件</strong></td>
+<td>值函数变化足够小 (</td>
+<td>V_{k+1} - V_k</td>
+</tr>
+<tr>
+<td><strong>策略提取时机</strong></td>
+<td>最后一步提取最优策略</td>
+<td>每轮策略改进都会更新策略</td>
+</tr>
+<tr>
+<td><strong>计算量</strong></td>
+<td>更新每个状态时都考虑所有动作（计算量大但收敛快）</td>
+<td>每次完整评估策略再改进策略，可能需要多次评估，但改进次数较少</td>
+</tr>
+<tr>
+<td><strong>策略更新</strong></td>
+<td>从值函数提取策略（离线策略）</td>
+<td>每次改进立即生成新策略（在线策略）</td>
+</tr>
+</tbody></table>
+<h3 id="Model-Free-Prediction"><a href="#Model-Free-Prediction" class="headerlink" title="Model-Free Prediction"></a>Model-Free Prediction</h3><h4 id="1-Monte-Carlo-Reinforcement-Learning"><a href="#1-Monte-Carlo-Reinforcement-Learning" class="headerlink" title="1. Monte-Carlo Reinforcement Learning"></a>1. Monte-Carlo Reinforcement Learning</h4><p>特点：no bootstrapping(bootstrapping是指用现有的估计值来更新当前的估计值)，即不依赖未来状态的估计值，每次只用真实的经验回报来更新策略。<br>bootstrapping（Q-learning、SARSA）: 更新值依赖于未来状态的估计值<br>$Q(s,a) \leftarrow Q(s,a) + \alpha(r + \gamma Q(s’,a’) -Q(s,a))$   这里的Q(s’,a’)就是对未来的估计值<br>no bootstrapping(Monte Carlo): 完全基于真实的完整回报𝐺更新，不依赖未来状态的估计<br>$Q(s,a) \leftarrow Q(s,a) + \alpha(G-Q(s,a))$ 其中$G&#x3D;\sum_{t’&#x3D;t}^T \gamma^{t’-t}r_{t’}$</p>
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>No Bootstrapping</strong></th>
+<th><strong>Bootstrapping</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>代表算法</strong></td>
+<td>Monte Carlo, REINFORCE</td>
+<td>Q-learning, SARSA, TD(0)</td>
+</tr>
+<tr>
+<td><strong>更新依赖</strong></td>
+<td>完整回报</td>
+<td>未来状态的估计值</td>
+</tr>
+<tr>
+<td><strong>误差来源</strong></td>
+<td>高方差</td>
+<td>有偏差（因依赖估计值）</td>
+</tr>
+<tr>
+<td><strong>收敛速度</strong></td>
+<td>慢（方差大、数据需求多）</td>
+<td>快（但可能收敛到次优解）</td>
+</tr>
+<tr>
+<td><strong>实时性</strong></td>
+<td>必须等完整轨迹结束才更新</td>
+<td>可以在线更新，每一步都能调整</td>
+</tr>
+</tbody></table>
+<p>step: 为了估计状态s，每一次采样路径经过状态s时，$N(s) \leftarrow N(s)+1$,同时增加累积回报 $S(s) \leftarrow S(s) + G_t$。最终，采用平均估计的方式得到状态价值V(s)&#x3D;S(s)&#x2F;N(s)。接下来更新策略$V(s) \leftarrow V_{\pi}(s)$，直到$N(s) \leftarrow \infty$</p>
+<p>根据$\mu_k &#x3D; \frac{1}{k}\sum_{j&#x3D;1}^k x_j&#x3D;\mu_{k-1}+\frac{1}{k}(x_k-\mu_{k-1})$<br>$V(S_t) \leftarrow V(S_t) + \frac{1}{N(S_t)}(G_t -V(S_t))$<br>通常情况下，我们将这里的$\frac{1}{N(S_t)}$替换为折损因子\alpha，即$V(S_t) \leftarrow V(S_t) + \alpha(G_t -V(S_t))$</p>
+<h4 id="2-Temporal-Difference-Learning"><a href="#2-Temporal-Difference-Learning" class="headerlink" title="2. Temporal Difference Learning"></a>2. Temporal Difference Learning</h4><p>利用Bellman方程的方式来泛化估计$G_t$，即$V(S_t) \leftarrow V(S_t) + \alpha(R_{t+1} + \gamma V(S_{t+1})-V(S_t))$<br>其中$R_{t+1} + \gamma V(S_{t+1})$为TD Target, $\delta_t&#x3D;R_{t+1} + \gamma V(S_{t+1}) - V(S_t)$为TD Error</p>
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>TD Learning</strong></th>
+<th><strong>Monte Carlo (MC)</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>更新时机</strong></td>
+<td>每一步更新（在线学习）</td>
+<td>完整轨迹结束后再更新</td>
+</tr>
+<tr>
+<td><strong>回报估计</strong></td>
+<td>依赖当前经验 + 未来估计值（bootstrapping）</td>
+<td>依赖完整回报（no bootstrapping）</td>
+</tr>
+<tr>
+<td><strong>偏差 vs. 方差</strong></td>
+<td>有偏但方差小（因为估计依赖未来状态的值）</td>
+<td>无偏但方差大（因为回报波动大）</td>
+</tr>
+<tr>
+<td><strong>收敛速度</strong></td>
+<td>快，能更快调整值函数</td>
+<td>慢，因为要等待完整回报</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>适用于连续或在线任务</td>
+<td>适用于回合式任务（如游戏）</td>
+</tr>
+</tbody></table>
+<h4 id="3-N-Step-Prediction-TD-Learning的变体"><a href="#3-N-Step-Prediction-TD-Learning的变体" class="headerlink" title="3. N-Step Prediction(TD Learning的变体)"></a>3. N-Step Prediction(TD Learning的变体)</h4><p>将TD target设定为未来n步的奖励和转移状态期望，相当于TD和MC的折中,迭代n步再更新<br>Consider the following n-step returns for n&#x3D;1,2…,\infty<br>n&#x3D;1 (TD) $G_t^{(1)}&#x3D;R_{t+1}+\gamma V(S_{t+1})$<br>n&#x3D;2 (2-Step) $G_t^{(2)}&#x3D;R_{t+1}+\gamma R_{t+2} + \gamma^2 V(S_{t+2})$<br>… … …<br>n&#x3D;\infty (MC) $G_t^\infty&#x3D;R_{t+1}+\gamma R_{t+2} + … + \gamma^{T-1}R_T$<br>因此，对于n-step temporal-difference learning: $V(S_t) \leftarrow V(S_t) + \alpha(G_t^{(n)}-V(S_t))$</p>
+<h4 id="4-Lamda-Return-N-Step-Prediction的变体"><a href="#4-Lamda-Return-N-Step-Prediction的变体" class="headerlink" title="4. Lamda Return(N-Step Prediction的变体)"></a>4. Lamda Return(N-Step Prediction的变体)</h4><p>考虑了短步回报和长步回报的不同收益： $G_t^\lambda&#x3D; (1-\lambda)\sum_{n&#x3D;1}^\infty \lambda^{n-1}G_t^{(n)}$<br>$V(S_t) \leftarrow V(S_t) + \alpha (G_t^\lambda- V(S_t))$<br>λ 越小，更依赖当前的 TD 估计，快速调整但可能抖动大; λ 越大，更依赖长时间的回报，稳定但更新慢</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>Monte Carlo Backup<br><img src="/../article_img/Reinforcement/img2-1.png" srcset="/img/loading.gif" lazyload alt="Monte Carlo Backup"><br>Temporal-Difference Backup<br><img src="/../article_img/Reinforcement/img2-2.png" srcset="/img/loading.gif" lazyload alt="Temporal-Difference Backup"><br>Dynamic Programming Backup(Policy&#x2F;Value Iteration)<br><img src="/../article_img/Reinforcement/img2-3.png" srcset="/img/loading.gif" lazyload alt="Dynamic Programming Backup"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AI/" class="print-no-link">#AI</a>
+      
+        <a href="/tags/Algorithm/" class="print-no-link">#Algorithm</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>强化学习系列（二）：Model-free Prediction</div>
+      <div>http://example.com/2025/03/08/强化学习系列（二）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Peter</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年3月8日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/03/11/Lora%20Adapter%E8%B0%83%E8%AF%95%E8%B7%9F%E8%B8%AA/" title="Lora Adapter调试跟踪">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Lora Adapter调试跟踪</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/03/07/MMRec/" title="Scheme about MMRAG4Rec">
+                        <span class="hidden-mobile">Scheme about MMRAG4Rec</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"bFZ2utAtP6QxKUNJxwibP07k-gzGzoHsz","appKey":"rWP0FjbzaXytusY91AFDmytV","path":"window.location.pathname","placeholder":"留言仅限讨论，禁止广告等行为","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://bfz2utat.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/love.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxingxing.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/caidai.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

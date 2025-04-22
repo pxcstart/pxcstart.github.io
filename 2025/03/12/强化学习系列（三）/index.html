@@ -1,0 +1,814 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/image/title.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Peter">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="写在前面：系列二中提及的MC&#x2F;TD方法都是在已知策略$\pi$的前提下，估计每个状态的期望回报。前者是等到整个回合结束利用完整回报$G_t$来更新价值函数,后者利用一步预测和当前奖励动态更新价值函数。可以看到的是，这些方法知识学习了价值函数，并没有改变策略。在这一节，我们主要介绍一些常用的策略优化方法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="强化学习系列（三）：Model-Free Control">
+<meta property="og:url" content="http://example.com/2025/03/12/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%89%EF%BC%89/index.html">
+<meta property="og:site_name" content="Peter ThinkTank">
+<meta property="og:description" content="写在前面：系列二中提及的MC&#x2F;TD方法都是在已知策略$\pi$的前提下，估计每个状态的期望回报。前者是等到整个回合结束利用完整回报$G_t$来更新价值函数,后者利用一步预测和当前奖励动态更新价值函数。可以看到的是，这些方法知识学习了价值函数，并没有改变策略。在这一节，我们主要介绍一些常用的策略优化方法。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/article_img/Reinforcement/img1-1.png">
+<meta property="article:published_time" content="2025-03-12T14:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-16T16:09:09.499Z">
+<meta property="article:author" content="Peter">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="Algorithm">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/article_img/Reinforcement/img1-1.png">
+  
+  
+  
+  <title>强化学习系列（三）：Model-Free Control - Peter ThinkTank</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_4448993_m6xmkls2kf.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/gundongtiao.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Peter Think Tank</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-shouye"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives" target="_self">
+                <i class="iconfont icon-guidang"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-biaoqian"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-guanyu"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-youqinglianjie"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-book"></i>
+                <span>文档</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/" target="_self">
+                    
+                    <span>主题博客</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/guide/" target="_self">
+                    
+                    <span>配置指南</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/icon/" target="_self">
+                    
+                    <span>图标用法</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/article_img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="强化学习系列（三）：Model-Free Control"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Peter
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-03-12 22:00" pubdate>
+           2025 年 03 月 12 日 , 晚上 10:00 , 星期三
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.6k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          13 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">强化学习系列（三）：Model-Free Control</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>写在前面：系列二中提及的MC&#x2F;TD方法都是在已知策略$\pi$的前提下，估计每个状态的期望回报。前者是等到整个回合结束利用完整回报$G_t$来更新价值函数,后者利用一步预测和当前奖励动态更新价值函数。可以看到的是，这些方法知识学习了价值函数，并没有改变策略。在这一节，我们主要介绍一些常用的策略优化方法。</p>
+<span id="more"></span>
+
+<h3 id="1-Epsilon-Greedy"><a href="#1-Epsilon-Greedy" class="headerlink" title="1. Epsilon Greedy"></a>1. Epsilon Greedy</h3><p>在Model-based Control中，我们基于MDP Transition采用贪心策略进行policy improvement：$\pi’(s)&#x3D;argmax_{a \in A}R_s^a + P_{ss’}^aV(s’)$<br>在Model-free背景下，由于缺失MDP Transition，往往采用对行为价值函数Q(s,a)进行建模: $\pi’(s)&#x3D;argmax_{a \in A}Q(s,a)$<br>这里介绍一个常用的贪心策略Epsilon Greedy：</p>
+<div align="center">
+$$
+\pi(a|s) =
+\begin{cases} 
+\frac{\epsilon}{m} + 1 - \epsilon & \text{if } a = \arg\max\limits_{a \in A} Q(s,a) \\
+\frac{\epsilon}{m} & \text{otherwise}
+\end{cases}
+$$
+</div>
+why to search bad state: 避免局部最优解，通过增加对不良状态的探索，智能体能够全面地了解环境，发现可能被忽略的潜在机会，进而提升整体策略的质量。
+
+<p>&lt;定义&gt;Greedy in the limit with infinite exploration(GLIE)<br>随着时间的推进，策略最终收敛到纯贪婪策略；在训练过程中，每个状态和动作都要被探索无限次，确保获得充分的信息来评估所有可能的动作。<br>即GLIE要求策略$\pi_t$满足以下条件：<br>(1) $lim_{k-&gt;\infty}N_k(s,a)&#x3D;\infty$<br>(2) $lim_{k-&gt;\infty}\pi_k(a|s)&#x3D;1(a&#x3D;argmax_{a’ \in A}Q_k(s,a’))$</p>
+<p>GLIE的意义：（1）保证收敛 （2）避免局部最优</p>
+<p>Epsilon Greedy满足GLIE：在探索的过程中逐渐减少探索率$\epsilon$，例如$\epsilon_t&#x3D;1&#x2F;t$</p>
+<p>下面介绍下$\epsilon$-Greedy与Monte-Carlo结合的Control方法：<br>(1) 使用当前策略$\pi$与环境进行第k次完整交互(kth episode)得到采样数据： ${S_1,A_1,R_2,…,,S_T} \sim \pi$<br>(2) 使用MC方法对进行Q值更新：$N(S_t,A_t) \leftarrow N(S_t,A_t) + 1$, $Q(S_t, A_t) \leftarrow Q(S_t,A_t) + \frac{1}{N(S_t,A_t)}(G_t - Q(S_t, A_t))$<br>(3) 基于\epsilon-Greedy进行策略提升：$\epsilon \leftarrow 1&#x2F;k$, $\pi \leftarrow \epsilon-greedy(Q)$</p>
+<h3 id="2-SARSA"><a href="#2-SARSA" class="headerlink" title="2. SARSA"></a>2. SARSA</h3><p>将TD方法和GLIE结合的Control方法我们称其为SARSA。<br><img src="/../article_img/Reinforcement/img3-1.png" srcset="/img/loading.gif" lazyload alt="SARSA"><br>下面是SARSA进行Q值更新和策略提升的伪代码:<br><img src="/../article_img/Reinforcement/img3-2.png" srcset="/img/loading.gif" lazyload alt="SARSA Algorithm"></p>
+<p>n-step SARSA:<br>$q_t^{(n)}&#x3D;R_{t+1} + \gamma R_{t+2} + … + \gamma^{n-1}R_{t+n} + \gamma^n Q(S_{t+n})$<br>$Q(S_t,A_t) \leftarrow Q(S_t,A_t) + \alpha (q_t^{(n)}-Q(S_t,A_t))$</p>
+<h3 id="3-Off-Policy-Learning"><a href="#3-Off-Policy-Learning" class="headerlink" title="3. Off-Policy Learning"></a>3. Off-Policy Learning</h3><p>on policy learning:策略学习只能使用 <strong>当前策略</strong> 生成的数据<br>off policy learning: 策略学习可以使用 <strong>其他策略</strong> 生成的数据，包括历史数据和经验回放<br>​	特点：训练策略和行为策略可以不同；可以使用 <strong>过去的数据（经验回放）</strong> 进行训练，提高数据利用率<br>对于off-policy learning，由于行为策略和训练策略并不相同，行为策略$\mu$产生的数据可能不符合目标策略$\pi$的分布，直接使用它来更新目标策略会产生偏差。为了修正分布偏差，可以采用Importance Sampling方法。<br>important sampling:  <strong>用于估计一个分布的期望值，而采样数据却来自另一个分布</strong> 的技术。它通过调整采样分布的影响，来修正采样偏差，使得估计值更准确。<br>$E_{X\sim P}[f(X)]&#x3D;\sum P(X)f(X)&#x3D;\sum Q(X)\frac{P(X)}{Q(X)}f(X)&#x3D;E_{X\sim Q}[\frac{P(X)}{Q(X)}f(X)]$</p>
+<p>下面介绍Importance Sampling for Off-Policy Monte-Carlo:<br>Target: 通过model-free control学习一个目标策略$\pi$,但是采样数据来自于行为策略$\mu$<br>在这里，我们称$\mu$为行为策略，它负责生成训练数据；$\pi$为目标策略，即我们希望学习的策略<br>Step：假设一个完整的episode采样序列：$\tau &#x3D; {S_1, A_1, R_2,…,S_T}$<br>在目标策略$\pi$中的回报期望为 $G_t^{\pi&#x2F;\mu} &#x3D; \frac{\pi(A_t|S_t)}{\mu(A_t|S_t)}\frac{\pi(A_{t+1}|S_{t+1})}{\mu(A_{t+1}|S_{t+1})}…\frac{\pi(A_T|S_T)}{\mu(A_T|S_T)}G_t$<br>更新Q值函数：$Q(S_t,A_t) \leftarrow Q(S_t,A_t) + \alpha(G_t^{\pi&#x2F;\mu}-Q(S_t,A_t))$</p>
+<p>Ques: 为什么$\pi(A_t|S_t)$已知却不能直接用$\pi来更新Q值$<br>Ans: 我们手头的数据是行为策略 μ 生成的，而不是目标策略 π 生成的。如果我们直接用目标策略 π 来更新Q值，实际上我们是在<strong>假设数据是按目标策略采样的，但数据实际是按行为策略采样的</strong>。这会导致估计产生偏差。</p>
+<h3 id="4-Q-Learning"><a href="#4-Q-Learning" class="headerlink" title="4. Q-Learning"></a>4. Q-Learning</h3><p>Q-learning是一种Off-Policy Temporal Difference Learning的控制方法，它可以借助行为策略产生的数据而无需Importance Sampling<br>公式：$Q(S,a) \leftarrow Q(S,a) + \alpha [R+\gamma max_{a’}Q(s’,a’)-Q(s,a)]$<br><img src="/../article_img/Reinforcement/img3-4.png" srcset="/img/loading.gif" lazyload alt="Q-Learning"></p>
+<p>Ques: 为什么Q-learning不需要重要性采样<br>Ans:<br>（1）Q-learning 的目标策略始终是贪婪策略（$max_{a’}Q(s’,a’)$），但行为策略可以是探索性的（比如 ϵ-greedy）。因为它只用目标策略来选择下一个状态的最优动作，不需要纠正行为策略带来的偏差。<br>（2）它用的是单步TD更新，不是完整回报。TD更新只依赖当前经验(s,a,r,s’)，所以行为策略只需要提供足够多样的数据，不要求它和目标策略一致</p>
+<p>Ans:无法与真实环境交互，如何训练目标策略<br>Ques: Simulator和Batch RL<br>Simulator: 强化学习中的一个环境，允许Agent在其中交互、收集数据并进行训练。<strong>适用于Online RL（在线强化学习）</strong>：算法可以随时与环境交互并收集数据（如 DQN、PPO）。<br>Batch RL：它仅使用一个固定的数据集来训练，而不会与环境交互。<strong>需要 Off-Policy 方法</strong>：由于数据可能来自多个不同的策略（而非当前策略），必须使用 <strong>Off-Policy RL</strong>（如 DQN、BCQ）</p>
+<p>区分Q-learning和SARSA的Q值更新：<br>SARSA的Q值更新公式为：$Q(S_t,A_t) \leftarrow Q(S_t,A_t) + \alpha[R_{t+1}+\gamma Q(S_{t+1},A_{t+1})-Q(S_t,A_t)]$<br>Q-learning用的是下一状态的最优动作$max_{a’}Q(s’,a’)$来更新，属于Off-Policy。SARSA用的是实际选到的下一动作$A_{t+1}$来更新，属于On-Policy。</p>
+<p>下面给出Q-Learning的伪代码：<br><img src="/../article_img/Reinforcement/img3-5.png" srcset="/img/loading.gif" lazyload alt="Q-Learning Algorithm"></p>
+<h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><p><img src="/../article_img/Reinforcement/img3-6.png" srcset="/img/loading.gif" lazyload alt="Summary"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/AI/" class="print-no-link">#AI</a>
+      
+        <a href="/tags/Algorithm/" class="print-no-link">#Algorithm</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>强化学习系列（三）：Model-Free Control</div>
+      <div>http://example.com/2025/03/12/强化学习系列（三）/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Peter</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年3月12日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/03/14/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E5%9B%9B%EF%BC%89/" title="强化学习系列（四）：DQN算法">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">强化学习系列（四）：DQN算法</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/03/11/Lora%20Adapter%E8%B0%83%E8%AF%95%E8%B7%9F%E8%B8%AA/" title="Lora Adapter调试跟踪">
+                        <span class="hidden-mobile">Lora Adapter调试跟踪</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"bFZ2utAtP6QxKUNJxwibP07k-gzGzoHsz","appKey":"rWP0FjbzaXytusY91AFDmytV","path":"window.location.pathname","placeholder":"留言仅限讨论，禁止广告等行为","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://bfz2utat.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/love.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxingxing.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/caidai.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

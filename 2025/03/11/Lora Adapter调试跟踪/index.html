@@ -1,0 +1,797 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/image/title.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Peter">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="打算花点时间看看在peft库中lora是怎么注入base model的，这里简单总结下： 首先写个测试程序： 123456789101112131415161718192021import torchfrom peft import LoraModel, LoraConfigfrom transformers import AutoModelForCausalLM, AutoTokenizermo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lora Adapter调试跟踪">
+<meta property="og:url" content="http://example.com/2025/03/11/Lora%20Adapter%E8%B0%83%E8%AF%95%E8%B7%9F%E8%B8%AA/index.html">
+<meta property="og:site_name" content="Peter ThinkTank">
+<meta property="og:description" content="打算花点时间看看在peft库中lora是怎么注入base model的，这里简单总结下： 首先写个测试程序： 123456789101112131415161718192021import torchfrom peft import LoraModel, LoraConfigfrom transformers import AutoModelForCausalLM, AutoTokenizermo">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-03-11T04:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-11T04:03:02.645Z">
+<meta property="article:author" content="Peter">
+<meta property="article:tag" content="Code">
+<meta property="article:tag" content="debug">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  
+  <title>Lora Adapter调试跟踪 - Peter ThinkTank</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_4448993_m6xmkls2kf.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/gundongtiao.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Peter Think Tank</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-shouye"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives" target="_self">
+                <i class="iconfont icon-guidang"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-biaoqian"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-guanyu"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-youqinglianjie"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-book"></i>
+                <span>文档</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/" target="_self">
+                    
+                    <span>主题博客</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/guide/" target="_self">
+                    
+                    <span>配置指南</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/icon/" target="_self">
+                    
+                    <span>图标用法</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/article_img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="Lora Adapter调试跟踪"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Peter
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-03-11 12:00" pubdate>
+           2025 年 03 月 11 日 , 中午 12:00 , 星期二
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          681 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          6 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">Lora Adapter调试跟踪</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>打算花点时间看看在peft库中lora是怎么注入base model的，这里简单总结下：</p>
+<p>首先写个测试程序：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">import</span> torch<br><span class="hljs-keyword">from</span> peft <span class="hljs-keyword">import</span> LoraModel, LoraConfig<br><span class="hljs-keyword">from</span> transformers <span class="hljs-keyword">import</span> AutoModelForCausalLM, AutoTokenizer<br><br><br>model = AutoModelForCausalLM.from_pretrained(<span class="hljs-string">&#x27;meta-llama/Llama-2-7b-hf&#x27;</span>, torch_dtype=torch.float16, device_map=<span class="hljs-string">&quot;cuda&quot;</span>)<br>tokenizer = AutoTokenizer.from_pretrained(<span class="hljs-string">&#x27;meta-llama/Llama-2-7b-hf&#x27;</span>)<br>tokenizer.pad_token = tokenizer.eos_token<br>lora_config = LoraConfig(<br>    r=<span class="hljs-number">32</span>,<br>    lora_alpha=<span class="hljs-number">16</span>,<br>    target_modules=[<span class="hljs-string">&quot;gate_proj&quot;</span>,<span class="hljs-string">&quot;up_proj&quot;</span>,<span class="hljs-string">&quot;q_proj&quot;</span>,<span class="hljs-string">&quot;down_proj&quot;</span>,<span class="hljs-string">&quot;o_proj&quot;</span>,<span class="hljs-string">&quot;k_proj&quot;</span>,<span class="hljs-string">&quot;v_proj&quot;</span>],<br>    lora_dropout=<span class="hljs-number">0.05</span>,<br>    bias=<span class="hljs-string">&quot;none&quot;</span>,<br>    task_type=<span class="hljs-string">&quot;CAUSAL_LM&quot;</span>,<br>)<br><br>model = LoraModel(model, lora_config, <span class="hljs-string">&quot;default&quot;</span>) <span class="hljs-comment"># 在这里打个断点</span><br>model.print_trainable_parameters()<br><span class="hljs-keyword">for</span> name, param <span class="hljs-keyword">in</span> model.named_parameters():<br>    <span class="hljs-built_in">print</span>(name, param)<br></code></pre></td></tr></table></figure>
+
+<p>跟进去调试，LoraModel是基于BaseTuner类实现的子类，BaseTuner的init函数中有一个inject_adapter方法，该方法实现了如何将lora中的target module与base model中的module进行替换</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs python">elf.active_adapter: <span class="hljs-built_in">str</span> | <span class="hljs-built_in">list</span>[<span class="hljs-built_in">str</span>] = adapter_name<br><span class="hljs-variable language_">self</span>._pre_injection_hook(<span class="hljs-variable language_">self</span>.model, <span class="hljs-variable language_">self</span>.peft_config[adapter_name], adapter_name)<br><span class="hljs-keyword">if</span> peft_config != PeftType.XLORA <span class="hljs-keyword">or</span> peft_config[adapter_name] != PeftType.XLORA:<br>    <span class="hljs-variable language_">self</span>.inject_adapter(<span class="hljs-variable language_">self</span>.model, adapter_name, low_cpu_mem_usage=low_cpu_mem_usage)<br></code></pre></td></tr></table></figure>
+
+<p>跟进inject_adapter,它首先会收集base model的所有named modules组成一个key list，然后进入循环，如果key在peft_config中定义的target_modules中，则调用_create_and_replace方法（@abstractmethod），该方法在子类中进行实现。下面重点介绍下该方法：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">_create_and_replace</span>(<span class="hljs-params"></span><br><span class="hljs-params">        self,</span><br><span class="hljs-params">        lora_config,</span><br><span class="hljs-params">        adapter_name,</span><br><span class="hljs-params">        target,</span><br><span class="hljs-params">        target_name,</span><br><span class="hljs-params">        parent,</span><br><span class="hljs-params">        current_key,</span><br><span class="hljs-params">    </span>):<br>        <span class="hljs-keyword">if</span> current_key <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:<br>            <span class="hljs-keyword">raise</span> ValueError(<span class="hljs-string">&quot;Current Key shouldn&#x27;t be `None`&quot;</span>)<br><br>        <span class="hljs-comment"># Regexp matching - Find key which matches current target_name in patterns provided</span><br>        pattern_keys = <span class="hljs-built_in">list</span>(chain(lora_config.rank_pattern.keys(), lora_config.alpha_pattern.keys()))<br>        target_name_key = <span class="hljs-built_in">next</span>(<span class="hljs-built_in">filter</span>(<span class="hljs-keyword">lambda</span> key: re.<span class="hljs-keyword">match</span>(<span class="hljs-string">rf&quot;.*\.<span class="hljs-subst">&#123;key&#125;</span>$&quot;</span>, current_key), pattern_keys), current_key)<br>        r = lora_config.rank_pattern.get(target_name_key, lora_config.r)<br>        alpha = lora_config.alpha_pattern.get(target_name_key, lora_config.lora_alpha)<br><br>        kwargs = &#123;<br>            <span class="hljs-string">&quot;r&quot;</span>: r,<br>            <span class="hljs-string">&quot;lora_alpha&quot;</span>: alpha,<br>            <span class="hljs-string">&quot;lora_dropout&quot;</span>: lora_config.lora_dropout,<br>            <span class="hljs-string">&quot;fan_in_fan_out&quot;</span>: lora_config.fan_in_fan_out,<br>            <span class="hljs-string">&quot;init_lora_weights&quot;</span>: lora_config.init_lora_weights,<br>            <span class="hljs-string">&quot;use_rslora&quot;</span>: lora_config.use_rslora,<br>            <span class="hljs-string">&quot;use_dora&quot;</span>: lora_config.use_dora,<br>            <span class="hljs-string">&quot;ephemeral_gpu_offload&quot;</span>: lora_config.runtime_config.ephemeral_gpu_offload,<br>            <span class="hljs-string">&quot;loaded_in_8bit&quot;</span>: <span class="hljs-built_in">getattr</span>(<span class="hljs-variable language_">self</span>.model, <span class="hljs-string">&quot;is_loaded_in_8bit&quot;</span>, <span class="hljs-literal">False</span>),<br>            <span class="hljs-string">&quot;loaded_in_4bit&quot;</span>: <span class="hljs-built_in">getattr</span>(<span class="hljs-variable language_">self</span>.model, <span class="hljs-string">&quot;is_loaded_in_4bit&quot;</span>, <span class="hljs-literal">False</span>),<br>        &#125;<br><br>        quant_methods = [<span class="hljs-string">&quot;gptq&quot;</span>, <span class="hljs-string">&quot;aqlm&quot;</span>, <span class="hljs-string">&quot;awq&quot;</span>]<br>        <span class="hljs-keyword">for</span> quant_method <span class="hljs-keyword">in</span> quant_methods:<br>            quantization_config = get_quantization_config(<span class="hljs-variable language_">self</span>.model, method=quant_method)<br>            <span class="hljs-keyword">if</span> quantization_config <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:<br>                kwargs[<span class="hljs-string">f&quot;<span class="hljs-subst">&#123;quant_method&#125;</span>_quantization_config&quot;</span>] = quantization_config<br><br>        <span class="hljs-comment"># note: AdaLoraLayer is a subclass of LoraLayer, we need to exclude it</span><br>        <span class="hljs-keyword">from</span> peft.tuners.adalora <span class="hljs-keyword">import</span> AdaLoraLayer<br><br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">isinstance</span>(target, LoraLayer) <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> <span class="hljs-built_in">isinstance</span>(target, AdaLoraLayer):<br>            target.update_layer(<br>                adapter_name,<br>                r,<br>                lora_alpha=alpha,<br>                lora_dropout=lora_config.lora_dropout,<br>                init_lora_weights=lora_config.init_lora_weights,<br>                use_rslora=lora_config.use_rslora,<br>                use_dora=lora_config.use_dora,<br>            )<br>        <span class="hljs-keyword">else</span>:<br>            new_module = <span class="hljs-variable language_">self</span>._create_new_module(lora_config, adapter_name, target, **kwargs)<br>            <span class="hljs-keyword">if</span> adapter_name <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> <span class="hljs-variable language_">self</span>.active_adapters:<br>                <span class="hljs-comment"># adding an additional adapter: it is not automatically trainable</span><br>                new_module.requires_grad_(<span class="hljs-literal">False</span>)<br>            <span class="hljs-variable language_">self</span>._replace_module(parent, target_name, new_module, target)<br></code></pre></td></tr></table></figure>
+
+<p>kwargs为构造Lora层所必需的参数，此外这里还检查了base model是否已经被8 bit or 4 bit量化，以防止不兼容的操作。然后判断target是都已经是一个LoraLayer：<strong>如果 <code>target</code> 已经是一个 LoRA 层</strong>（<code>LoraLayer</code>），则 <strong>更新</strong> 其参数（如 <code>r</code>、<code>lora_alpha</code> 等）；<strong>如果 <code>target</code> 是 <code>AdaLoraLayer</code>，则跳过</strong>，因为 AdaLoRA 有自己的适配逻辑；否则，创建新的 LoRA 层并替换目标层。self._replace_module用于 将 <code>parent</code> 中的 <code>target_name</code> 层替换为 <code>new_module</code>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><code class="hljs python"><span class="hljs-keyword">def</span> <span class="hljs-title function_">_replace_module</span>(<span class="hljs-params">self, parent, child_name, new_module, child</span>):<br>        <span class="hljs-built_in">setattr</span>(parent, child_name, new_module)<br>        <span class="hljs-comment"># It&#x27;s not necessary to set requires_grad here, as that is handled by</span><br>        <span class="hljs-comment"># _mark_only_adapters_as_trainable</span><br><br>        <span class="hljs-comment"># child layer wraps the original module, unpack it</span><br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">hasattr</span>(child, <span class="hljs-string">&quot;base_layer&quot;</span>):<br>            child = child.base_layer<br><br>        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-built_in">hasattr</span>(new_module, <span class="hljs-string">&quot;base_layer&quot;</span>):<br>            <span class="hljs-keyword">if</span> <span class="hljs-built_in">hasattr</span>(new_module, <span class="hljs-string">&quot;W_q&quot;</span>):  <span class="hljs-comment"># HQQ</span><br>                new_module.W_q = child.W_q<br>            <span class="hljs-keyword">else</span>:<br>                new_module.weight = child.weight<br>            <span class="hljs-keyword">if</span> <span class="hljs-built_in">hasattr</span>(child, <span class="hljs-string">&quot;bias&quot;</span>):<br>                new_module.bias = child.bias<br><br>        <span class="hljs-keyword">if</span> <span class="hljs-built_in">getattr</span>(child, <span class="hljs-string">&quot;state&quot;</span>, <span class="hljs-literal">None</span>) <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:<br>            <span class="hljs-keyword">if</span> <span class="hljs-built_in">hasattr</span>(new_module, <span class="hljs-string">&quot;base_layer&quot;</span>):<br>                new_module.base_layer.state = child.state<br>            <span class="hljs-keyword">else</span>:<br>                new_module.state = child.state<br>            new_module.to(child.weight.device)<br><br>        meta = torch.device(<span class="hljs-string">&quot;meta&quot;</span>)<br>        <span class="hljs-comment"># dispatch to correct device</span><br>        <span class="hljs-keyword">for</span> name, module <span class="hljs-keyword">in</span> new_module.named_modules():<br>            <span class="hljs-keyword">if</span> (<span class="hljs-variable language_">self</span>.prefix <span class="hljs-keyword">in</span> name) <span class="hljs-keyword">or</span> (<span class="hljs-string">&quot;ranknum&quot;</span> <span class="hljs-keyword">in</span> name):<br>                weight = (<br>                    child.qweight<br>                    <span class="hljs-keyword">if</span> <span class="hljs-built_in">hasattr</span>(child, <span class="hljs-string">&quot;qweight&quot;</span>)<br>                    <span class="hljs-keyword">else</span> child.W_q<br>                    <span class="hljs-keyword">if</span> <span class="hljs-built_in">hasattr</span>(child, <span class="hljs-string">&quot;W_q&quot;</span>)<br>                    <span class="hljs-keyword">else</span> child.weight<br>                    <span class="hljs-keyword">if</span> <span class="hljs-built_in">hasattr</span>(child, <span class="hljs-string">&quot;weight&quot;</span>)<br>                    <span class="hljs-keyword">else</span> <span class="hljs-built_in">next</span>(child.parameters())<br>                )<br>                <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> <span class="hljs-built_in">any</span>(p.device == meta <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> module.parameters()):<br>                    module.to(weight.device)<br></code></pre></td></tr></table></figure>
+
+
+
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Code/" class="print-no-link">#Code</a>
+      
+        <a href="/tags/debug/" class="print-no-link">#debug</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>Lora Adapter调试跟踪</div>
+      <div>http://example.com/2025/03/11/Lora Adapter调试跟踪/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Peter</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年3月11日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/03/12/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%89%EF%BC%89/" title="强化学习系列（三）：Model-Free Control">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">强化学习系列（三）：Model-Free Control</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/03/08/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89/" title="强化学习系列（二）：Model-free Prediction">
+                        <span class="hidden-mobile">强化学习系列（二）：Model-free Prediction</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"bFZ2utAtP6QxKUNJxwibP07k-gzGzoHsz","appKey":"rWP0FjbzaXytusY91AFDmytV","path":"window.location.pathname","placeholder":"留言仅限讨论，禁止广告等行为","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://bfz2utat.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/love.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxingxing.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/caidai.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

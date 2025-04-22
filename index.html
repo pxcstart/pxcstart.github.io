@@ -248,7 +248,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Never say I can&#39;t"></span>
+            <span id="subtitle" data-typed-text="While there is life, there is hope."></span>
           
         </div>
 
@@ -284,23 +284,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2025/02/25/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" target="_self">
-          <img src="/image/OIP.jpg" srcset="/img/loading.gif" lazyload alt="Reinforencement Learning">
+        <a href="/2025/04/19/RLHF(%E4%B8%89)/" target="_self">
+          <img src="/article_img/RLHF/img2-1.png" srcset="/img/loading.gif" lazyload alt="RLHF(三)：基于TRL的GrpoTrainer详解">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2025/02/25/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" target="_self">
-          Reinforencement Learning
+        <a href="/2025/04/19/RLHF(%E4%B8%89)/" target="_self">
+          RLHF(三)：基于TRL的GrpoTrainer详解
         </a>
       </h2>
 
       
-      <a class="index-excerpt " href="/2025/02/25/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/" target="_self">
+      <a class="index-excerpt " href="/2025/04/19/RLHF(%E4%B8%89)/" target="_self">
         <div>
-          model-free: 不依赖于转移矩阵  Model-free Prediction ：迭代更新价值函数，用于预测评估每个状态的价值 Monte Carlo Learning ,Temporal-Difference Learning  model-based Prediction: Policy Iteration, Value Iteration Model-free Control: 改变
+          写在前面：目前主流的LLM post-training框架主要有trl, OpenRLHF, verl。后两者集成度较高，适合对LLM零代码训练，而trl灵活性较强，这里主要对GRPO Trainer的训练流程进行梳理
         </div>
       </a>
 
@@ -308,8 +308,244 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2025-02-25 22:00" pubdate>
-              2025-02-25
+            <time datetime="2025-04-19 22:00" pubdate>
+              2025-04-19
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/LLM/">#LLM</a>
+            
+              <a href="/tags/RLHF/">#RLHF</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/04/18/RLHF(%E4%BA%8C)/" target="_self">
+          <img src="/article_img/RLHF/img2-1.png" srcset="/img/loading.gif" lazyload alt="RLHF(二)：偏好数据采集">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/04/18/RLHF(%E4%BA%8C)/" target="_self">
+          RLHF(二)：偏好数据采集
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/04/18/RLHF(%E4%BA%8C)/" target="_self">
+        <div>
+          ORM 和 PRMORM：结果奖励模型，是不管推理有多少步，对完整的生成结果进行一次打分，是一个反馈更稀疏的奖励模型PRM：过程奖励模型，是在生成过程中，分步骤，对每一步进行打分，是更细粒度的奖励模型 使用PRM可以在post-training和inference两个阶段提升模型的推理性能：  Post-Training阶段：在偏好对齐阶段，通过在RL过程中增加PRM，对采样的结果按步骤输出奖励值
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-04-18 22:00" pubdate>
+              2025-04-18
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/LLM/">#LLM</a>
+            
+              <a href="/tags/RLHF/">#RLHF</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/04/17/RLHF(%E4%B8%80)/" target="_self">
+          <img src="/article_img/RLHF/img1-1.png" srcset="/img/loading.gif" lazyload alt="RLHF(一)：LLM post-training">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/04/17/RLHF(%E4%B8%80)/" target="_self">
+          RLHF(一)：LLM post-training
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/04/17/RLHF(%E4%B8%80)/" target="_self">
+        <div>
+          1. PPO算法$L_{PPO} &#x3D; \sum_{(s_t,a_t)}\frac{\pi_\theta(a_t|s_t)}{\pi_{ref}(a_t|s_t)}A(s_t,a_t) - \beta KL(\pi_\theta, \pi_{ref})$ PPO的训练步骤如下：（1）收集人类反馈，人工标注数据 （2）训练奖励模型 （3）采用PPO强化学习，优化策略 在LLM上使用PPO算法
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-04-17 22:00" pubdate>
+              2025-04-17
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/LLM/">#LLM</a>
+            
+              <a href="/tags/RLHF/">#RLHF</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/04/14/20250414/" target="_self">
+          <img src="/image/default.jpg" srcset="/img/loading.gif" lazyload alt="2025.03论文阅读">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/04/14/20250414/" target="_self">
+          2025.03论文阅读
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/04/14/20250414/" target="_self">
+        <div>
+          ReARTeR: Retrieval-Augmented Reasoning with Trustworthy Process Rewarding基于过程奖励模型PRM的检索增强系统存在以下挑战：（1）缺乏解释：现有的PRM通常会生成无法解释的标量分数 （2）PRM训练数据的分布偏差：通过蒙特卡洛树方法收集过程监督数据集往往会导致分布偏差，其中大多数问题会获得不成比例的高分。因此，PRM难以识别
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-04-14 22:00" pubdate>
+              2025-04-14
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Recsys/">#Recsys</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/03/25/syncthing%E5%AE%89%E8%A3%85/" target="_self">
+          <img src="/image/default.jpg" srcset="/img/loading.gif" lazyload alt="Syncthing安装">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/03/25/syncthing%E5%AE%89%E8%A3%85/" target="_self">
+          Syncthing安装
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/03/25/syncthing%E5%AE%89%E8%A3%85/" target="_self">
+        <div>
+          下载安装1234567# 1、下载最新部署包curl -s https://api.github.com/repos/syncthing/syncthing/releases/latest | grep browser_download_url | grep linux-amd64 | cut -d &#x27;&quot;&#x27; -f 4 | wget -qi -# 2、解压并安装tar
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-03-25 22:00" pubdate>
+              2025-03-25
+            </time>
+          </div>
+        
+        
+        
+          <div class="post-meta">
+            <i class="iconfont icon-tags"></i>
+            
+              <a href="/tags/Tool/">#Tool</a>
+            
+          </div>
+        
+      </div>
+    </article>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto index-img">
+        <a href="/2025/03/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%94%EF%BC%89/" target="_self">
+          <img src="/article_img/Reinforcement/img1-1.png" srcset="/img/loading.gif" lazyload alt="强化学习系列（五）：Policy Gradient">
+        </a>
+      </div>
+    
+    <article class="col-12 col-md-8 mx-auto index-info">
+      <h2 class="index-header">
+        
+        <a href="/2025/03/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%94%EF%BC%89/" target="_self">
+          强化学习系列（五）：Policy Gradient
+        </a>
+      </h2>
+
+      
+      <a class="index-excerpt " href="/2025/03/15/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%94%EF%BC%89/" target="_self">
+        <div>
+          写在前面：前面所提到的Q-value Based方法无法解决连续动作空间场景下的优化问题，因为Q-learning的策略是从多个离散动作中贪婪地选择最大Q值，在连续空间中，无法枚举所有动作。为此，本节讲述一种直接面向策略的优化方法：Policy Gradient
+        </div>
+      </a>
+
+      <div class="index-btm post-metas">
+        
+          <div class="post-meta mr-3">
+            <i class="iconfont icon-date"></i>
+            <time datetime="2025-03-15 22:00" pubdate>
+              2025-03-15
             </time>
           </div>
         
@@ -332,23 +568,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2025/02/21/%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB&amp;%E5%85%B3%E7%B3%BB%E6%8A%BD%E5%8F%96%20%E5%B0%8F%E7%BB%93/" target="_self">
-          <img src="/article_img/NER/NER.png" srcset="/img/loading.gif" lazyload alt="命名实体识别&amp;关系抽取 小结">
+        <a href="/2025/03/14/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E5%9B%9B%EF%BC%89/" target="_self">
+          <img src="/article_img/Reinforcement/img1-1.png" srcset="/img/loading.gif" lazyload alt="强化学习系列（四）：DQN算法">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2025/02/21/%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB&amp;%E5%85%B3%E7%B3%BB%E6%8A%BD%E5%8F%96%20%E5%B0%8F%E7%BB%93/" target="_self">
-          命名实体识别&amp;关系抽取 小结
+        <a href="/2025/03/14/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E5%9B%9B%EF%BC%89/" target="_self">
+          强化学习系列（四）：DQN算法
         </a>
       </h2>
 
       
-      <a class="index-excerpt " href="/2025/02/21/%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB&amp;%E5%85%B3%E7%B3%BB%E6%8A%BD%E5%8F%96%20%E5%B0%8F%E7%BB%93/" target="_self">
+      <a class="index-excerpt " href="/2025/03/14/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E5%9B%9B%EF%BC%89/" target="_self">
         <div>
-          BIO标记法B-（Begin）：表示一个实体的开始（首个 token）。 I-（Inside）：表示实体的内部（除首个 token 以外的部分）。 O-（Outside）：表示非实体的 token。 例如：**”Apple Inc. is based in California.” BIO 标注：    Token BIO 标签    Apple B-ORG   Inc. I-ORG   is O
+          写在前面：前面讲解了在On-Policy和Off-Policy环境下如何进行策略提升的几种常用方法，但是在实际应用场景中，state的数量可能是非常庞大的，为了存储每个state-action pair所需要的lookup-table所需要的空间会很庞大，无法通过遍历的方式去evaluate每个state-action pair。这就需要我们考虑如何对Q，V进行建模，通过函数逼近的方法估计连续空间
         </div>
       </a>
 
@@ -356,8 +592,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2025-02-21 00:00" pubdate>
-              2025-02-21
+            <time datetime="2025-03-14 22:00" pubdate>
+              2025-03-14
             </time>
           </div>
         
@@ -366,7 +602,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/NER/">#NER</a>
+              <a href="/tags/AI/">#AI</a>
+            
+              <a href="/tags/Algorithm/">#Algorithm</a>
             
           </div>
         
@@ -378,23 +616,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2025/02/20/GraphRAG/" target="_self">
-          <img src="/article_img/PathGNN/GNN-RAG.png" srcset="/img/loading.gif" lazyload alt="Path-Level GNN-Based Retrievers">
+        <a href="/2025/03/12/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%89%EF%BC%89/" target="_self">
+          <img src="/article_img/Reinforcement/img1-1.png" srcset="/img/loading.gif" lazyload alt="强化学习系列（三）：Model-Free Control">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2025/02/20/GraphRAG/" target="_self">
-          Path-Level GNN-Based Retrievers
+        <a href="/2025/03/12/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%89%EF%BC%89/" target="_self">
+          强化学习系列（三）：Model-Free Control
         </a>
       </h2>
 
       
-      <a class="index-excerpt " href="/2025/02/20/GraphRAG/" target="_self">
+      <a class="index-excerpt " href="/2025/03/12/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%89%EF%BC%89/" target="_self">
         <div>
-          1.GNN-RAG: Graph Neural Retrieval for Large Language Model Reasoning 开源代码：https://github.com/cmavro/GNN-RAG Motivation: 将GNN的推理能力和LLM的语言理解能力相结合用于知识图谱问答 Methodology：首先，GNN 对密集的 KG 子图进行推理，以检索给定问题的答案候选者。
+          写在前面：系列二中提及的MC&#x2F;TD方法都是在已知策略$\pi$的前提下，估计每个状态的期望回报。前者是等到整个回合结束利用完整回报$G_t$来更新价值函数,后者利用一步预测和当前奖励动态更新价值函数。可以看到的是，这些方法知识学习了价值函数，并没有改变策略。在这一节，我们主要介绍一些常用的策略优化方法。
         </div>
       </a>
 
@@ -402,8 +640,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2025-02-20 20:00" pubdate>
-              2025-02-20
+            <time datetime="2025-03-12 22:00" pubdate>
+              2025-03-12
             </time>
           </div>
         
@@ -412,11 +650,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/LLM/">#LLM</a>
+              <a href="/tags/AI/">#AI</a>
             
-              <a href="/tags/Graph/">#Graph</a>
-            
-              <a href="/tags/RAG/">#RAG</a>
+              <a href="/tags/Algorithm/">#Algorithm</a>
             
           </div>
         
@@ -428,23 +664,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2025/02/20/GraphRAG%E7%BB%BC%E8%BF%B0/" target="_self">
-          <img src="/article_img/20250220/img1.png" srcset="/img/loading.gif" lazyload alt="GraphRAG综述">
+        <a href="/2025/03/11/Lora%20Adapter%E8%B0%83%E8%AF%95%E8%B7%9F%E8%B8%AA/" target="_self">
+          <img src="/image/default.jpg" srcset="/img/loading.gif" lazyload alt="Lora Adapter调试跟踪">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2025/02/20/GraphRAG%E7%BB%BC%E8%BF%B0/" target="_self">
-          GraphRAG综述
+        <a href="/2025/03/11/Lora%20Adapter%E8%B0%83%E8%AF%95%E8%B7%9F%E8%B8%AA/" target="_self">
+          Lora Adapter调试跟踪
         </a>
       </h2>
 
       
-      <a class="index-excerpt " href="/2025/02/20/GraphRAG%E7%BB%BC%E8%BF%B0/" target="_self">
+      <a class="index-excerpt " href="/2025/03/11/Lora%20Adapter%E8%B0%83%E8%AF%95%E8%B7%9F%E8%B8%AA/" target="_self">
         <div>
-          Sec.1 传统RAG系统面临的挑战复杂的查询理解：传统的 RAG 方法依赖于简单的关键字匹配和向量相似性技术，不足以捕捉准确和全面所需的深层语义细微差别和多步骤推理过程。例如，当询问概念 A 和概念 D 之间的联系时，这些系统通常只检索直接相关的信息，而错过了像 B 和 C 这样可以弥合关系的关键中间概念。这种狭窄的检索范围限制了 RAG 的能力，使其无法进行广泛的上下文理解和复杂的推理 集成来
+          打算花点时间看看在peft库中lora是怎么注入base model的，这里简单总结下： 首先写个测试程序： 123456789101112131415161718192021import torchfrom peft import LoraModel, LoraConfigfrom transformers import AutoModelForCausalLM, AutoTokenizermo
         </div>
       </a>
 
@@ -452,8 +688,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2025-02-20 20:00" pubdate>
-              2025-02-20
+            <time datetime="2025-03-11 12:00" pubdate>
+              2025-03-11
             </time>
           </div>
         
@@ -461,156 +697,10 @@
         
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/LLM/">#LLM</a>
-            
-              <a href="/tags/Graph/">#Graph</a>
-            
-              <a href="/tags/RAG/">#RAG</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2025/02/18/20250218/" target="_self">
-          <img src="/article_img/20250218/20250218_01.png" srcset="/img/loading.gif" lazyload alt="Graph + RAG">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2025/02/18/20250218/" target="_self">
-          Graph + RAG
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt " href="/2025/02/18/20250218/" target="_self">
-        <div>
-          Graph + RAG图RAG相比于传统RAG的优势：  多跳推理能力 2. 关系建模能力 3. 高效的知识更新与管理 4. 减少检索的噪声和生成的幻觉  最近看了几篇图RAG的论文： G-Retriever: Retrieval-Augmented Generation for Textual Graph Understanding and Question Answering（https://
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-02-18 22:00" pubdate>
-              2025-02-18
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/LLM/">#LLM</a>
-            
-              <a href="/tags/RAG/">#RAG</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2025/02/17/LLM%20padding/" target="_self">
-          <img src="/article_img/LLM%20padding/warning.png" srcset="/img/loading.gif" lazyload alt="关于模型padding左对齐和右对齐的问题">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2025/02/17/LLM%20padding/" target="_self">
-          关于模型padding左对齐和右对齐的问题
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt " href="/2025/02/17/LLM%20padding/" target="_self">
-        <div>
-          最近微调模型进行原因预测任务训练的时候，在eval阶段进行推理生成时遇到了一个警告：“A decoder-only architecture is being used, but right-padding was detected! For correct generation results, please set padding_side=&#39;left&#39; when initia
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-02-17 00:00" pubdate>
-              2025-02-17
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Bug/">#Bug</a>
             
               <a href="/tags/Code/">#Code</a>
             
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2025/02/17/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%98%BE%E5%AD%98%E5%8D%A0%E7%94%A8%E8%AE%A1%E7%AE%97/" target="_self">
-          <img src="/article_img/figure.jpeg" srcset="/img/loading.gif" lazyload alt="大模型显存占用计算">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2025/02/17/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%98%BE%E5%AD%98%E5%8D%A0%E7%94%A8%E8%AE%A1%E7%AE%97/" target="_self">
-          大模型显存占用计算
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt " href="/2025/02/17/%E5%A4%A7%E6%A8%A1%E5%9E%8B%E6%98%BE%E5%AD%98%E5%8D%A0%E7%94%A8%E8%AE%A1%E7%AE%97/" target="_self">
-        <div>
-          1. 显存单位换算在讨论显存占用时，首先要明白“B”和“G”的含义。通常，“B”指的是十亿（1B &#x3D; 10^9），而“G”则表示千兆字节（1G &#x3D; 10^9字节）。例如，1B参数意味着有10亿个参数。显存的单位通常以字节计算，而1个字节等于8位。🎈如果使用全精度训练（fp32），每个参数需要占用32位（即4个字节），因此1B的参数需要占用4GB的显存。🎈如果使用半精度（fp
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-02-17 00:00" pubdate>
-              2025-02-17
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/LLM/">#LLM</a>
-            
-              <a href="/tags/Code/">#Code</a>
+              <a href="/tags/debug/">#debug</a>
             
           </div>
         
@@ -622,23 +712,23 @@
     
     
       <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2025/02/01/competition/" target="_self">
-          <img src="/article_img/competition/competition.png" srcset="/img/loading.gif" lazyload alt="人工智能竞赛汇总">
+        <a href="/2025/03/08/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_self">
+          <img src="/article_img/Reinforcement/img1-1.png" srcset="/img/loading.gif" lazyload alt="强化学习系列（二）：Model-free Prediction">
         </a>
       </div>
     
     <article class="col-12 col-md-8 mx-auto index-info">
       <h2 class="index-header">
         
-        <a href="/2025/02/01/competition/" target="_self">
-          人工智能竞赛汇总
+        <a href="/2025/03/08/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_self">
+          强化学习系列（二）：Model-free Prediction
         </a>
       </h2>
 
       
-      <a class="index-excerpt " href="/2025/02/01/competition/" target="_self">
+      <a class="index-excerpt " href="/2025/03/08/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E4%BA%8C%EF%BC%89/" target="_self">
         <div>
-          1.人工智能竞赛平台 Biendata：Data Competition Community - Biendata介绍：  2018 年 5 月，人工智能和大数据的竞赛平台 Biendata 完成天使轮融资，由DeepTech深科技投资，旨在打造中国人工智能赛事顶级 IP，赛事相关媒体运营。Biendata 的比赛客户既包括今日头条、知乎、摩拜、搜狐等企业，也包括了 IEEE、ACM、中国计算机学
+          写在前面: Prediction任务是用来在给定策略$\pi$的前提下，基于价值函数和奖励函数来评估该策略的好坏。Control任务用来对策略进行提升和改进。根据是否已知状态转移矩阵(MDP transition)分为Model-Based Prediction和Model-free Prediction
         </div>
       </a>
 
@@ -646,8 +736,8 @@
         
           <div class="post-meta mr-3">
             <i class="iconfont icon-date"></i>
-            <time datetime="2025-02-01 00:00" pubdate>
-              2025-02-01
+            <time datetime="2025-03-08 22:00" pubdate>
+              2025-03-08
             </time>
           </div>
         
@@ -656,99 +746,9 @@
           <div class="post-meta">
             <i class="iconfont icon-tags"></i>
             
-              <a href="/tags/Study/">#Study</a>
+              <a href="/tags/AI/">#AI</a>
             
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2025/02/01/lab/" target="_self">
-          <img src="/article_img/lab/lab.png" srcset="/img/loading.gif" lazyload alt="Recsys大牛实验室官网链接">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2025/02/01/lab/" target="_self">
-          Recsys大牛实验室官网链接
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt " href="/2025/02/01/lab/" target="_self">
-        <div>
-          Xiangnan He：https://hexiangnan.github.io/Yuan Fang@SMU: https://www.yfang.site/Huang Chao: https://sites.google.com/view/chaoh
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-02-01 00:00" pubdate>
-              2025-02-01
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Study/">#Study</a>
-            
-          </div>
-        
-      </div>
-    </article>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-      <div class="col-12 col-md-4 m-auto index-img">
-        <a href="/2025/02/01/buildvpn/" target="_self">
-          <img src="/article_img/buildvpn/20180307101419422.jpg" srcset="/img/loading.gif" lazyload alt="搭建代理服务器访问外网">
-        </a>
-      </div>
-    
-    <article class="col-12 col-md-8 mx-auto index-info">
-      <h2 class="index-header">
-        
-        <a href="/2025/02/01/buildvpn/" target="_self">
-          搭建代理服务器访问外网
-        </a>
-      </h2>
-
-      
-      <a class="index-excerpt " href="/2025/02/01/buildvpn/" target="_self">
-        <div>
-          buildVpn图文教程搭建一个vpn准备工作：有支付宝账户，有一个可用邮箱，有10美元。（根据我下面的链接注册，会赠送300美元的体验金，可以试一下没成本，如果长期用可以再去充值）前言：首先我们选择Vultr供应商来购买海外VPS服务器，具有12个地区可以选择，当然也可以选择其他的供应商，但是Vultr的优点在于，所有服务器创建成功后开始计费，并且是按照小时来计费的，如果你删除掉服务器将不再计费
-        </div>
-      </a>
-
-      <div class="index-btm post-metas">
-        
-          <div class="post-meta mr-3">
-            <i class="iconfont icon-date"></i>
-            <time datetime="2025-02-01 00:00" pubdate>
-              2025-02-01
-            </time>
-          </div>
-        
-        
-        
-          <div class="post-meta">
-            <i class="iconfont icon-tags"></i>
-            
-              <a href="/tags/Web/">#Web</a>
+              <a href="/tags/Algorithm/">#Algorithm</a>
             
           </div>
         
@@ -757,6 +757,12 @@
   </div>
 
 
+
+  <nav aria-label="navigation">
+    <span class="pagination" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/#board">2</a><a class="page-number" href="/page/3/#board">3</a><a class="extend next" rel="next" href="/page/2/#board"><i class="iconfont icon-arrowright"></i></a>
+    </span>
+  </nav>
 
 
 

@@ -21,23 +21,24 @@
   <meta name="author" content="Peter">
   <meta name="keywords" content="">
   
-    <meta name="description" content="model-free: 不依赖于转移矩阵  Model-free Prediction ：迭代更新价值函数，用于预测评估每个状态的价值 Monte Carlo Learning ,Temporal-Difference Learning  model-based Prediction: Policy Iteration, Value Iteration Model-free Control: 改变">
+    <meta name="description" content="安装Remix-ide先排个雷，目前官方提供的remix-ide desktop版能安装，但是跑不起来，我在github release列表下了latest version,启动后就是漫长的白屏，网上给的解释是需要修改代理ping通github，但是我这边是能ping通的，多次尝试无果后我选择使用Remix-Ethereum IDE + 本地 remixd。remixd是Remix IDE提供的一">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Reinforencement Learning">
-<meta property="og:url" content="http://example.com/2025/02/25/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0/index.html">
+<meta property="og:title" content="Solidity智能合约">
+<meta property="og:url" content="http://example.com/2025/03/01/FundMe/index.html">
 <meta property="og:site_name" content="Peter ThinkTank">
-<meta property="og:description" content="model-free: 不依赖于转移矩阵  Model-free Prediction ：迭代更新价值函数，用于预测评估每个状态的价值 Monte Carlo Learning ,Temporal-Difference Learning  model-based Prediction: Policy Iteration, Value Iteration Model-free Control: 改变">
+<meta property="og:description" content="安装Remix-ide先排个雷，目前官方提供的remix-ide desktop版能安装，但是跑不起来，我在github release列表下了latest version,启动后就是漫长的白屏，网上给的解释是需要修改代理ping通github，但是我这边是能ping通的，多次尝试无果后我选择使用Remix-Ethereum IDE + 本地 remixd。remixd是Remix IDE提供的一">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2025-02-25T14:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-03T13:05:21.879Z">
+<meta property="og:image" content="http://example.com/article_img/Web3/web3.jpg">
+<meta property="article:published_time" content="2025-03-01T14:00:00.000Z">
+<meta property="article:modified_time" content="2025-03-17T02:39:37.188Z">
 <meta property="article:author" content="Peter">
-<meta property="article:tag" content="AI">
-<meta property="article:tag" content="Algorithm">
+<meta property="article:tag" content="Web3">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/article_img/Web3/web3.jpg">
   
   
   
-  <title>Reinforencement Learning - Peter ThinkTank</title>
+  <title>Solidity智能合约 - Peter ThinkTank</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -260,7 +261,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="Reinforencement Learning"></span>
+            <span id="subtitle" data-typed-text="Solidity智能合约"></span>
           
         </div>
 
@@ -276,8 +277,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2025-02-25 22:00" pubdate>
-           2025 年 02 月 25 日 , 晚上 10:00 , 星期二
+        <time datetime="2025-03-01 22:00" pubdate>
+           2025 年 03 月 01 日 , 晚上 10:00 , 星期六
         </time>
       </span>
     
@@ -289,7 +290,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          523 字
+          1.1k 字
         
       </span>
     
@@ -301,7 +302,7 @@
         
         
           <!-- compatible with older versions-->
-          5 分钟
+          9 分钟
         
       </span>
     
@@ -338,27 +339,68 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">Reinforencement Learning</h1>
+            <h1 id="seo-header">Solidity智能合约</h1>
             
             
               <div class="markdown-body">
                 
-                <p>model-free: 不依赖于转移矩阵 </p>
-<p>Model-free Prediction ：迭代更新价值函数，用于预测评估每个状态的价值 Monte Carlo Learning ,Temporal-Difference Learning </p>
-<p>model-based Prediction: Policy Iteration, Value Iteration</p>
-<p>Model-free Control: 改变基于环境的action</p>
-<p>on policy learning:策略学习只能使用 <strong>当前策略</strong> 生成的数据</p>
-<p>off policy learning: 策略学习可以使用 <strong>其他策略</strong> 生成的数据，包括历史数据和经验回放</p>
-<p>​	特点：训练策略和行为策略可以不同；可以使用 <strong>过去的数据（经验回放）</strong> 进行训练，提高数据利用率</p>
-<p>important sampling:  <strong>用于估计一个分布的期望值，而采样数据却来自另一个分布</strong> 的技术。它通过调整采样分布的影响，来修正采样偏差，使得估计值更准确。</p>
-<p>在强化学习中，重要性采样用于 <strong>off-policy 评估</strong>，如 Actor-Critic，而 Q-learning <strong>不需要</strong> 重要性采样，因为它直接使用最大 Q 值进行更新。(1.<strong>它不计算策略的期望回报</strong>，而是优化状态-动作值函数 Q(s,a)，所以不需要修正采样分布 2.<strong>它不使用策略梯度</strong>，因此不需要通过重要性采样调整梯度估计)</p>
-<p>Simulator和Batch RL</p>
-<p>Simulator: 强化学习中的一个环境，允许Agent在其中交互、收集数据并进行训练。<strong>适用于Online RL（在线强化学习）</strong>：算法可以随时与环境交互并收集数据（如 DQN、PPO）。</p>
-<p>Batch RL：它仅使用一个固定的数据集来训练，而不会与环境交互。<strong>需要 Off-Policy 方法</strong>：由于数据可能来自多个不同的策略（而非当前策略），必须使用 <strong>Off-Policy RL</strong>（如 DQN、BCQ）。</p>
-<p>Value Approximation：真实场景中，state的数量可能是非常庞大的，为了存储每个state-action pair所需要的lookup-table所需要的空间会很庞大，因此可以考虑使用函数逼近的方法去估计value function，通常可以是Linear combinations of features, Neural network, Decision Tree…</p>
-<p>Goal: $J(w)&#x3D;E_\phi[(v_\phi(S)-\hat v (S, w))^2]$</p>
-<p>w梯度更新: $\bigtriangleup w&#x3D;-1&#x2F;2 \alpha \bigtriangledown_w J(w) &#x3D; \alpha(v_\phi(S)-\hat v (S,w))\bigtriangledown_w \hat v (S,w) $</p>
-
+                <h3 id="安装Remix-ide"><a href="#安装Remix-ide" class="headerlink" title="安装Remix-ide"></a>安装Remix-ide</h3><p>先排个雷，目前官方提供的remix-ide desktop版能安装，但是跑不起来，我在github release列表下了latest version,启动后就是漫长的白屏，网上给的解释是需要修改代理ping通github，但是我这边是能ping通的，多次尝试无果后我选择使用Remix-Ethereum IDE + 本地 remixd。remixd是Remix IDE提供的一个辅助工具，主要用于 Solidity 智能合约开发时，让本地文件系统和 Remix Web IDE 之间建立连接。<br>安装方式：npm install -g @remix-project&#x2F;remixd<br>启动命令：remixd -s .&#x2F; –remix-ide <a target="_blank" rel="noopener" href="https://remix.ethereum.org/">https://remix.ethereum.org</a></p>
+<h3 id="vscode-solc"><a href="#vscode-solc" class="headerlink" title="vscode + solc"></a>vscode + solc</h3><p>需要在vscode中安装solidity插件，另外也可安装remix-light插件用于轻量化编译、部署。使用solidity插件对sol编译的方式是右键选择Solidity：Compile Contract。如果编译器版本不匹配的话，solidity插件支持三种不同的更换版本方式：<br>（1）远程下载: 使用远程版本进行编译，需要更改solidity setting中的solidity.compileUsingRemoteVersion，设置为相应的版本号<br>（2）使用本地文件：更改solidity setting中的solidity.compileUsingLocalVersion，设置为solc文件本地路径<br>（3）Npm&#x2F;节点安装：可以在solidity项目文件夹中本地安装solc（npm install solc）<br>优先顺序：首先使用npm&#x2F;节点安装，然后使用本地文件，最后使用远程</p>
+<p>Ques: 简述Solidity的编译和部署都干了什么事儿<br>Ans：Solidity的编译是将人类可读的智能合约代码转化成EVM（以太坊虚拟机）能理解的字节码；Solidity部署是将合约代码正式发布到区块链上，从而拥有独立的地址（合约地址），用来管理资产，支持收款与支付</p>
+<h3 id="区块链交易明细"><a href="#区块链交易明细" class="headerlink" title="区块链交易明细"></a>区块链交易明细</h3><ul>
+<li>交易哈希（Transaction Hash）：这个是在这个区块链上这笔交易的唯一ID，这个交易哈希标识了发送了0.25个以太币到我们的地址的操作。</li>
+<li>状态（Status）：我们可以看到交易状态是成功的，它没有因某种情况而失败。</li>
+<li>区块（Block）：我们可以看到这个交易所在的区块高度。</li>
+<li>时间戳（Timestamp）：这里是时间戳，代表这个交易是何时发生的。</li>
+<li>发送者（From）：我们可以看到这个交易是由谁发送的，当然我们可以在新的标签页打开它，你就能看到发送交易的账户信息。</li>
+<li>接受者（To）：接受了交易的用户，这里就是我们自己。</li>
+<li>价值（Value）：交易的资产价值是0.25个以太币。</li>
+<li>交易手续费（Transaction Fee）：交易的手续费，付给矿工处理这笔交易的费用。</li>
+<li>Gas价格（Gas Price）：Gas的价格，Gas价格是交易中每个执行单元的花费（用ether和gwei做单位），Gas价格越高，被写到区块中的机会越大。</li>
+</ul>
+<h3 id="区分ETH代币和Link代币"><a href="#区分ETH代币和Link代币" class="headerlink" title="区分ETH代币和Link代币"></a>区分ETH代币和Link代币</h3><p>Link代币的功能：</p>
+<ul>
+<li>支付数据服务费：用 LINK 代币支付获取链下数据的费用，比如价格、天气等</li>
+<li>节点质押担保：节点需要质押 LINK 作为担保，作恶会被罚掉</li>
+<li>节点奖励激励：节点提供高质量数据，获得 LINK 奖励</li>
+<li>跨链数据传输费：用于支付跨链数据通信的成本，比如在不同链之间同步信息</li>
+<li>DeFi 抵押品：在一些 DeFi 协议中可以作为抵押品，借贷稳定币等<br>下面是Eth的代币和Link代币的对比总结：<table>
+<thead>
+<tr>
+<th><strong>特点</strong></th>
+<th><strong>ETH（以太坊）</strong></th>
+<th><strong>LINK（Chainlink）</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>项目类型</strong></td>
+<td>智能合约平台</td>
+<td>去中心化预言机网络</td>
+</tr>
+<tr>
+<td><strong>代币功能</strong></td>
+<td>支付交易费、质押、DApp</td>
+<td>支付节点费用、质押、奖励</td>
+</tr>
+<tr>
+<td><strong>技术层级</strong></td>
+<td>Layer 1 主链</td>
+<td>ERC-20 代币（基于以太坊）</td>
+</tr>
+<tr>
+<td><strong>市场定位</strong></td>
+<td>“区块链燃料”、平台代币</td>
+<td>“数据桥梁”、预言机领域龙头</td>
+</tr>
+<tr>
+<td><strong>代表场景</strong></td>
+<td>DeFi、NFT、DAO、Staking</td>
+<td>数据喂价、跨链数据传输</td>
+</tr>
+</tbody></table>
+</li>
+</ul>
+<h3 id="编写FundMe代码在链上筹款"><a href="#编写FundMe代码在链上筹款" class="headerlink" title="编写FundMe代码在链上筹款"></a>编写FundMe代码在链上筹款</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><code class="hljs solidity">// Get funds from users<br>// Withdraw funds<br>// Set a minimum funding value in ETH<br><br>// SPDX-License-Identifier: MIT<br>pragma solidity ^0.8.22;<br><br>contract FundMe &#123;<br><br>    uint256 public minimumETH = 0.01 * 1e18; // 1 * 10 ** 18<br><br>    address[] public funders;<br>    mapping(address =&gt; uint256) public addressToAmountFunded;<br>    <br>    function fund() public payable &#123;<br>        // Want to be able to set a minimum fund amount in currency<br>        // 1. How do we send ETH to this contract?<br>        require(msg.value &gt;= minimumETH, &quot;Didn&#x27;t send enough!&quot;);<br>        funders.push(msg.sender);<br>        addressToAmountFunded[msg.sender] = msg.value;<br>    &#125;<br><br>    function withdraw() public &#123;<br>        /* starting index, ending index, step amount */<br>        for (uint256 funderIndex = 0; funderIndex &lt; funders.length; funderIndex++) &#123;<br>            // code<br>            address funder = funders[funderIndex];<br>            addressToAmountFunded[funder] = 0;<br>        &#125;<br>        // resret the array<br>        funders = new address[](0);<br>        (bool callSuccess, ) =  payable(msg.sender).call&#123;value: address(this).balance&#125;(&quot;&quot;);<br>        require(callSuccess, &quot;Call failed&quot;);<br>    &#125;<br>&#125;<br></code></pre></td></tr></table></figure>
                 
               </div>
             
@@ -370,9 +412,7 @@
     <div class="post-meta">
       <i class="iconfont icon-tags"></i>
       
-        <a href="/tags/AI/" class="print-no-link">#AI</a>
-      
-        <a href="/tags/Algorithm/" class="print-no-link">#Algorithm</a>
+        <a href="/tags/Web3/" class="print-no-link">#Web3</a>
       
     </div>
   
@@ -384,8 +424,8 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>Reinforencement Learning</div>
-      <div>http://example.com/2025/02/25/强化学习/</div>
+      <div>Solidity智能合约</div>
+      <div>http://example.com/2025/03/01/FundMe/</div>
     </div>
     <div class="license-meta">
       
@@ -397,7 +437,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2025年2月25日</div>
+          <div>2025年3月1日</div>
         </div>
       
       
@@ -429,12 +469,18 @@
                   <article class="post-prev col-6">
                     
                     
+                      <a href="/2025/03/05/%E5%BC%BA%E5%8C%96%E5%AD%A6%E4%B9%A0%E7%B3%BB%E5%88%97%EF%BC%88%E4%B8%80%EF%BC%89/" title="强化学习系列（一）:基础概念">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">强化学习系列（一）:基础概念</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
                   </article>
                   <article class="post-next col-6">
                     
                     
-                      <a href="/2025/02/21/%E5%91%BD%E5%90%8D%E5%AE%9E%E4%BD%93%E8%AF%86%E5%88%AB&amp;%E5%85%B3%E7%B3%BB%E6%8A%BD%E5%8F%96%20%E5%B0%8F%E7%BB%93/" title="命名实体识别&amp;关系抽取 小结">
-                        <span class="hidden-mobile">命名实体识别&amp;关系抽取 小结</span>
+                      <a href="/2025/03/01/Web3/" title="区块链入门指南">
+                        <span class="hidden-mobile">区块链入门指南</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="iconfont icon-arrowright"></i>
                       </a>
