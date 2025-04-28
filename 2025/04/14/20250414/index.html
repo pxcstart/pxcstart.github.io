@@ -23,20 +23,20 @@
   
     <meta name="description" content="ReARTeR: Retrieval-Augmented Reasoning with Trustworthy Process Rewarding基于过程奖励模型PRM的检索增强系统存在以下挑战：（1）缺乏解释：现有的PRM通常会生成无法解释的标量分数 （2）PRM训练数据的分布偏差：通过蒙特卡洛树方法收集过程监督数据集往往会导致分布偏差，其中大多数问题会获得不成比例的高分。因此，PRM难以识别">
 <meta property="og:type" content="article">
-<meta property="og:title" content="2025.03论文阅读">
+<meta property="og:title" content="RLHF论文阅读">
 <meta property="og:url" content="http://example.com/2025/04/14/20250414/index.html">
 <meta property="og:site_name" content="Peter ThinkTank">
 <meta property="og:description" content="ReARTeR: Retrieval-Augmented Reasoning with Trustworthy Process Rewarding基于过程奖励模型PRM的检索增强系统存在以下挑战：（1）缺乏解释：现有的PRM通常会生成无法解释的标量分数 （2）PRM训练数据的分布偏差：通过蒙特卡洛树方法收集过程监督数据集往往会导致分布偏差，其中大多数问题会获得不成比例的高分。因此，PRM难以识别">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2025-04-14T14:00:00.000Z">
-<meta property="article:modified_time" content="2025-04-16T16:41:57.977Z">
+<meta property="article:modified_time" content="2025-04-22T17:58:25.500Z">
 <meta property="article:author" content="Peter">
 <meta property="article:tag" content="Recsys">
 <meta name="twitter:card" content="summary_large_image">
   
   
   
-  <title>2025.03论文阅读 - Peter ThinkTank</title>
+  <title>RLHF论文阅读 - Peter ThinkTank</title>
 
   <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
 
@@ -259,7 +259,7 @@
       <div class="banner-text text-center fade-in-up">
         <div class="h2">
           
-            <span id="subtitle" data-typed-text="2025.03论文阅读"></span>
+            <span id="subtitle" data-typed-text="RLHF论文阅读"></span>
           
         </div>
 
@@ -288,7 +288,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          458 字
+          460 字
         
       </span>
     
@@ -337,7 +337,7 @@
       <div class="container nopadding-x-md" id="board-ctn">
         <div id="board">
           <article class="post-content mx-auto">
-            <h1 id="seo-header">2025.03论文阅读</h1>
+            <h1 id="seo-header">RLHF论文阅读</h1>
             
             
               <div class="markdown-body">
@@ -347,6 +347,9 @@
 </ol>
 <p>论文提出了一种<strong>可信过程奖励机制</strong>，来增强基于PRM的RAG推理。可信过程奖励通过两种模型进行实现：（1）过程奖励模型PRM，他提供的标量分数虽然准确，但缺乏可解释性 （2）过程解释模型PEM，它为PRM的分数生成自然语言解释，有助于优化分数较低的早期步骤<br>作者在post-training阶段引入了步骤级（step-level）离线强化微调，来增强RAG系统的推理能力。在每次迭代中，使用基于可信过程奖励指导的蒙特卡洛树来生成高质量的step-level偏好数据，这些数据用于优化模型，从而显著提升系统的推理性能。</p>
 <p>ReARTeR的策略模型$\pi_\theta$包括一个生成器G(可进行post-training进行推理增强)，以及一个检索器E。此外，还结合了过程奖励模型R和过程解释模型C。</p>
+<ol start="2">
+<li>DeepRetrieval: Hacking Real Search Engines and Retrievers with Large Language Models via Reinforcement Learning</li>
+</ol>
 
                 
               </div>
@@ -371,7 +374,7 @@
 
   <div class="license-box my-3">
     <div class="license-title">
-      <div>2025.03论文阅读</div>
+      <div>RLHF论文阅读</div>
       <div>http://example.com/2025/04/14/20250414/</div>
     </div>
     <div class="license-meta">
