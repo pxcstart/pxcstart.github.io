@@ -67,25 +67,6 @@
   
   
   <entry>
-    <title>RLHF论文阅读</title>
-    <link href="/2025/04/14/20250414/"/>
-    <url>/2025/04/14/20250414/</url>
-    
-    <content type="html"><![CDATA[<ol><li>ReARTeR: Retrieval-Augmented Reasoning with Trustworthy Process Rewarding<br>基于过程奖励模型PRM的检索增强系统存在以下挑战：<br>（1）缺乏解释：现有的PRM通常会生成无法解释的标量分数 （2）PRM训练数据的分布偏差：通过蒙特卡洛树方法收集过程监督数据集往往会导致分布偏差，其中大多数问题会获得不成比例的高分。因此，PRM难以识别错误的步骤 （3）PRM的早期步骤偏差：由于早期步骤的随机性和不确定性较大，与更接近推理终点的步骤相比，PRM在早期的推理步骤中预测奖励的准确率较低 （4）缺乏推理优化：这些方法依赖现成的LLM作为生成器，没有在post-training阶段加入推理优化</li></ol><p>论文提出了一种<strong>可信过程奖励机制</strong>，来增强基于PRM的RAG推理。可信过程奖励通过两种模型进行实现：（1）过程奖励模型PRM，他提供的标量分数虽然准确，但缺乏可解释性 （2）过程解释模型PEM，它为PRM的分数生成自然语言解释，有助于优化分数较低的早期步骤<br>作者在post-training阶段引入了步骤级（step-level）离线强化微调，来增强RAG系统的推理能力。在每次迭代中，使用基于可信过程奖励指导的蒙特卡洛树来生成高质量的step-level偏好数据，这些数据用于优化模型，从而显著提升系统的推理性能。</p><p>ReARTeR的策略模型$\pi_\theta$包括一个生成器G(可进行post-training进行推理增强)，以及一个检索器E。此外，还结合了过程奖励模型R和过程解释模型C。</p><ol start="2"><li>DeepRetrieval: Hacking Real Search Engines and Retrievers with Large Language Models via Reinforcement Learning</li></ol>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>Recsys</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>Syncthing安装</title>
     <link href="/2025/03/25/syncthing%E5%AE%89%E8%A3%85/"/>
     <url>/2025/03/25/syncthing%E5%AE%89%E8%A3%85/</url>
@@ -300,9 +281,9 @@
       
       <tag>LLM</tag>
       
-      <tag>RAG</tag>
-      
       <tag>Graph</tag>
+      
+      <tag>RAG</tag>
       
     </tags>
     
@@ -323,9 +304,9 @@
       
       <tag>LLM</tag>
       
-      <tag>RAG</tag>
-      
       <tag>Graph</tag>
+      
+      <tag>RAG</tag>
       
     </tags>
     
@@ -397,25 +378,6 @@
   
   
   <entry>
-    <title>人工智能竞赛汇总</title>
-    <link href="/2025/02/01/competition/"/>
-    <url>/2025/02/01/competition/</url>
-    
-    <content type="html"><![CDATA[<h2 id="1-人工智能竞赛平台-Biendata：Data-Competition-Community-Biendata"><a href="#1-人工智能竞赛平台-Biendata：Data-Competition-Community-Biendata" class="headerlink" title="1.人工智能竞赛平台 Biendata：Data Competition Community - Biendata"></a><strong>1.人工智能竞赛平台 Biendata：</strong><a href="https://link.zhihu.com/?target=https://www.biendata.xyz/">Data Competition Community - Biendata</a></h2><p><strong>介绍：</strong></p><blockquote><p>2018 年 5 月，人工智能和大数据的竞赛平台 Biendata 完成天使轮融资，由DeepTech深科技投资，旨在打造中国人工智能赛事顶级 IP，赛事相关媒体运营。Biendata 的比赛客户既包括<strong>今日头条、知乎、摩拜、搜狐等企业，也包括了 IEEE、ACM、中国计算机学会、中国人工智能学会</strong>等国内外顶尖学术组织。</p></blockquote><p>总体上来说就是一个各自AI比赛汇总的平台（除了一些大厂有自己的大规模AI赛事比如阿里云天池、华为云、百度、腾讯），类似的办赛平台IP还有</p><ul><li><strong>datafountain：</strong><a href="https://www.datafountain.cn/competitions">数据科学竞赛&#x2F;大数据 竞赛 - DataFountain</a></li><li><strong>Kaggle(国外)：</strong><a href="https://www.kaggle.com/competitions">Kaggle Competitions</a></li></ul><p><strong>时间：</strong>基本上是什么时间都有，需要持续关注官网，同一个企业基本每年举办的timeline不变</p><h2 id="2-阿里云天池：算法大赛-天池大数据竞赛-天池大赛-阿里云天池"><a href="#2-阿里云天池：算法大赛-天池大数据竞赛-天池大赛-阿里云天池" class="headerlink" title="2.阿里云天池：算法大赛-天池大数据竞赛-天池大赛-阿里云天池"></a><strong>2.阿里云天池：</strong><a href="https://tianchi.aliyun.com/competition/gameList/algorithmList">算法大赛-天池大数据竞赛-天池大赛-阿里云天池</a></h2><p><strong>介绍：</strong>老牌，2014年启办，面向全世界科研人员和高校师生，业务场景丰富（2B2C都有cover），奖金池也丰富。</p><p><strong>时间：</strong>基本上是5月份开始报名——夏天初赛\复赛——10月决赛答辩</p><h2 id="3-华为云-：华为云大赛平台"><a href="#3-华为云-：华为云大赛平台" class="headerlink" title="3.华为云 ：华为云大赛平台"></a><strong>3.华为云 ：</strong><a href="https://competition.huaweicloud.com/competitions">华为云大赛平台</a></h2><p><strong>介绍：</strong>众所周知华为对研发投入比例很大，也十分重视创新大赛的举办，会联合各种高校、产品线、学术机构\组织办赛，每年任何时间节点都可能会有比赛。相关领域的同学需要持续关注。</p><p><strong>时间：</strong>一年中任意时刻</p><h2 id="4-百度飞桨AI-Studio大赛：飞桨AI-Studio-人工智能学习与实训社区"><a href="#4-百度飞桨AI-Studio大赛：飞桨AI-Studio-人工智能学习与实训社区" class="headerlink" title="4. 百度飞桨AI Studio大赛：飞桨AI Studio - 人工智能学习与实训社区"></a><strong>4. 百度飞桨AI Studio大赛：</strong><a href="https://aistudio.baidu.com/aistudio/competition/1/1">飞桨AI Studio - 人工智能学习与实训社区</a></h2><p><strong>介绍：</strong>AI Studio是基于百度深度学习平台飞桨的人工智能学习与实训社区，整体跟华为云的形式差异不大，但赛程周期会紧凑一些，内容也和百度的业务内容强相关（如<strong>NLP</strong>\图像检测\导航路径）。个人感觉场景会更专精于NLP，比如事件抽取\机器翻译\QA\阅读理解\情感分析。</p><p><strong>时间：</strong>每年3-5月</p><h2 id="5-腾讯：-2021腾讯广告算法大赛"><a href="#5-腾讯：-2021腾讯广告算法大赛" class="headerlink" title="5.腾讯： 2021腾讯广告算法大赛"></a><strong>5.腾讯：</strong> <a href="https://algo.qq.com/index.html%3Flang%3Dcn">2021腾讯广告算法大赛</a></h2><p><strong>介绍：</strong>腾讯AI赛事做的不是特别好，除了广告算法大赛还比较成规模（基本每年有延续），其他的都很分散，没有统一的平台。</p><blockquote><p>AI Lab偶尔有些算法挑战赛，AI温室种番茄什么的: <a href="https://ai.tencent.com/ailab/zh/index">腾讯 AI Lab - 腾讯人工智能实验室官网</a></p></blockquote><p><strong>时间：</strong>三月开始报名——夏季初赛\复赛——八月决赛答辩</p><h2 id="6-AIOps-Challenge智能运维挑战赛：竞赛列表"><a href="#6-AIOps-Challenge智能运维挑战赛：竞赛列表" class="headerlink" title="6.AIOps Challenge智能运维挑战赛：竞赛列表"></a><strong>6.AIOps Challenge智能运维挑战赛</strong>：<a href="https://iops.ai/competition_list/">竞赛列表</a></h2><p><strong>介绍：</strong>规模较小，每年承办方会有变化，但是主题围绕着AIOps不变</p><p><strong>时间：</strong>基本上是1月年初开始报名——春季初赛\复赛——五月决赛答辩</p><h2 id="7-KDD-CUP：KDD-2021-Singapore"><a href="#7-KDD-CUP：KDD-2021-Singapore" class="headerlink" title="7.KDD CUP：KDD 2021 | Singapore"></a><strong>7.KDD CUP：</strong><a href="https://www.kdd.org/kdd2021/%23">KDD 2021 | Singapore</a></h2><p><strong>介绍:</strong> 国外赛事，商业性质较弱所以奖金池较小，主题是多源数据时序异常检测\OGB-LSC\城市大脑挑战，延续性比较好。</p><p><strong>时间：</strong>每年五月-八月</p>]]></content>
-    
-    
-    
-    <tags>
-      
-      <tag>Study</tag>
-      
-    </tags>
-    
-  </entry>
-  
-  
-  
-  <entry>
     <title>Recsys大牛实验室官网链接</title>
     <link href="/2025/02/01/lab/"/>
     <url>/2025/02/01/lab/</url>
@@ -446,6 +408,25 @@
     <tags>
       
       <tag>Web</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>人工智能竞赛汇总</title>
+    <link href="/2025/02/01/competition/"/>
+    <url>/2025/02/01/competition/</url>
+    
+    <content type="html"><![CDATA[<h2 id="1-人工智能竞赛平台-Biendata：Data-Competition-Community-Biendata"><a href="#1-人工智能竞赛平台-Biendata：Data-Competition-Community-Biendata" class="headerlink" title="1.人工智能竞赛平台 Biendata：Data Competition Community - Biendata"></a><strong>1.人工智能竞赛平台 Biendata：</strong><a href="https://link.zhihu.com/?target=https://www.biendata.xyz/">Data Competition Community - Biendata</a></h2><p><strong>介绍：</strong></p><blockquote><p>2018 年 5 月，人工智能和大数据的竞赛平台 Biendata 完成天使轮融资，由DeepTech深科技投资，旨在打造中国人工智能赛事顶级 IP，赛事相关媒体运营。Biendata 的比赛客户既包括<strong>今日头条、知乎、摩拜、搜狐等企业，也包括了 IEEE、ACM、中国计算机学会、中国人工智能学会</strong>等国内外顶尖学术组织。</p></blockquote><p>总体上来说就是一个各自AI比赛汇总的平台（除了一些大厂有自己的大规模AI赛事比如阿里云天池、华为云、百度、腾讯），类似的办赛平台IP还有</p><ul><li><strong>datafountain：</strong><a href="https://www.datafountain.cn/competitions">数据科学竞赛&#x2F;大数据 竞赛 - DataFountain</a></li><li><strong>Kaggle(国外)：</strong><a href="https://www.kaggle.com/competitions">Kaggle Competitions</a></li></ul><p><strong>时间：</strong>基本上是什么时间都有，需要持续关注官网，同一个企业基本每年举办的timeline不变</p><h2 id="2-阿里云天池：算法大赛-天池大数据竞赛-天池大赛-阿里云天池"><a href="#2-阿里云天池：算法大赛-天池大数据竞赛-天池大赛-阿里云天池" class="headerlink" title="2.阿里云天池：算法大赛-天池大数据竞赛-天池大赛-阿里云天池"></a><strong>2.阿里云天池：</strong><a href="https://tianchi.aliyun.com/competition/gameList/algorithmList">算法大赛-天池大数据竞赛-天池大赛-阿里云天池</a></h2><p><strong>介绍：</strong>老牌，2014年启办，面向全世界科研人员和高校师生，业务场景丰富（2B2C都有cover），奖金池也丰富。</p><p><strong>时间：</strong>基本上是5月份开始报名——夏天初赛\复赛——10月决赛答辩</p><h2 id="3-华为云-：华为云大赛平台"><a href="#3-华为云-：华为云大赛平台" class="headerlink" title="3.华为云 ：华为云大赛平台"></a><strong>3.华为云 ：</strong><a href="https://competition.huaweicloud.com/competitions">华为云大赛平台</a></h2><p><strong>介绍：</strong>众所周知华为对研发投入比例很大，也十分重视创新大赛的举办，会联合各种高校、产品线、学术机构\组织办赛，每年任何时间节点都可能会有比赛。相关领域的同学需要持续关注。</p><p><strong>时间：</strong>一年中任意时刻</p><h2 id="4-百度飞桨AI-Studio大赛：飞桨AI-Studio-人工智能学习与实训社区"><a href="#4-百度飞桨AI-Studio大赛：飞桨AI-Studio-人工智能学习与实训社区" class="headerlink" title="4. 百度飞桨AI Studio大赛：飞桨AI Studio - 人工智能学习与实训社区"></a><strong>4. 百度飞桨AI Studio大赛：</strong><a href="https://aistudio.baidu.com/aistudio/competition/1/1">飞桨AI Studio - 人工智能学习与实训社区</a></h2><p><strong>介绍：</strong>AI Studio是基于百度深度学习平台飞桨的人工智能学习与实训社区，整体跟华为云的形式差异不大，但赛程周期会紧凑一些，内容也和百度的业务内容强相关（如<strong>NLP</strong>\图像检测\导航路径）。个人感觉场景会更专精于NLP，比如事件抽取\机器翻译\QA\阅读理解\情感分析。</p><p><strong>时间：</strong>每年3-5月</p><h2 id="5-腾讯：-2021腾讯广告算法大赛"><a href="#5-腾讯：-2021腾讯广告算法大赛" class="headerlink" title="5.腾讯： 2021腾讯广告算法大赛"></a><strong>5.腾讯：</strong> <a href="https://algo.qq.com/index.html%3Flang%3Dcn">2021腾讯广告算法大赛</a></h2><p><strong>介绍：</strong>腾讯AI赛事做的不是特别好，除了广告算法大赛还比较成规模（基本每年有延续），其他的都很分散，没有统一的平台。</p><blockquote><p>AI Lab偶尔有些算法挑战赛，AI温室种番茄什么的: <a href="https://ai.tencent.com/ailab/zh/index">腾讯 AI Lab - 腾讯人工智能实验室官网</a></p></blockquote><p><strong>时间：</strong>三月开始报名——夏季初赛\复赛——八月决赛答辩</p><h2 id="6-AIOps-Challenge智能运维挑战赛：竞赛列表"><a href="#6-AIOps-Challenge智能运维挑战赛：竞赛列表" class="headerlink" title="6.AIOps Challenge智能运维挑战赛：竞赛列表"></a><strong>6.AIOps Challenge智能运维挑战赛</strong>：<a href="https://iops.ai/competition_list/">竞赛列表</a></h2><p><strong>介绍：</strong>规模较小，每年承办方会有变化，但是主题围绕着AIOps不变</p><p><strong>时间：</strong>基本上是1月年初开始报名——春季初赛\复赛——五月决赛答辩</p><h2 id="7-KDD-CUP：KDD-2021-Singapore"><a href="#7-KDD-CUP：KDD-2021-Singapore" class="headerlink" title="7.KDD CUP：KDD 2021 | Singapore"></a><strong>7.KDD CUP：</strong><a href="https://www.kdd.org/kdd2021/%23">KDD 2021 | Singapore</a></h2><p><strong>介绍:</strong> 国外赛事，商业性质较弱所以奖金池较小，主题是多源数据时序异常检测\OGB-LSC\城市大脑挑战，延续性比较好。</p><p><strong>时间：</strong>每年五月-八月</p>]]></content>
+    
+    
+    
+    <tags>
+      
+      <tag>Study</tag>
       
     </tags>
     
