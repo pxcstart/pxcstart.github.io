@@ -1,0 +1,1159 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/image/title.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Peter">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="写在前面：前段时间把b站上北大肖老师的区块链课程速通了一遍，这里引一下csdn上的优质课程笔记，便于个人后续温习。博客链接：https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_40378034&#x2F;category_11862943.html课程链接：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1Vt411X7JF&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="&lt;ETH&gt; 以太坊概述、账户、状态树&amp;交易树&amp;收据树">
+<meta property="og:url" content="http://example.com/2025/05/01/ETH_1/index.html">
+<meta property="og:site_name" content="Peter ThinkTank">
+<meta property="og:description" content="写在前面：前段时间把b站上北大肖老师的区块链课程速通了一遍，这里引一下csdn上的优质课程笔记，便于个人后续温习。博客链接：https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_40378034&#x2F;category_11862943.html课程链接：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1Vt411X7JF&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/article_img/Web3/web3.jpg">
+<meta property="article:published_time" content="2025-04-30T19:00:00.000Z">
+<meta property="article:modified_time" content="2025-05-06T12:13:03.493Z">
+<meta property="article:author" content="Peter">
+<meta property="article:tag" content="Web3">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/article_img/Web3/web3.jpg">
+  
+  
+  
+  <title>&lt;ETH&gt; 以太坊概述、账户、状态树&amp;交易树&amp;收据树 - Peter ThinkTank</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_4448993_m6xmkls2kf.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/gundongtiao.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Peter Think Tank</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-shouye"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives" target="_self">
+                <i class="iconfont icon-guidang"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-biaoqian"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-guanyu"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-youqinglianjie"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-book"></i>
+                <span>文档</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/" target="_self">
+                    
+                    <span>主题博客</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/guide/" target="_self">
+                    
+                    <span>配置指南</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/icon/" target="_self">
+                    
+                    <span>图标用法</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="&lt;ETH&gt; 以太坊概述、账户、状态树&amp;交易树&amp;收据树"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Peter
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-01 03:00" pubdate>
+           2025 年 05 月 01 日 , 凌晨 03:00 , 星期四
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          15k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          122 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">&lt;ETH&gt; 以太坊概述、账户、状态树&amp;交易树&amp;收据树</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>写在前面：<br>前段时间把b站上北大肖老师的区块链课程速通了一遍，这里引一下csdn上的优质课程笔记，便于个人后续温习。<br>博客链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40378034/category_11862943.html">https://blog.csdn.net/qq_40378034/category_11862943.html</a><br>课程链接：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Vt411X7JF/">https://www.bilibili.com/video/BV1Vt411X7JF/</a></p>
+<span id="more"></span>
+
+<h4 id="1、ETH-以太坊概述"><a href="#1、ETH-以太坊概述" class="headerlink" title="1、ETH-以太坊概述"></a>1、ETH-以太坊概述</h4><p>比特币和以太坊是两种最主要的加密货币，比特币被称为区块链1.0，以太坊被称为区块链2.0</p>
+<p>以太坊在系统设计上针对比特币运行过程中出现的问题进行了改进，比如：</p>
+<ol>
+<li><strong>出块时间</strong>，比特币的区块时间是10分钟，以太坊的出块时间大幅度降低到了十几秒，而且为了适应这种新的出块时间，以太坊还设计了一套基于GHOST的共识机制</li>
+<li>以太坊的另一个改进就是<strong>挖矿使用的mining puzzle</strong>，比特币的mining puzzle是计算密集型的，比拼的是计算哈希值的算力，这样造成的结果是挖矿设备的专业化，这样跟以前宣扬的去中心化的理念是不符合的，所以以太坊设计的mining puzzle对内存的要求就是很高的（<strong>memory hard mining puzzle</strong>），这样设计的目的是限制了ASIC芯片的使用（<strong>ASIC resistance</strong>）</li>
+<li>将来以太坊还会有些革命性的改变，用<strong>权益证明</strong>（POS，proof of stake）来替代工作量证明（POW，proof of work）。权益证明就是不挖矿而是按照类似于股份投票的方法决定下一个区块怎么产生</li>
+<li>除此之外，以太坊还增加了一个重要的功能，对<strong>智能合约</strong>（smart contract）的支持</li>
+</ol>
+<h5 id="1）、去中心化的货币-合约的概念"><a href="#1）、去中心化的货币-合约的概念" class="headerlink" title="1）、去中心化的货币&#x2F;合约的概念"></a>1）、去中心化的货币&#x2F;合约的概念</h5><p>比特币实现的是一种去中心化的货币，比特币取得成功之后，很多人就开始思考：除了货币可以去中心化，还有什么可以去中心化？以太坊的一个特性就是增加了对去中心化的合约的支持</p>
+<p>比特币（BitCoin）：decentralized currency（去中心化的货币），符号是BTC，最小计量单位是Satoshi（一聪），1个比特币等于1亿聪，因为比特币的创始人名为中本聪（Satoshi Nakamoto）</p>
+<p>以太坊（Ethereum）：decentralized contract（去中心化的合约），符号是ETH，它的币通俗地叫做以太，也叫Ether，最小计量单位是Wei（一伟），是为了致敬密码学的先驱戴伟（Wei Dai）</p>
+<p><strong>去中心化的货币：</strong></p>
+<p>货币本来是应该由政府发行的，货币的价值建立在政府公信力的基础上，然后政府通过一些司法手段来维护货币的正常运行。比特币的出现用技术手段把政府的这些职能给取代了，通过密码学、共识机制来维护加密货币体系的正常运行</p>
+<p><strong>去中心化的合约：</strong></p>
+<p>现实生活中，合约的有效性也是应该通过司法手段，通过政府来维护的，比如和人签一个合同，这个合同如果出现纠纷，通过打官司&#x2F;法院判决，法院先看一下这个合同是谁签的，有没有当事人的合法签名，合同当中如何规定，是谁违反了合同，看看哪一方有错，对于违约方按照合同中的条款应该给予什么样的处罚，这就是现实生活中的合同，通过司法手段维护合同的有效性。那么我们能不能也用技术手段这些司法手段给取代了，这就是以太坊智能合约的设计目的</p>
+<p>如果合同中的内容是可以通过程序代码来实现出来的，那么就可以把代码放到区块链上，通过区块链的不可篡改性来保证代码的正确运行。当然，不是所有的合同内容都用编程语言来实现，也不是所有的合同条款都是可以被量化的，但是有一些逻辑比较简单，比较清晰的合同是可以写成智能合约的形式</p>
+<h5 id="2）、去中心化的货币-合约的好处"><a href="#2）、去中心化的货币-合约的好处" class="headerlink" title="2）、去中心化的货币&#x2F;合约的好处"></a>2）、去中心化的货币&#x2F;合约的好处</h5><p><strong>去中心化的货币的好处：</strong></p>
+<p>应用场景举例：跨国转账</p>
+<p>比如说从美国转一笔钱到埃及，用法币（fait currency）是很麻烦的，时间很长，要办很多手续，交易费也贵，如果用比特币转账，就会好很多，这是比特币的一个优势。虽然说比特币每十分钟才出一个区块，有各种各样不是很完美的地方，但是用比特币跨国转账还是比法币要快很多</p>
+<p><strong>去中心化的合约的好处：</strong></p>
+<p>应用场景举例：跨国合同签署</p>
+<p>如果合同的签署方是来自世界各地的，没有一个统一的司法管辖权，这个时候用司法手段来维护合同的有效性比较困难。就像在网上弄一个众筹，众筹的参与方来自全国各地，彼此之间不认识，打官司也不知道到哪儿去打。这种情况下，如果通过事先写好的程序代码来保证每个人都只能按照规则来执行，这是一种比较好的解决方法</p>
+<p>就算合同的参与方都在同一个司法管辖权之内的，想通过司法手段来维护合同的执行也是一个比较费时费力的过程，打官司要花好多时间和精力。就算官司赢了，也不一定能拿到钱，还得申请冻结对方资产，申请强制执行之类的。所以最好是用技术手段保证合同的参与方从一开始就不能违约</p>
+<p>智能合约的好处就在于这个代码一旦发布到区块链上，那么区块链的不可篡改性，只能按照代码中制定的规则来执行</p>
+<h4 id="2、ETH-账户"><a href="#2、ETH-账户" class="headerlink" title="2、ETH-账户"></a>2、ETH-账户</h4><h5 id="1）、比特币：基于交易的账本"><a href="#1）、比特币：基于交易的账本" class="headerlink" title="1）、比特币：基于交易的账本"></a>1）、比特币：基于交易的账本</h5><p><strong>比特币中是用的基于交易的账本</strong>（transaction-based ledger），这种模式下，系统中并没有显式的记录每个账户上有多少钱，要根据UTXO里的信息推算，包括想知道这个人一共总资产有多少个比特币，就算一下这个人的所有账户，就是他有私钥的那些账户在UTXO里面一共有多少个币就可以了</p>
+<p>这种模式的好处是隐私保护比较好，你有多少钱，可能连你自己都说不清楚，那别人就更不清楚了。但是这样就带来一个问题，就使用上比较别扭，跟我们的日常体验不太一样</p>
+<p>比如，A要转给B 10个比特币，A要说明这10个<strong>币的来源</strong>，其中7个币是前面某个交易中收到的，另外3个币是之前另外一个交易收到的，<strong>证明币的来源的合法性</strong>。这和我们平时去银行的体验是不太一样的，银行是你存钱的时候要说明钱的来源，花钱的时候是不用说明每一笔钱是从哪儿来的</p>
+<p>另外一个比较别扭的地方，在前面交易中收到一些币，将来要花的时候，<strong>必须要一次性都花出去，不能只花一部分</strong></p>
+<p><img src="/../article_img/Web3/img4-1.png" srcset="/img/loading.gif" lazyload></p>
+<p>A转给B 10个比特币，将来B要转给C 3个比特币，币的来源是A转给B的这个交易。如上图这样处理，剩下的7个比特币会当做交易费给花出去了</p>
+<p><img src="/../article_img/Web3/img4-2.png" srcset="/img/loading.gif" lazyload></p>
+<p>如上图，这个时候必须要把剩下的7个比特币转回给自己</p>
+<p>很多比特币钱包可以自动生成接收余额的地址，每次交易换一个新地址，也是有利于隐私保护的，但同样跟我们的日常生活习惯不太一样。比如说，银行当中，别人转给你10万块钱，你要把3万块钱转出去，剩下7万块钱就不用管，就放在账户上就行了。问题在于比特币系统中，没有显式的维护基于账户的交易概念</p>
+<h5 id="2）、以太坊：基于账户的账本"><a href="#2）、以太坊：基于账户的账本" class="headerlink" title="2）、以太坊：基于账户的账本"></a>2）、以太坊：基于账户的账本</h5><p><strong>以太坊采用的是基于账户的模型</strong>（account-based ledger），这种模型跟银行账户是比较相似的，系统中要显式的记录每个账户上有多少个以太币</p>
+<p>比如，A要转给B 10个以太币，这个<strong>交易的合法性只要检查一下A账户上有没有足够的钱</strong>就行了。比如A账户上有100个以太币，要转10个给B，这就没问题，不用说明这100个以太币中是具体把哪10个转给了B，不用说明币的来源，是来自之前哪个交易。将来B要转给C 3个以太币也是可以的，不用把剩下的转给他自己，因为有<strong>显式余额</strong>的概念，所以剩下的币就直接放在账户上就行了。用于说明币的来源的哈希指针也不用了</p>
+<p>比特币中面临的挑战是<strong>双花攻击</strong>（double spending attack），<strong>花钱的人不诚实，以前花过的钱想再花一次</strong></p>
+<p><strong>基于账户模式的好处是对double spending attack有天然的防御作用</strong>，因为不用管币的来源，每花掉一次钱，就从你的账户上扣掉，花两次就扣两次</p>
+<p>以太坊中面临的挑战是<strong>重放攻击</strong>（replay attack），<strong>收钱的人不诚实，别人已经给他转过钱了，他想再转一次</strong></p>
+<p>A把自己转给B 10个以太币的转账交易发布到网络上，过一段时间之后，这个交易被写到区块链里了，A就以为转账交易完成了。假设B是有恶意的，<strong>把这个交易在网上重新广播一遍</strong>，其他节点以为是个新的转账就把A的钱扣了2次</p>
+<p><strong>解决方案</strong>：</p>
+<p>加一个<strong>计数器</strong>（nonce），记录一下这个账户有史以来<strong>一共发布过多少交易</strong>，然后转账的时候，<strong>交易次数要成为交易内容的一部分</strong>，一起包含进去，都是受到发布交易的签名的保护</p>
+<p><img src="/../article_img/Web3/img4-3.png" srcset="/img/loading.gif" lazyload></p>
+<p>如上图，A转给B 10个以太币，A一共发布过20个交易，这是第21个，所以写上nonce&#x3D;21，然后整个内容写上A的签名</p>
+<p>把这个交易发布到网上，<strong>因为有签名的保护，所以nonce的值，别人是改不了的</strong>。系统中的每个节点维护A这个状态，不仅要维护A账户上的钱（balance），还要维护nonce的值，一开始nonce&#x3D;0，每次收到A发布的一个交易，nonce+1</p>
+<p>这个节点一开始A的nonce&#x3D;20，然后现在发布这个交易，这个节点一看，这个交易是合法的，是可以执行的，同时更新一下nonce&#x3D;21。以后如果有人重放这个交易，这个节点一看，这个nonce已经是21了，已经被执行过了，就不会再执行一遍了</p>
+<h5 id="3）、以太坊账户的分类"><a href="#3）、以太坊账户的分类" class="headerlink" title="3）、以太坊账户的分类"></a>3）、以太坊账户的分类</h5><p>以太坊中有两类账户：外部账户、合约账户</p>
+<p><strong>externally owned account（外部账户）：</strong></p>
+<p>外部账户是由公私钥控制的，本地产生一个公私钥对，私钥掌握账户的控制权（类似于比特币中的账户），也叫普通账户</p>
+<p>外部账户的状态：</p>
+<ul>
+<li>balance（账户余额）</li>
+<li>nonce（计数器）</li>
+</ul>
+<p><strong>smart contract account（合约账户）：</strong></p>
+<p>合约账户不是通过公私钥对控制的</p>
+<p>合约账户的状态：</p>
+<ul>
+<li>balance（账户余额）</li>
+<li>nonce（计数器）</li>
+<li>code（代码）</li>
+<li>storage（相关状态存储，包括每个变量的取值）</li>
+</ul>
+<p>一个合约可以调用另外一个合约，所以要通过nonce值记录一下调用的次数</p>
+<p><strong>合约账户不能主动发起一个交易，以太坊中规定，所有的交易只能由外部账户发起</strong>。外部账户发起一个交易如果调用了一个合约账户，这个合约账户可以发送一个message调用另外一个合约，但是他不能自己平白的发起一个交易</p>
+<p>创建合约会返回一个地址，<strong>知道这个合约的地址，就可以调用这个合约</strong>，调用的过程当中<strong>状态会发生变化</strong>，代码（code）不会变，<strong>存储（storage）会变</strong></p>
+<h5 id="4）、为什么要设计这样一种新的账户模式？"><a href="#4）、为什么要设计这样一种新的账户模式？" class="headerlink" title="4）、为什么要设计这样一种新的账户模式？"></a>4）、为什么要设计这样一种新的账户模式？</h5><p>以太坊的创始人叫Vitalik，是个19岁的小孩，他当初创建以太坊的时候，比特币已经有比较成熟的代码可以作为参考，为什么不用比特币已有的代码，而要另弄一套？为什么不直接在比特币系统设计上改进，比如改出块时间、mining puzzle，为什么非要改账户体系？</p>
+<p>比特币基于交易模型的一个好处是隐私保护，但是以太坊要支持的是智能合约，<strong>对于合约来说，要求参与者有比较稳定的身份</strong></p>
+<p>这跟日常生活当中是比较类似的，比如说，你跟某个人签个合同，如果说你跟他签合同的时候，他是一个身份，签完之后，他身份变了，你找不到了，那这就有问题了，也有可能突然冒出了另外一个人，说他当初就是跟你一块签合同的，只不过换了一个身份，这就给合同的执行带来一些困难。将来出现纠纷的时候，你也是需要知道这个合同当初是跟谁签的</p>
+<p>现在有人提出来用智能合约实现一些金融衍生品（financial derivative）</p>
+<p>比如期权&#x2F;期货，往合约里投一笔钱，预测未来的价格走势，如果预测正确，给你一些收益，把钱还给你。但问题是，如果你投钱的这个账户，投完钱就变了，那到时候怎么把钱还给你呢？</p>
+<p>这个不光是对于外部账户有这个问题。合约账户的问题就更严重了，如果你投钱投到一个合约账户，投完之后合约账户的地址变了，找不到就麻烦了</p>
+<p>所以以太坊创建这个系统的时候，考虑了过去的一些已有的模型的利弊得失，最终没有采用比特币中基于交易的模式，而是采用了基于账户模式</p>
+<p>这个从目前的状况来看，还是比较合适的一个决策，以太坊的账户是希望保持稳定的，无论是个人账户还是合约账户。如果你有隐私保护的需要，同样可以创建很多个账户，根据情况使用不同的账户进行不同的交易</p>
+<h4 id="3、ETH-状态树"><a href="#3、ETH-状态树" class="headerlink" title="3、ETH-状态树"></a>3、ETH-状态树</h4><p>以太坊采用基于账户的模式，系统中显式地维护每个账户上有多少余额，来看一下用什么样的数据结构来实现account-based ledger</p>
+<p>要完成的功能是从账户地址到账户状态的映射：addr-&gt;state</p>
+<p><strong>addr</strong>：账户地址，以太坊中用的账户地址是160位，也就是20个字节，一般表示成40个十六进制的数</p>
+<p><strong>state</strong>：外部账户和合约账户的状态，包括余额、交易次数，合约账户还包括代码、存储</p>
+<p>那么要设计什么样的数据结构来实现这个映射呢？</p>
+<h5 id="1）、思考如何组织账户的数据结构？"><a href="#1）、思考如何组织账户的数据结构？" class="headerlink" title="1）、思考如何组织账户的数据结构？"></a>1）、思考如何组织账户的数据结构？</h5><p><strong>1）方案一： 用哈希表实现</strong></p>
+<p>从直观上看，像一个很典型的key-value pair，给出一个账户地址，要找到相应的账户状态，所以一个直观的想法是用哈希表实现</p>
+<p>系统中的全节点维护一个哈希表，每次有一个新的账户，插入到哈希表里面。查询账户的余额，就直接在哈希表中查询。如果不考虑哈希碰撞的话，基本上查询的效率是常数时间内完成的，更新也是很容易在哈希表中更新的</p>
+<p><strong>问题：如果用这个哈希表要提供Merkle proof怎么提供？</strong></p>
+<p>比如说你要跟一个人签合同，希望他能证明一下他有多少钱，怎么提供证明呢？</p>
+<p>一种方法是把哈希表中的元素组织成一个Merkle Tree，然后算出一个根哈希值，这个根哈希值存在block header里，只要根哈希值是正确的，就能保证底下的树不会被篡改</p>
+<p><strong>如果有新区块发布怎么办？新区块中包含新的交易，执行这个交易必然会使哈希表的内容发生变化，发布下一个区块的时候，再重新把哈希表中的内容（key：账户地址，value：账户状态）组织成一个Merkle Tree吗？</strong></p>
+<p>这个代价太大了。实际上，真正发生变化的账户状态只是一小部分，因为只有那个区块里的交易所关联的账户才会发生变化，大多数账户的状态是不变的。所以每次都重新构造一次Merkle Tree，这个代价是很大的</p>
+<p><strong>比特币系统当中难道不是每出现一个区块也要重新构造一个Merkle Tree吗？那个为什么没有问题？</strong></p>
+<p>比特币是把区块里包含的交易组织成一个Merkle Tree，那区块中的交易每次发布一个新的区块又有一系列新的交易，所以比特币中的Merkle Tree是immutable（不变的）的，每次发布一个新的区块对应一个Merkle Tree，然后这棵Merkle Tree构建完之后是不会再改的，下次再发布一个新的区块再构建一个新的Merkle Tree</p>
+<p>那区块里有多少个交易呢？最多差不多4000个（按照1M字节，每个交易大概是250M字节左右），这个其实是一个上限，很多区块的交易数目根本到不了4000个，有好多区块就只有几百个，甚至有可能还有更少的。所以每次发布一个区块，比特币里构建一个Merkle Tree，是要把这几百个到几千个交易构成一个Merkle Tree</p>
+<p><strong>这里如果采用这种方法会是什么情况？</strong></p>
+<p>是要把所有的以太坊账户一起构成一个Merkle Tree，这个就比刚才讲的几百、几千个交易要高出好几个数量级，相当于每次发布一个区块要把所有的账户遍历一遍构建出一个Merkle Tree，下次再有一个区块，再把所有的账户遍历一遍，再构建出一个Merkle Tree</p>
+<p>除了提供Merkle proof证明账户有多少钱之外，这个Merkle Tree还有另外一个很重要的作用，就是<strong>维护各个全节点之间状态的一致性</strong>。如果没有根哈希值发布出来，每个节点就是在本地维护一个数据结构，那怎么知道你的数据结构的状态跟别人的数据结构的状态是不是一致呢，各个全节点要保持状态的一致才行。这也是为什么比特币中把根哈希值写在块头里的原因，就是对于当前区块中包含哪些交易，所有的全节点要有一个共识</p>
+<p><strong>结论：不可行，因为每次构建Merkle Tree的代价太大</strong></p>
+<p>如果每个全节点在本地维护一个哈希表，然后需要构建Merkle Tree的时候构建出Merkle Tree来，然后根哈希值放到区块头里，这个方法是不行的。哈希表本身的效率是挺好的，插入、更改效率都很好，但是每次构建Merkle Tree的代价太大了</p>
+<p><strong>2）方案二：直接用一个Merkle Tree把所有的账户都放进去</strong></p>
+<p>不要哈希表了，直接用一个Merkle Tree把所有的账户都放进去，要改的时候直接在Merkle Tree里改。因为每个区块更新的只是一小部分账户，所以改的时候只是Merkle Tree里的一小部分</p>
+<p><strong>问题1：Merkle Tree没有提供一个高效的查找、更新的方法</strong></p>
+<p>比特币中的Merkle Tree最底下一层是transaction，然后哈希值放到上面节点里，两两结合，然后再取一个哈希往上整。Merkle Tree没有提供一个快速查找，更新的方法</p>
+<p><strong>问题2：直接把账户放到Merkle Tree里，这个Merkle Tree要不要排序？（Sorted Merkle Tree）</strong></p>
+<p>如果不排序会怎么样？</p>
+<ol>
+<li>查找速度会慢</li>
+<li>这些账户组成了这棵Merkle Tree，叶节点是这些账户的信息，如果不规定这些账户在叶节点出现的顺序，那么这样构建出来的Merkle Tree不是唯一的</li>
+</ol>
+<p>系统中有很多全节点，每个全节点按照自己的某个顺序，比如说他听到某个交易的顺序构建一个Merkle Tree，那么叶结点的顺序是乱的，每个节点都是自己决定的，最后构建出的Merkle Tree是不一样的，算出的根哈希值也是不一样的</p>
+<p><strong>比特币中的Merkle Tree也是不排序的，那为什么比特币就没有问题呢？</strong></p>
+<p>因为比特币中的每个全节点收到的交易的顺序也是不一样的，理论上说构建的Merkle Tree的根哈希值也是不一样的</p>
+<p>比特币中，每个节点在本地组装一个候选区块，这个节点自己决定哪些交易、以什么顺序打包进这个区块里，然后通过挖矿去竞争记账权。如果他没有抢到记账权，他的任何决定其他人没必要知道；只有他有记账权，且发布区块后最终成为被大家接受的区块，那么，这个顺序就是发布这个区块的节点确定的</p>
+<p>也就是说，<strong>比特币中虽然也没用排序的Merkle Tree，但是顺序是唯一的，是由发布区块的那个节点确定的</strong></p>
+<p><strong>那为什么以太坊不能这样做？</strong></p>
+<p>如果以太坊也这么做的话，需要把<strong>账户的状态</strong>发布到区块里。也可以说是每个全节点自己决定怎么把账户组织成一个Merkle Tree，算出跟哈希值、挖出矿，但要怎么让别人知道这个顺序，你得把这个Merkle Tree发布到区块里。但发布的是所有账户的状态，不是交易，这两者差好几个数量级，比特币发布一个区块只需要几百、几千个交易</p>
+<p><strong>结论：不可行，不排序的Merkle Tree是不行的</strong></p>
+<p>交易是必须要发布的，不发布别人就没法知道，但<strong>账户状态可以维护在本地</strong>，而且<strong>大部分账户状态是不变</strong>的。一个区块里的交易只能改很少的账户，大多数账户是不变的，而且重复发布，每隔十几秒发布一个新的区块，把所有状态都打包发布一遍，下次再过十几秒再发布一遍，这个是不可行</p>
+<p><strong>3）方案三：用Sorted Merkle Tree</strong></p>
+<p><strong>问题：新增一个账户怎么办？</strong></p>
+<p>产生一个账户的地址是随机的，他的叶节点的位置很可能是插在中间的，那后面这些树的结构都得变</p>
+<p><strong>新产生一个账户，对外发生了交互，我需要把他加入到我的数据结构里，这是没错的，但问题是，这个加入的代价有多大？</strong></p>
+<p>可能大半棵Merkle Tree需要重构，这个代价太大了</p>
+<p><strong>结论：不可行，用Sorted Merkle Tree，插入、删除代价都太大</strong></p>
+<p>而且，区块链是不可篡改的，是说加东西容易，删东西难。以太坊中没有显式地删除账户的操作，有的账户上就一点钱，就一两个Wei，也不能把他删掉</p>
+<h5 id="2）、以太坊的数据结构"><a href="#2）、以太坊的数据结构" class="headerlink" title="2）、以太坊的数据结构"></a>2）、以太坊的数据结构</h5><p><strong>1）Trie（字典树，前缀树）</strong></p>
+<p>以太坊中是用一个叫<strong>MPT</strong>（Merkle Patricia Tree）的结构，讲这个之前先讲一个简单的数据结构</p>
+<p>Trie也是一种key-value对，一般来说key用字符串用的比较多，比如说一些单词排成一个Trie的数据结构</p>
+<p>举例：general、genesis（创世纪块，区块链的第一个区块）、go、god、good</p>
+<p><img src="/../article_img/Web3/img4-4.png" srcset="/img/loading.gif" lazyload></p>
+<p>上图就是一个Trie的结构，这几个单词都是以G开头的，然后第二个字母就开始分裂了，左边是E，右边是O。左边这前两个单词都是N和E，然后下面再分开，R和S，然后是后三个字母。右边这个分支，O这个分支，Go就已经结束了，从这个可以看到单词可能在Trie的中间节点结束，然后左边是D，右边是O，左边变成了God，右边下来是Good</p>
+<p>Trie树可以<strong>利用字符串的公共前缀来节约存储空间</strong>。如果系统中存在大量字符串且这些字符串基本没有公共前缀，则相应的Trie树将非常消耗内存，这也是Trie树的一个缺点</p>
+<p><strong>特点1：Trie的每个节点的分叉数目取决于key值里每个元素的取值范围</strong></p>
+<p>这个例子当中，每个都是英文单词，而且是小写的，所以每个节点的分叉数目最多是26个，加上一个结束标志位（表示这个单词到这个地方就结束了）</p>
+<p>在以太坊中地址是表示成40个十六进制的数，因此<strong>分叉数目</strong>（branching factor）是17（十六进制的0~f，再加上结束标志位）</p>
+<p><strong>特点2：Trie的查找效率取决于key的长度。键值越长，查找需要访问内存的次数就越多</strong></p>
+<p>在这个例子当中，不同的单词键值长度是不同的</p>
+<p>在以太坊中，所有键值都是40，因为地址都是40位十六进制的数</p>
+<p>比特币和以太坊的地址是不通用的，两个地址的格式长度都是不一样的。但有一点是类似的，以太坊中的地址也是公钥经过转换得来的。其实就是公钥取哈希，然后前面的不要，只要后面这部分，就得到一个160bit的地址</p>
+<p><strong>特点3：只要两个地址不一样，最后肯定映射到树中的不同分支，所以Trie是不会出现碰撞的</strong></p>
+<p><strong>特点4：不同的节点，不论按照什么顺序插入这些账户，最后构造出来的树是一样的</strong></p>
+<p>前面讲Merkle Tree，如果不排序的话，一个问题是账户插入到Merkle Tree 的顺序不一样，得到的树的结构也不一样</p>
+<p>那Trie呢？比如上图中的这五个单词，换一个顺序插到这个树里面，得到的是一个不同的树吗？其实是一样的，只要给定的输入不变，无论输入怎么打乱重排，最后插入到Trie当中，得到的树是一样的</p>
+<p><strong>特点5：更新操作的局部性很好</strong></p>
+<p>每次发布一个区块，系统中绝大多数账户的状态是不变的，只有个别受到影响的账户才会变，所以更新操作的局部性很重要</p>
+<p>Trie的局部性呢？比如在上图中，我要更新genesis这个key对应的value（这个图当中只画出了key，没有画出value），只要访问genesis的那个分支，其他分支不用访问的，也不用遍历整棵树</p>
+<p><strong>缺点：存储浪费</strong></p>
+<p>比如在上图中左边分支都只有一个子节点，对于这种一脉单传的情况，如果能把节点进行合并，那么可以减小存储的开销，同时也提高了查找的效率，不用一次一个一个的往下找了</p>
+<p>那么就引入了<strong>Patricia Tree</strong>，也有人写成<strong>Patricia Trie</strong>，是经过路径压缩的前缀树，有时候也叫<strong>压缩前缀树</strong></p>
+<p><strong>2）Patricia Tree&#x2F;Patricia Trie</strong></p>
+<p><img src="/../article_img/Web3/img4-5.png" srcset="/img/loading.gif" lazyload></p>
+<p>Trie中的例子进行路径压缩就变成上图的样子。可以看到，G下面还是E和O进行分叉，E下面之后跟的都是NE，再往下就是E和S分叉，然后后面都和在一起了，右边的分支也是一样的</p>
+<p><strong>这样压缩之后有什么好处？直观上看，这个高度明显缩短了，访问内存的次数会大大减少，效率提高了</strong></p>
+<p><strong>注意：对于Patricia Tree来说，新插入一个单词时，原来压缩的路径可能需要扩展开</strong></p>
+<p>比如这个例子中，加入geometry，左边的分支就不能那样压缩了</p>
+<p><strong>路径压缩在什么情况下效果比较好？键值分布比较稀疏的时候，路径压缩效果比较好</strong></p>
+<p>比如说，这个例子当中是用英文单词，假设每个单词都很长，但是一共没有几个单词，举例：misunderstanding、decentralization（去中心化的）、disintermediation（去中间商，非中介化，intermediaries：中间商）</p>
+<p>这三个单词插入到一个普通的Trie里面就成了下图的样子。可以看到这样的结构效率是比较低的，基本上是一条线了</p>
+<p><img src="/../article_img/Web3/img4-6.png" srcset="/img/loading.gif" lazyload></p>
+<p>如果用Patricia Tree的话，如下图</p>
+<p><img src="/../article_img/Web3/img4-7.png" srcset="/img/loading.gif" lazyload></p>
+<p>这个树的高度明显缩短了。所以键值分布比较稀疏的时候，路径压缩效果比较好</p>
+<p>以太坊中键值是不是稀疏的呢？</p>
+<p>以太坊中键值是地址，地址是160位的，地址空间有 2 160 2^{160} 2160，这是一个非常非常大的数。如果设计一个计算机程序的算法，需要进行运算的次数是 2 160 2^{160} 2160，那这个在所有人的有生之年都不可能算出来，全世界的以太坊的账户数目加在一起也远远没有这么大，跟这个数比，是微乎其微的</p>
+<p>为什么要弄这么稀疏，不把地址长度缩短一点，这样访问效率也快，也没必要那么稀疏了？</p>
+<p>以太坊中普通账户跟比特币的创建方法是一样的，没有一个中央的节点，就每个用户独立创建账户。在本地产生一个公私钥对，就是一个账户</p>
+<p>那怎么防止两个人的账户碰撞，产生的一样呢？</p>
+<p>这种可能性是存在的，但是这个概率比地球爆炸还要小。怎么达到这么小的概率，就是<strong>地址要足够长，分布足够稀疏，才不会产生碰撞</strong>。这个可能看上去有点浪费，但是<strong>这是去中心化的系统防止账户冲突的唯一办法</strong>。所以以太坊地址分布非常稀疏的，所以比较适合使用Patricia Tree</p>
+<p><strong>3）MPT（Merkle Patricia Tree）</strong></p>
+<p><strong>Merkle Tree和Binary Tree的区别：</strong></p>
+<p>就是区块链与普通链表的区别，把普通指针换成了哈希指针</p>
+<p><strong>Merkle Patricia Tree和Patricia Tree的区别：</strong></p>
+<p><strong>所有的账户组织成一个Patricia Tree，用路径压缩提高效率，然后把普通指针换成哈希指针，所以就可以计算出一个根哈希值。这个跟哈希值也是写在block header里面</strong></p>
+<p><strong>比特币的block header里只有一个根哈希值：交易树</strong>，就是区块里包含的交易组成的Merkle Tree组成的根哈希值</p>
+<p><strong>以太坊的block header里有三个根哈希值：交易树、状态树、收据树</strong></p>
+<p><strong>账户状态最后组织成了一个Merkle Patricia Tree，状态树的根哈希值的作用：</strong></p>
+<p><strong>作用1：防止篡改</strong></p>
+<p>只要根哈希值不变，整个树的任何部分都没有办法被篡改，也就是说每个账户的状态都能保证是没有被篡改过的</p>
+<p><strong>作用2：Merkle proof</strong></p>
+<p>1）能证明账户的余额是多少</p>
+<p>你这个账户所在的分支自己向上作为Merkle proof发给轻节点，轻节点可以验证你的账户上有多少钱</p>
+<p>2）能证明某个账户是不存在的</p>
+<p>Sorted Merkle Tree的一个作用是能证明non-membership，这里的证明方法跟Sorted Merkle Tree类似</p>
+<p>比如，给一个地址转账之前，验证一下全节点里有没有这个账户信息。说的更直白一点，证明MPT中某个键值是不存在的</p>
+<p>如果存在的话，是在什么样的分支，把这个分支作为Merkle proof发过去，可以证明他是不存在的</p>
+<p><strong>4）Modified MPT</strong></p>
+<p>以太坊中用到的不是原生的MPT，是<strong>Modified MPT</strong>，就是对MPT的结构做一些修改，这些修改不是很本质的修改</p>
+<p><img src="/../article_img/Web3/img4-8.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>上图是Modified MPT的案例，右上角有四个账户，为了简单起见，账户地址都比较短，假设只有7位的地址，而不是40位，账户状态也只显示出了余额，其他账户状态没有显示出来。第一个账户有45个以太币，第二个账户只有1WEI（这个是以太坊中最小的计量单位，1WEI基本上可以忽略不计）</p>
+<p>这个案例当中，节点分为三种：</p>
+<p><strong>Extension Node（扩展节点）：</strong></p>
+<p>如果这个树中出现了<strong>路径压缩</strong>就会有一个Extension Node，这四个地址前两位都是一样的a7，所以Root（根节点）就是一个Extension Node，<strong>shared nibble</strong>（nibble：16进制数，一个nibble就是一个16进制数），这里共享的nibble是a7</p>
+<p><strong>Branch Node（分支节点）：</strong></p>
+<p>案例中第三位就分开了，有1、7、f，所以就跟了一个Branch Node</p>
+<p><strong>Leaf Node（叶节点）：</strong></p>
+<p>先说1，这个1之后就是1355，只有这一个地址，就跟了Leaf Node。这个7有两个地址，连着路径压缩d3，然后再往下3和9分开了，跟着一个Branch Node，下面两个Leaf Node，都是7。最后一个f，就跟着一个Leaf Node：9365</p>
+<p>另外，这个树的根节点取哈希之后得到的一个根哈希值，是要写在块头里的（左上角）</p>
+<p>用的也是哈希指针。比如7这个位置，这里存的是下面这个节点（extension node）的哈希值。如果是普通指针的话，7这个位置存的是下面这个节点的地址</p>
+<p><strong>每次发布一个新的区块的时候，状态树中有一些节点的值会发生变化，这些改变不是在原地改，而是新建一些分支，原来的状态其实是保留下来的</strong></p>
+<p><img src="/../article_img/Web3/img4-9.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>上面这个例子中，有两个相邻的区块：</p>
+<p>Block N Header：State Root就是状态树的根哈希值，下面显示的是这棵状态树</p>
+<p>Block N+1 Header：这个是新的区块的状态树</p>
+<p>可以看到，<strong>虽然每一个区块都有一个状态树，但是这两棵树的大部分节点是共享的。右边这棵树主要都是指向左边这棵树的节点，只有那些发生改变的节点是需要新建一个分支</strong></p>
+<p>这个例子中，这个账户是一个合约账户，因为有Code，还有Storage合约账户的存储也是由MPT保存下来的。这个存储其实也是一个Key Value Store，维护的是从这个变量到这个变量取值的一个映射，在以太坊当中，也是用的一棵MPT。所以<strong>以太坊中的这个结构是一个大的MPT，包含很多小的MPT，每一个合约账户的存储都是一棵小的MPT</strong></p>
+<p>上图中这个账户的新的区块里：Nonce和Balance发生了变化，Code是不变的，所以Codehash指向原来树中那个节点，Storage是变了的（存储下面这个叫存储树），在存储树中，大部分节点也是没有改变。这个例子当中，只有一个节点变了，这个整数变量从29变成了45，所以新建了一个分支</p>
+<p>所以，系统中每个全节点需要维护的不是一棵MPT，而是每次出现一个区块，都要新建一个MPT，只不过这些状态树中，大部分的节点是共享的，只有少部分发生变化的节点要新建分支</p>
+<p><strong>为什么要保留历史状态，为什么不在原地直接改了？</strong></p>
+<p>系统当中有时候会出现分叉，临时性的分叉是很普遍的。以太坊把出块时间降低到十几秒之后，这种临时性的分叉是常态，因为区块在网上传播时间可能也需要十几秒</p>
+<p><img src="/../article_img/Web3/img4-10.png" srcset="/img/loading.gif" lazyload></p>
+<p>如上图，有个分叉，这两个节点同时获得记账权。这两个分叉最终上面那个胜出了，下面这个分叉的节点这个时候就要回滚（roll back），就是这个节点当前的状态，就接受了下面这个节点的状态要取消掉，退回到上一个节点的状态，然后沿着上面那条链往下推进</p>
+<p>有时候可能要把当前状态退回到没有处理到这个区块中交易的前一个状态</p>
+<p><strong>那怎么实现回滚呢？</strong></p>
+<p>就是要维护这些历史纪录</p>
+<p>这个跟比特币还不太一样，如果是比特币的话，交易类型比较简单，有的时候可以通过这种反向操作推算出前一个状态。如果是一个简单的转账交易，A转给B 10个比特币，这个对账户余额有什么影响呢？A的账户上少了10个比特币，B的状态多了10个比特币。假如这个状态要回滚，退回到前一个状态，那就把B这个账户减少10个比特币，把A这个账户加回去10个比特币就行了。简单的转账交易回滚其实是比较容易的</p>
+<p>以太坊中为什么不行？因为以太坊中有智能合约。智能合约是图灵完备的，编程功能是很强的。从理论上说，可以实现很复杂的功能，跟比特币简单的脚本还不太一样。<strong>以太坊中如果不保存前面的状态，智能合约执行完之后，想再推算出前面是什么状态，这是不可能的，所以要想支持回滚，必须保存历史状态</strong></p>
+<h5 id="3）、以太坊的数据结构实现"><a href="#3）、以太坊的数据结构实现" class="headerlink" title="3）、以太坊的数据结构实现"></a>3）、以太坊的数据结构实现</h5><p><strong>1）block header的结构</strong></p>
+<p><img src="/../article_img/Web3/img4-11.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<table>
+<thead>
+<tr>
+<th align="center">block header中的属性</th>
+<th align="center">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">ParentHash</td>
+<td align="center">父区块块头的哈希值，是区块链中前一个区块块头的哈希值</td>
+</tr>
+<tr>
+<td align="center">UncleHash</td>
+<td align="center">叔父区块块头的哈希值。每个区块还有叔父区块，以太坊中Uncle和Parent不一定是一个辈分的，Uncle比Parent可能大好多辈分</td>
+</tr>
+<tr>
+<td align="center">Coinbase</td>
+<td align="center">挖出这个区块的矿工的地址</td>
+</tr>
+<tr>
+<td align="center">Root</td>
+<td align="center">状态树的根哈希值</td>
+</tr>
+<tr>
+<td align="center">TxHash</td>
+<td align="center">交易树的根哈希值（类似比特币系统中的那个根哈希值）</td>
+</tr>
+<tr>
+<td align="center">ReceiptHash</td>
+<td align="center">收据树的根哈希值</td>
+</tr>
+<tr>
+<td align="center">Bloom</td>
+<td align="center">布隆过滤器，提供一种高效的查询符合某种条件的交易的执行结果（跟收据树是相关的）</td>
+</tr>
+<tr>
+<td align="center">Diffculty</td>
+<td align="center">挖矿难度，要根据需要调整</td>
+</tr>
+<tr>
+<td align="center">GasLimit</td>
+<td align="center">单个区块允许的最多Gas总量（智能合约要消耗汽油费，类似于比特币中的交易费）</td>
+</tr>
+<tr>
+<td align="center">GasUsed</td>
+<td align="center">该交易消耗的总Gas数量</td>
+</tr>
+<tr>
+<td align="center">Time</td>
+<td align="center">区块的大致的产生时间</td>
+</tr>
+<tr>
+<td align="center">Nonce</td>
+<td align="center">是挖矿时猜的那个随机数（类似于比特币的挖矿），以太坊中的挖矿也是要猜很多个随机数，写在块头里的随机数是最后找到的，符合难度要求的</td>
+</tr>
+<tr>
+<td align="center">MixDigest</td>
+<td align="center">混合摘要，从nonce这个随机数经过一些计算，算出一个哈希值</td>
+</tr>
+</tbody></table>
+<p><strong>2）区块的结构</strong></p>
+<p><img src="/../article_img/Web3/img4-12.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<table>
+<thead>
+<tr>
+<th align="center">block中的属性</th>
+<th align="center">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">header</td>
+<td align="center">指向block header的指针</td>
+</tr>
+<tr>
+<td align="center">uncles</td>
+<td align="center">指向叔父区块的header的指针，是个数组，因为一个区块可以有多个叔父区块</td>
+</tr>
+<tr>
+<td align="center">transactions</td>
+<td align="center">这个区块中交易的列表</td>
+</tr>
+</tbody></table>
+<p><img src="/../article_img/Web3/img4-13.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>extblock是区块在网上发布的信息，就是block中的前三项会真正发布出去</p>
+<h5 id="4）、状态树中的value的存储：RLP"><a href="#4）、状态树中的value的存储：RLP" class="headerlink" title="4）、状态树中的value的存储：RLP"></a>4）、状态树中的value的存储：RLP</h5><p>状态树中保存的是key value pair对。key就是地址，前面主要讲的是键值，这个地址的管理方式</p>
+<p>那么这个value呢，这个账户的状态呢，是怎么存储在状态树当中的呢？实际上是要经过一个序列化（RLP）的过程，然后再存储</p>
+<p><strong>RLP</strong>：Recursive Length Prefix，递归长度前缀，是一种序列化方法。特点是简单，极简主义，越简单越好</p>
+<p><strong>Protocal buffer</strong>：简称Protobuf，是个很有名的做序列化的库</p>
+<p>跟这些库相比，RLP的理念就是越简单越好。它只支持一种类型：<strong>nested array bytes</strong>，嵌套数组字节。一个一个字节组成的数组，可以嵌套。以太坊里的所有的其他类型，比如整数或者比较复杂的哈希表，最后都要变成nested array bytes</p>
+<p>所以实现RLP要比实现Protocal buffer简单很多，因为难的东西，都推给应用层了</p>
+<h4 id="4、ETH-交易树和收据树"><a href="#4、ETH-交易树和收据树" class="headerlink" title="4、ETH-交易树和收据树"></a>4、ETH-交易树和收据树</h4><h5 id="1）、交易树和收据树"><a href="#1）、交易树和收据树" class="headerlink" title="1）、交易树和收据树"></a>1）、交易树和收据树</h5><p>每次发布一个区块的时候，区块中所包含的交易会组织成一个交易树，也是一棵Merkle Tree，跟比特币中的情况是类似的</p>
+<p>此外，以太坊还增加了一个收据树，每个交易执行完之后会形成一个收据，记录交易的相关信息，交易树和收据树上的节点是一一对应的。由于以太坊智能合约执行较为复杂，通过增加收据树，便于快速查询执行结果</p>
+<p>从数据结构上，交易树和收据树都是MPT（Merkle Patricia Tree），而比特币中都采用普通的Merkle Tree。以太坊中可能就仅仅是为了三棵树代码复用好所以这样设计的</p>
+<p>MPT的好处是支持查找操作，可以通过键值从顶向下沿着这个树进行查找。对于状态树来说，查找的键值就是这个账户的地址；对于交易树和收据树来说，查找的键值是这个交易在发布的区块中的序号，交易的排列顺序是由发布区块的那个节点决定的</p>
+<p>这三棵树有一个重要的区别：<strong>交易树和收据树都是只把当前发布的这个区块里的交易组织起来的，而状态树是把系统中所有账户的状态都要包含进去，不管这些账户跟当前区块的交易有没有什么关系</strong></p>
+<p><strong>多个区块的状态树是共享节点的，每次新发布一个区块的时候，只有这个区块中的交易改变了状态的那些节点需要新建一个分支，其他节点都是沿用原来状态树上的节点。而每个区块的交易树和收据树都是独立的，是不会共享节点的，一个区块跟另一个区块发布的交易本身也认为是独立的</strong></p>
+<p><strong>交易树和收据树的用途</strong>：</p>
+<ol>
+<li>向轻节点提供Merkle proof。像比特币当中，交易树可以证明某个交易被打包到某个区块里面，可以向轻节点提供这样的Merkle proof，收据树也是类似的，要证明某个交易的结果，也可以在收据树里面提供一个Merkle proof</li>
+<li>以太坊还支持一些更加复杂的查询操作。比如说，想找到过去十天当中，所有跟某个智能合约有关的交易，一种方法是把过去十天产生的所有区块都扫描一遍，看看其中有哪些交易是和智能合约相关的，但是这种方法的复杂度较高，而且对于轻节点来说，实际上，轻节点没有交易列表，只有一个块头的信息，所以也没有办法通过扫描所有交易列表的方法来找到符合这个查询条件的交易。与之类似的一些查询，比如说，找到过去十天中所有的众筹事件或者所有的发行新币的事件，这些都是需要一个比较高效的方法才能支持</li>
+</ol>
+<h5 id="2）、bloom-filter（布隆过滤器）"><a href="#2）、bloom-filter（布隆过滤器）" class="headerlink" title="2）、bloom filter（布隆过滤器）"></a>2）、bloom filter（布隆过滤器）</h5><p>以太坊中引入了bloom filter，<strong>bloom filter支持比较高效的查找某个元素是不是在一个比较大的集合里面</strong></p>
+<p>比如说有一个集合，里面有很多元素，现在想知道某个指定的元素是不是在这个集合里</p>
+<p>一个最笨的方法是，把这集合里面的元素遍历一遍，看看有没有想找的那个元素，这个复杂度是线性的，另外有一个前提是得有足够得存储来保存整个集合的元素，对于轻节点来说，轻节点没有这个交易列表，没有整个集合的元素信息，所以这种方法是用不了的</p>
+<p>bloom filter用一个很巧妙的思想给这个大的、包含很多元素的集合计算出一个很紧凑的摘要</p>
+<p><img src="/../article_img/Web3/img4-14.png" srcset="/img/loading.gif" lazyload></p>
+<p>如上图，这个例子当中有一个（a,b,c）的集合，要计算出一个digest，底下是一个向量，这个向量初始的时候都是零</p>
+<p><img src="/../article_img/Web3/img4-15.png" srcset="/img/loading.gif" lazyload></p>
+<p>然后有一个哈希函数H，把每一个元素映射到向量中的某个位置。比如说a这个元素，取哈希之后，映射到相应位置，把这个位置的元素从0变成1。然后，b和c也映射到相应的位置。就是把每个元素都取哈希，找到向量中的对应位置，然后把它置成1，所有元素都处理完了，得到这个向量就是原来集合的一个摘要，这个摘要比原来的集合要小很多，这个例子当中用128bits就可以代表了</p>
+<p>摘要的用处：比如说有一个元素d，想知道这个d元素是不是在这个集合里，但是这个集合本身我们不一定能够保存下来</p>
+<p><img src="/../article_img/Web3/img4-16.png" srcset="/img/loading.gif" lazyload></p>
+<p>可以用这个哈希函数H对d取哈希值，取完之后发现映射到一个值为0的位置，说明d这个元素一定不在这集合里</p>
+<p><img src="/../article_img/Web3/img4-17.png" srcset="/img/loading.gif" lazyload></p>
+<p>假设取完哈希，映射到一个值为1的位置，有可能确实是集合中的元素，d&#x3D;b，也有可能不在这个集合里，而是出现了哈希碰撞，恰好映射到了跟集合某个元素一样的位置。所以用bloom filter要注意，有可能会出现false positive，但是不会出现false negative，就是可能出现误报，但是不会出现漏报，元素在里面一定说在里面，元素不在里面也有可能说在里面（或者是说，<strong>bloom filter说某个元素在，可能会被误判，bloom filter说某个元素不在，那么一定不在</strong>）</p>
+<p>bloom filter有各种各样的变种，比如说，解决这样的哈希碰撞，有的bloom filter的设计用的不是一个哈希函数，而是<strong>一组哈希函数</strong>，每个哈希函数独立的把这个元素映射到这个向量中的一个位置，用一组哈希函数的好处是如果出现哈希碰撞，那么一般来说，不会所有的哈希函数都出现哈希碰撞</p>
+<p><strong>bloom filter不支持删除操作</strong>，比如把a删掉了，对应的向量1要不要改，如果改成0的话，集合中可能有另外一个元素也映射到这个位置（哈希碰撞是有可能的），所以简单的bloom filter是不支持删除操作的。如果要支持删除操作，这个地方就不能是0和1了，得改成一个计数器，记录这个位置有多少个元素映射过来，而且还要考虑到计数器会不会溢出，这样数据结构就复杂得多了，和当初设计bloom filter的初衷是相违背的</p>
+<h5 id="3）、以太坊中bloom-filter的用途"><a href="#3）、以太坊中bloom-filter的用途" class="headerlink" title="3）、以太坊中bloom filter的用途"></a>3）、以太坊中bloom filter的用途</h5><p>每个交易执行完之后会形成一个收据，这个收据里面就包含一个bloom filter，记录交易的类型、地址等其他信息，发布的区块，在他的块头里也有一个总的bloom filter，这个总的bloom filter是这个区块里所有交易的一个bloom filter的并集</p>
+<p>比如说要查找过去十天发生的跟某个智能合约相关的交易，先查一下区块的块头里的bloom filter有要找的交易类型，如果没有，这个区块就不是我们想要的，如果有，再去查找区块里面包含的交易所对应的收据树里面的那些bloom filter，看看哪个有，也可能都没有，因为有可能是false positive，如果是有的话，再找到相对应的交易直接进行一下确认</p>
+<p>好处是通过bloom filter的结构能够快速过滤掉大量无关的区块，很多区块一看块头的bloom filter就知道肯定没有我们要的交易，然后剩下的一些少数的候选区块，再仔细查看。比如说一个轻节点，只有块头信息，根据块头就已经能够过滤掉很多区块了，剩下有可能是想要的区块，再问全节点要进一步的信息</p>
+<h5 id="4）、补充"><a href="#4）、补充" class="headerlink" title="4）、补充"></a>4）、补充</h5><p>状态树、交易树、 收据树三棵树的根哈希值都是包括在块头里面的，以太坊的运行过程可以看作是一个<strong>交易驱动的状态机</strong>（transaction-driven state machine）。这个状态机的状态是所有账户的状态，就是状态树中包含的那些内容，交易是每次发布区块里包含的交易，通过执行这些交易会驱动系统从当前状态转移到下一个状态</p>
+<p>比特币也可以认为是一个交易驱动的状态机，比特币中的状态是UTXO（没有被花掉的那些输出），每次新发布一个区块，会从UTXO里用掉一些输出，又会增加一些新的输出，所以发布的区块会驱动状态机从当前状态转移到下一个状态</p>
+<p>而且这两个状态机有一个共同的特点，就是状态转移都得是确定性的，对一个给定的当前状态、一组给定的交易（就是这个区块中包含的交易），能够确定性地转移到下一个状态，因为所有的全节点、所有的矿工，都要执行同样的状态转移，所以状态转移必须是确定性的</p>
+<p><strong>问题1：某人在以太坊发布一个交易，某个节点收到这个交易，转账交易A-&gt;B，有没有可能这个收款人的地址从来没听说过？</strong></p>
+<p>以太坊和比特币是一样的，创建账户是不需要通知其他人的，只有这个账户第一次收到钱的时候，其他的节点才会知道这个账户的存在，这个时候要在状态树中新插入的一个节点，因为这个是新增加的账户</p>
+<p><strong>问题2：状态树、交易树、收据树的区别是，状态树要包含系统中所有账户的状态，无论这些账户是否参与了当前区块的交易，那么能不能把状态树的设计改一下，改成每个区块的状态树也只包含这个区块中的交易相关的那些账户的状态，这样就跟交易树和收据树一致了，而且可以大幅度的削减每个区块所对应的状态树的大小，因为大部分的账户状态是不会变的？</strong></p>
+<p>这样设计的结果是每个区块没有一棵完整的状态树，只有当前区块中所包含的交易涉及到的账户的状态</p>
+<p>这么设计的一个问题就是，如果要想查找某个账户的状态就不方便了。比如说有一个转账交易A转给B 10个以太币，要检查A账户里是不是真的有10个以太币，问题是最近一个区块对应的那个状态树可能没有A这个账户，往前一直找，找到最近的一个包含A账户的区块，才能知道A的账户余额是多少。如果A有较长的一段时间没有发生交易，可能要从后往前，扫描很多个区块，才能找到最近一次的账户状态</p>
+<p>还有一个更大的问题，就是A转给B钱的时候，要知道A账户的状态，才能知道A是不是有足够的钱转给B 10个以太币，也要知道B账户的状态，余额是多少，因为要往B账户余额里加10个以太币，所以也要找B账户的状态，而B账户有可能是个新建的账户，这个时候就要找到创世纪块去，从当前区块一直找到创世纪块，发现这个账户没有，才知道原来是个新建的账户</p>
+<h5 id="5）、代码中具体的数据结构"><a href="#5）、代码中具体的数据结构" class="headerlink" title="5）、代码中具体的数据结构"></a>5）、代码中具体的数据结构</h5><p><img src="/../article_img/Web3/img4-18.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>交易树和收据树的创建过程，在NewBlock函数里创建了交易树和收据树，并且得到了他们的根哈希值</p>
+<p><img src="/../article_img/Web3/img4-19.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>先看一下交易树的代码，首先判断交易列表是否为空，如果是空的话，那么这个区块里块头的交易树的根哈希值就是一个空的哈希值，否则通过调用DeriveSha函数来得到交易树的根哈希值，然后创建区块的交易列表</p>
+<p><img src="/../article_img/Web3/img4-20.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>中间这个代码是收据树，首先判断一下收据列表是否为空，如果为空，块头里收据树的根哈希值就是一个空的哈希值，如果不为空，通过调用DeriveSha函数来得到收据树的根哈希值，然后创建块头里的bloom filter，每个交易执行完之后会得到一个收据，所以交易列表的长度和收据列表的长度是一样的</p>
+<p><img src="/../article_img/Web3/img4-21.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>最下面这段代码是叔父区块的，首先判断叔父列表是否为空，如果是的话，那么块头里叔父区块的哈希值就是一个空的哈希值，否则，通过调用CalcUncleHash函数计算出哈希值，然后通过循坏构建出区块里的叔父数组</p>
+<p><img src="/../article_img/Web3/img4-22.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>DeriveSha函数，前面NewBlock函数创建交易树和收据树的时候，调用的都是这个函数，这里创建的数据结构是trie</p>
+<p><img src="/../article_img/Web3/img4-23.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>而trie的数据结构是一棵MPT，以太坊的三棵树：交易树、收据树、状态树用的都是MPT</p>
+<p><img src="/../article_img/Web3/img4-24.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>这是Receipt的数据结构，每个交易执行完之后形成的一个收据，记录了这个交易的执行结果</p>
+<p>Bloom就是这个收据的bloom filter</p>
+<p>Logs是个数组，每个收据可以包含多个Log，这些收据的bloom filter就是根据这些Log产生出来的</p>
+<p><img src="/../article_img/Web3/img4-25.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>这是区块块头的数据结构，里面的Bloom域就是整个区块的bloom filter，这个是由每个收据的bloom filter合并在一起得到的</p>
+<p><img src="/../article_img/Web3/img4-26.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>这是刚刚的NewBlock函数，红框里的代码就是创建块头里的bloom filter，通过调用CreateBloom这个函数</p>
+<p><img src="/../article_img/Web3/img4-27.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>这是相关的三个函数的代码实现</p>
+<p>CreateBloom函数的参数是这个区块的所有收据，这个for循环对每个收据调用LogsBloom函数来生成这个收据的bloom filter，然后把这些bloom filter用Or操作合并起来得到整个区块的bloom filter</p>
+<p>LogsBloom函数的功能是生成每个收据的bloom filter，他的参数是这个收据的Log数组，刚才看过Receipt的数据结构，每个Receipt里面包含一个Logs的数组，这个函数有两层for循环，外层循环对Logs数组里的每一个Log进行处理，首先把Log的地址取哈希后，加到bloom filter里面，这里的bloom9是bloom filter中用到的哈希函数，然后内层循环把Log中包含的每个Topics加入到bloom filter里，这样就得到了这个收据的bloom filter</p>
+<p>bloom9是bloom filter中用到的哈希函数，这里的bloom9函数是把输入映射到digest中的三个位置，把三个位置都置为1</p>
+<p>第一行调用crypto里面的函数，生成一个256位的哈希值，b这个变量是个32个字节的哈希值</p>
+<p>第二行的r是要返回的bloom filter，在这里初始化为0</p>
+<p>接下来是个循环，把刚才生成的32个字节的哈希值取前六个字节，每两个字节组成一组拼接在一起，然后and上2047，相当于对2048取余，得到一个位于0到2047这个区间里的数，这样做是因为以太坊中bloom filter的长度是2048位。这个循环的最后一行，把t左移这么多位然后合并到上一轮得到的bloom filter里，通过Or运算合并到前面的bloom filter里，经过三轮循环，把三个位置置为1后，返回所创建的bloom filter</p>
+<p><img src="/../article_img/Web3/img4-28.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>前面是生成bloom filter的过程，那么怎么查询某个bloom filter里面是否包含了我们感兴趣的topic呢?</p>
+<p>这是通过调用BloomLookup函数来实现的，查一下bin的bloom filter里有没有包含要找的第二个参数topic，首先用bloom9函数把topic转化成一个bytesBacked，然后把他跟bloom filter取and操作，看看得到的结果是不是和bytesBacked相等。注意bloom filter里面可能包含除了我们要查找的topic之外其他的topic，所以要做一个and，然后再跟他自身比较，相当于判断一下我们要查找的这个topic在bloom filter中对应的位置是不是都是1</p>
+<p><strong>对应课程</strong>：</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Vt411X7JF">北京大学肖臻老师《区块链技术与应用》公开课</a></p>
+<p>本文转自 <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40378034/article/details/126458525">https://blog.csdn.net/qq_40378034/article/details/126458525</a>，如有侵权，请联系删除。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Web3/" class="print-no-link">#Web3</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>&lt;ETH&gt; 以太坊概述、账户、状态树&amp;交易树&amp;收据树</div>
+      <div>http://example.com/2025/05/01/ETH_1/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Peter</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/05/01/ETH_2/" title="&lt;ETH&gt; GHOST、难度调整、权益证明">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">&lt;ETH&gt; GHOST、难度调整、权益证明</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/05/01/BTC_3/" title="&lt;BTC&gt; 分叉、匿名性">
+                        <span class="hidden-mobile">&lt;BTC&gt; 分叉、匿名性</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"bFZ2utAtP6QxKUNJxwibP07k-gzGzoHsz","appKey":"rWP0FjbzaXytusY91AFDmytV","path":"window.location.pathname","placeholder":"留言仅限讨论，禁止广告等行为","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://bfz2utat.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/love.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxingxing.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/caidai.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

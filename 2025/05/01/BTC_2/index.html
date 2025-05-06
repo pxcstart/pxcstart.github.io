@@ -1,0 +1,1067 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/image/title.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Peter">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="写在前面：前段时间把b站上北大肖老师的区块链课程速通了一遍，这里引一下csdn上的优质课程笔记，便于个人后续温习。博客链接：https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_40378034&#x2F;category_11862943.html课程链接：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1Vt411X7JF&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="&lt;BTC&gt; 网络">
+<meta property="og:url" content="http://example.com/2025/05/01/BTC_2/index.html">
+<meta property="og:site_name" content="Peter ThinkTank">
+<meta property="og:description" content="写在前面：前段时间把b站上北大肖老师的区块链课程速通了一遍，这里引一下csdn上的优质课程笔记，便于个人后续温习。博客链接：https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_40378034&#x2F;category_11862943.html课程链接：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1Vt411X7JF&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/article_img/Web3/web3.jpg">
+<meta property="article:published_time" content="2025-04-30T17:00:00.000Z">
+<meta property="article:modified_time" content="2025-05-06T12:23:58.304Z">
+<meta property="article:author" content="Peter">
+<meta property="article:tag" content="Web3">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/article_img/Web3/web3.jpg">
+  
+  
+  
+  <title>&lt;BTC&gt; 网络 - Peter ThinkTank</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_4448993_m6xmkls2kf.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/gundongtiao.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Peter Think Tank</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-shouye"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives" target="_self">
+                <i class="iconfont icon-guidang"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-biaoqian"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-guanyu"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-youqinglianjie"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-book"></i>
+                <span>文档</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/" target="_self">
+                    
+                    <span>主题博客</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/guide/" target="_self">
+                    
+                    <span>配置指南</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/icon/" target="_self">
+                    
+                    <span>图标用法</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="&lt;BTC&gt; 网络"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Peter
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-01 01:00" pubdate>
+           2025 年 05 月 01 日 , 凌晨 01:00 , 星期四
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          9k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          76 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">&lt;BTC&gt; 网络</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>写在前面：<br>前段时间把b站上北大肖老师的区块链课程速通了一遍，这里引一下csdn上的优质课程笔记，便于个人后续温习。<br>博客链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40378034/category_11862943.html">https://blog.csdn.net/qq_40378034/category_11862943.html</a><br>课程链接：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Vt411X7JF/">https://www.bilibili.com/video/BV1Vt411X7JF/</a></p>
+<span id="more"></span>
+
+<h4 id="5、BTC-网络"><a href="#5、BTC-网络" class="headerlink" title="5、BTC-网络"></a>5、BTC-网络</h4><p>用户将交易发布到比特币网络上，节点收到交易后打包到区块中，然后将区块发布到比特币网络上，那么新发布的交易和区块在比特币网络上是如何传播的呢？</p>
+<p>比特币工作于网络应用层，其底层（网络层）是一个P2P Overlay Network（P2P覆盖网络）</p>
+<ul>
+<li>应用层：Bitcoin Blockchain</li>
+<li>网络层：P2P Overlay Network</li>
+</ul>
+<p>比特币系统中所有节点都是对等的，不像一些其他网络存在超级节点（super node或master node）。要加入网络，至少需要知道一个<strong>种子节点</strong>（seed node），通过种子节点告知自己它所知道的节点。节点之间的通信采用了TCP协议，便于穿透防火墙。当节点离开时，只需要自行退出即可，其他节点在一定时间后仍然没有收到该节点消息，便会将其删掉</p>
+<p>比特币网络设计原则：<strong>简单、鲁棒（最坏情况下能达到最优状况，即健壮性）而非高效</strong>（simple,robust,but not efficient）</p>
+<p>每个节点维护一个邻居节点集合，消息传播在网络中采用洪泛法（flooding），某个节点在收到一条消息会将其发送给所有邻居节点并标记，下次再收到便不会再发送该消息。邻居节点选取随机，没有考虑网络底层拓扑结构，也与现实世界物理地址无关。该网络具有极强鲁棒性，但牺牲了网络效率</p>
+<h5 id="1）、新发布的交易的传播"><a href="#1）、新发布的交易的传播" class="headerlink" title="1）、新发布的交易的传播"></a>1）、新发布的交易的传播</h5><p>比特币系统中，<strong>每个节点要维护一个等待上链的交易集合</strong>。第一次听到交易，如果是合法交易，则将其加入该交易集合并转发给邻居节点，以后再收到该交易就不再转发（避免网络上交易无限传输）</p>
+<p>如果有冲突的交易几乎同时发布到网络上，每个节点根据其位置的不同，可能先收到的交易是不同的，那么另一个交易对于这个节点来说就是非法的了，不会放到集合中</p>
+<p><img src="/../article_img/Web3/img2-1.png" srcset="/img/loading.gif" lazyload></p>
+<p>如上图，以左边的节点为例，它先听到A-&gt;B的交易，将其写入到了自己的交易集合中</p>
+<p>如果它收到了一个新发布的区块，其中包含A-&gt;B这个交易，说明这个交易已经被写入区块链了，所以就要在自己的交易集合中将其删除掉</p>
+<p>如果它收到了一个新发布的区块中包含A-&gt;C这个交易，这时也要将集合中A-&gt;B的交易删除掉，因为检查可以发现此时集合中的A-&gt;B这个交易是非法交易，它和新发布的区块中的A-&gt;C这个交易冲突了</p>
+<h5 id="2）、新发布的区块的传播"><a href="#2）、新发布的区块的传播" class="headerlink" title="2）、新发布的区块的传播"></a>2）、新发布的区块的传播</h5><p>新发布区块在网络中传播方式与新发布交易传播方式类似，每个节点除检查该区块内容是否合法，还要检查是否位于最长合法链上。区块越大，则网络上传输越慢。BTC协议对于区块大小限制为不大于1M大小</p>
+<p>区块大小越大，网络上传播时延越长；区块大小越小，则可以包含的交易数目越少</p>
+<p>此外，比特币网络传播属于<strong>Best effort</strong>（尽力而为），不能保证一定传输成功。以一个交易发布到网络上，未必所有节点都能收到，也未必所有节点收到交易顺序都一致</p>
+<h4 id="6、BTC-挖矿难度"><a href="#6、BTC-挖矿难度" class="headerlink" title="6、BTC-挖矿难度"></a>6、BTC-挖矿难度</h4><h5 id="1）、挖矿难度？"><a href="#1）、挖矿难度？" class="headerlink" title="1）、挖矿难度？"></a>1）、挖矿难度？</h5><p>挖矿就是不断尝试block header中的nonce值，使得整个block header的哈希值小于等于给定的目标阈值。即H(block header)&lt;&#x3D;target（target是目标阈值，target越小，目标难度就越大）。<strong>调整挖矿难度就是调整目标空间在整个输出空间中所占比例大小</strong></p>
+<p>比特币系统采用的哈希算法是SHA-256，所以整个输出空间大小是 2 256 2^{256} 2256，调整目标空间所占比例简单的说需要目标值前需要多少个0<br>d i f f i c u l t y &#x3D; d i f f i c u l t y _ 1 _ t a r g e t t a r g e t difficulty&#x3D;\frac{difficulty\_1\_target}{target} difficulty=targetdifficulty_1_target​<br>挖矿难度和目标阈值成反比，如上公式中，其中difficulty_1_target为是挖矿难度为1时候的target，即最小挖矿难度</p>
+<h5 id="2）、为什么要调整挖矿难度？"><a href="#2）、为什么要调整挖矿难度？" class="headerlink" title="2）、为什么要调整挖矿难度？"></a>2）、为什么要调整挖矿难度？</h5><p>系统中的总算力越来越强，如果挖矿难度保持不变，那么平均出块时间会越来越短。出块时间缩短，那么交易可以很快便被写入区块链，并且提高了系统响应时间，增加了区块链系统效率。但是，出块时间不是越短越好，出块时间太短也会造成一定的问题</p>
+<p>假设平均出块时间减小到了1秒钟，但这个区块在比特币网络上传播给大多数节点可能就要几十秒，如果有两个节点几乎同时发布了区块，那么就会出现分叉</p>
+<p><img src="/../article_img/Web3/img2-2.png" srcset="/img/loading.gif" lazyload></p>
+<p>这是一个二分叉的情况，<strong>如果出块时间很短，就会导致这种分叉成为常态。而且不仅仅是二分叉，可能会出现很多分叉</strong></p>
+<p>分叉过多对于比特币系统达成共识没有好处，并且会危害比特币系统的安全</p>
+<p>比如分叉攻击，正常情况下大部分节点是诚实的，有恶意的节点想要在6个确认后拿这段时间集中算力算出的新链去覆盖掉最长合法链是很难的，因为诚实节点也都在集中算力扩展最长合法链。如果出块时间很短，就会导致分叉过多，这样诚实节点的算力就被分散了，这时恶意节点要进行51% attack很可能就不需要50%以上的算力了，可能百分之十几就足够了，这样大大降低了比特币系统的安全性</p>
+<p><strong>10分钟的出块时间也不是最优解，只是说系统出块时间需要维持在一个定值附近，不能无限的减少下去</strong>。以太坊中平均出块时间仅为15秒左右，同样在以太坊中也有相应难度调整算法维持其平均出块时间，当然15s的时间明显会产生经常性的分叉，所以以太坊设计了新的共识协议Ghost。在这个协议中，分叉产生的orphan block（孤儿区块）不能简单丢弃掉，而是也要给予一些奖励（uncle reward）</p>
+<h5 id="3）、比特币中如何调整挖矿难度？"><a href="#3）、比特币中如何调整挖矿难度？" class="headerlink" title="3）、比特币中如何调整挖矿难度？"></a>3）、比特币中如何调整挖矿难度？</h5><p>比特币协议中规定，每隔2016个区块需要调整一次目标阈值target，根据10分钟产生一个新区块，大概需要14天的时间，调整共识如下：<br>t a r g e t &#x3D; t a r g e t × a c t u a l   t i m e e x p e c t e d   t i m e target &#x3D; target \times \frac{actual \ time}{expected \ time} target=target×expected timeactual time​<br>expected time是预期的两次调整的间隔时间，即 2016 × 10 分钟 &#x3D; 14 天 2016 \times 10分钟 &#x3D; 14天 2016×10分钟=14天；而actual time是系统中产生最近的2016个区块实际花费的时间</p>
+<p>如果实际时间超过14天，说明平均下来出块间隔超过10分钟，这时应该降低挖矿难度，让出块更容易。对应的公式中 a c t u a l   t i m e e x p e c t e d   t i m e &gt; 1 \frac{actual \ time}{expected \ time} &gt; 1 expected timeactual time​&gt;1，target会变大，target和挖矿难度成反比，target变大挖矿难度降低</p>
+<p>如果实际时间小于14天，说明出块速度太快，这时应该提高挖矿难度。对应的公式中 a c t u a l   t i m e e x p e c t e d   t i m e &lt; 1 \frac{actual \ time}{expected \ time} &lt; 1 expected timeactual time​&lt;1，target会变小，挖矿难度提高</p>
+<p>为了避免系统中出现某些意外情况，导致系统出现非常大的波动，<strong>每次对目标阈值target的调整最大不能超过4倍，最小不能小于 1 4 \frac{1}{4} 41​</strong>。也就是公式中的 a c t u a l   t i m e e x p e c t e d   t i m e \frac{actual \ time}{expected \ time} expected timeactual time​即使超过4也按4使用，即使小于 1 4 \frac{1}{4} 41​也按 1 4 \frac{1}{4} 41​使用</p>
+<p><strong>如何让所有矿工都同时调整这个挖矿难度呢？</strong></p>
+<p>调整算法是写在比特币的代码里的，如果有恶意节点故意不调，其所产生的区块不会被大多数诚实的节点承认</p>
+<p>在block header中有一个nbits的域，它是对target的编码存储（target为256位，nbits为32位，也就是说block header并未直接存储target），其他节点在进行合法性验证时候会验证nbits域是否合法，不合法则不会接受该区块</p>
+<h4 id="7、BTC-挖矿"><a href="#7、BTC-挖矿" class="headerlink" title="7、BTC-挖矿"></a>7、BTC-挖矿</h4><h5 id="1）、全节点和轻节点"><a href="#1）、全节点和轻节点" class="headerlink" title="1）、全节点和轻节点"></a>1）、全节点和轻节点</h5><p>比特币中有两种节点：全节点和轻节点</p>
+<table>
+<thead>
+<tr>
+<th align="center">全节点</th>
+<th align="center">轻节点</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">一直在线</td>
+<td align="center">不是一直在线</td>
+</tr>
+<tr>
+<td align="center">在本地硬盘上维护完整的区块链信息</td>
+<td align="center">不用保存整个区块链，只要保存每个区块的块头</td>
+</tr>
+<tr>
+<td align="center">在内存中维护UTXO集合，以便快速检验交易的正确性</td>
+<td align="center">不用保存全部交易，只保存与自己相关的交易</td>
+</tr>
+<tr>
+<td align="center">监听比特币网络上的交易信息，验证每个交易的合法性</td>
+<td align="center">无法检验大多数交易的合法性，只能检验与自己相关的那些交易的合法性</td>
+</tr>
+<tr>
+<td align="center">决定哪些交易会被打包到区块里</td>
+<td align="center">无法检测网上发布的区块的正确性</td>
+</tr>
+<tr>
+<td align="center">监听别的矿工挖出来的区块，验证其合法性</td>
+<td align="center">可以验证挖矿的难度</td>
+</tr>
+<tr>
+<td align="center">挖矿：</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">1. 决定沿着哪条链挖下去</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">2. 当出现等长分叉，选择哪一个分叉</td>
+<td align="center">只能检测哪个是最长链，不知道哪个是最长合法链</td>
+</tr>
+</tbody></table>
+<p>比特币网络中，大多数节点都是轻节点。如果只是想进行转账，而不是去挖矿的话，只用轻节点就可以了</p>
+<h5 id="2）、挖矿"><a href="#2）、挖矿" class="headerlink" title="2）、挖矿"></a>2）、挖矿</h5><p>在挖矿过程中，如果监听到别人发布了一个区块，这个区块是合法的也是在延伸最长合法链，此时应该停止已有的挖矿，在本地重新组装一个指向最后这个新合法区块的候选区块，重新开始挖矿。因为一方面这个区块中的交易可能和刚刚在挖的那个区块有重复，另一个本质的原因就是<strong>候选区块的块头有指向前一个区块的哈希指针</strong>。因为最新的区块已经变了，这个哈希指针也要跟着改变</p>
+<p><strong>1）这样是不是有些可惜？之前的工作都白费了</strong></p>
+<p>实际上并不可惜。挖矿本身具有无记忆性（memoryless或progress free），前面无论挖多久，对后续继续挖矿没有影响</p>
+<p><strong>2）比特币是怎么保证安全性的？</strong></p>
+<p>一方面是密码学的保证：别人没有自己的私钥，就无法伪造其合法签名，从而无法将其账户上的钱转走（前提是系统中大多数算力掌握在诚实的矿工手中，不会接受没有合法签名的交易）</p>
+<p>另一方面是共识机制：保证了恶意交易不被系统承认</p>
+<h5 id="2）、挖矿设备演化"><a href="#2）、挖矿设备演化" class="headerlink" title="2）、挖矿设备演化"></a>2）、挖矿设备演化</h5><p><strong>第一代挖矿设备：CPU</strong></p>
+<p>最早时候大家都是用普通计算机来挖矿，但如果专门搞一台计算机来挖矿是很不划算的。因为计算机大部分内存是闲置的（挖矿只要用到很少一部分内存），CPU大部分部件是闲置的（计算哈希值的操作只用到通用CPU中的很少一部分指令），硬盘和其它很多资源也都是闲置的。随着挖矿难度提高，用通用计算机上的CPU挖矿很快就无利可图了</p>
+<p><strong>第二代挖矿设备：GPU</strong></p>
+<p>GPU主要用来做通用的大规模并行计算，用来挖矿还是会有不少浪费，而且GPU的噪音很大，其中很多部件还是浪费了（如用于浮点数计算的部件）。近些年GPU价格涨得很快，这不仅是深度学习火热的原因，实际上很多GPU是买来挖矿的。不过现在挖矿的难度已经提高到用GPU也有些划不来了，不会再有那么多人买GPU来挖比特币</p>
+<p><strong>第三代挖矿设备：ASIC芯片</strong></p>
+<p>ASIC即Application Specific Integrated Circuit，这是专门为了挖矿而设计的芯片，没有多余的电路，干不了别的事，它的性价比是最高的，而且为某一种加密货币设计的ASIC芯片只能挖这一种加密货币的矿，除非两个货币用同一个mining puzzle（挖矿难题）</p>
+<p>有些加密货币在刚启动的时候，为了吸引更多的人来挖矿，特意用一个和已有的其它加密货币一样的mining puzzle，这种情况叫merge mining</p>
+<p>研制挖特定加密货币的ASIC芯片需要一定周期，但和研制通用芯片的速度相比已经是非常快的了，比如研制比特币挖矿的ASIC芯片大约用一年的时间。不过加密货币的价格变化是比较剧烈的，曾经就发生过比特币价格在几个月内下跌80%，因为加密货币多变的价格，这些挖矿设备的研制风险也是很大的</p>
+<p>挖矿的竞争越来越激烈，定制的ASIC芯片可能用了几个月就过时了，到时候又要买新的ASIC芯片参与竞争。ASIC矿机上市后的大部分利润也就在前几个月，这个设备的迭代也是很块的</p>
+<p>要买ASIC矿机往往要先交钱预定，过一段时间厂商才会发过来。实际上有些黑心厂商在生产出来以后也不交付给用户，声称还没成产好，然后自己在这段黄金时间用矿机挖矿赚取比特币。不过这其实看得出来，比特币系统中算力突然有了大的提高，那一般是某个大的厂商生产出了新的矿机。所以真正赚钱的未必是挖矿的，而是卖矿机的</p>
+<p>为了让通用计算机也能参与挖矿过程，抗ASIC芯片化，有些加密货币采用alternative mining puzzle（可替代的挖矿难题），以去对抗那些只为了解决特定mining puzzle而设计出来的ASIC矿机</p>
+<h5 id="4）、大型矿池"><a href="#4）、大型矿池" class="headerlink" title="4）、大型矿池"></a>4）、大型矿池</h5><p>单个矿工挖矿的收益是很不稳定的，平均出块时间10分钟是对于比特币系统中的所有矿工而言的。一个矿工用一个矿机挖出矿的时间可能要很久，并且除了挖矿之外还要承担全节点的其它责任</p>
+<p>矿池将很多矿工组织起来，一般的架构就是一个<strong>矿主</strong>（pool manager）全节点去驱动很多矿机，下属矿工只负责计算哈希值，全节点的其他职能只由矿主来承担。有了收益以后再大家一起分配</p>
+<p><img src="/../article_img/Web3/img2-3.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>1）矿池收益怎么分配？</strong></p>
+<p>如果矿池中的矿机都是属于同一个机构的，那怎么分配就只是公司内部怎么发工资的问题了</p>
+<p>如果矿机来自不同机构，这时候矿工很可能分布在世界各地，只是都加入了这个矿池。矿工和矿主联系，矿主将要计算的哈希值的任务分配给他，矿工计算好后将结果发给矿主，最终得到出块奖励后一起参与分红</p>
+<p>能否平均分配？挖到区块后奖励平分给所有矿工。这样就完全是吃大锅饭的模式了，有的矿工完全可以不干活或者少干活，所以需要按矿工的贡献大小进行分配，所以这里也需要<strong>工作量证明</strong>，来证明每个矿工所做的工作</p>
+<p>每个矿工自己挖矿之所以收入不稳定，是因为挖矿难度太大了（相比比特币系统的平均出块时间），所以可以考虑矿池将挖矿的难度降下来</p>
+<p>比如原来要求矿工找一个nonce计算的block header的哈希值前面至少有70个0才是合法的区块，现在矿池只要求前面有60个0，这样挖到叫做一个<strong>share</strong>（almost valid block），即这个区块<strong>差不多在一定程度上是符合难度要求的</strong>。矿工挖到这样的区块之后，将其提交给矿主，矿主拿到这些区块并没有什么用，<strong>仅仅是因为目标空间是这个问题的解空间的子集，并且求解两个问题的过程是一样的（都是计算哈希），因此这些区块可以作为证明矿工所做的工作量的证明</strong>。等到某个矿工真正挖到矿，获取出块奖励之后，再按照大家提交的share的多少来进行分配</p>
+<p><strong>2）矿工能否在参与矿池时独吞出块奖励？</strong></p>
+<p>是否会有这样的矿工：挖到share提交给矿主，挖到真正的矿自己发布出去以获得出块奖励？矿工没办法独吞出块奖励，因为每个矿工的任务是由矿主来分配的，矿主负责组装好区块，然后交给矿工去不断尝试nonce和coinbase transaction（铸币交易）中的extra nonce，有可能就是讲它们划分一下，然后分配给不同的矿工去做，要注意<strong>coinbase transaction中的收款人地址是矿主的地址，不是任何一个矿工的地址</strong></p>
+<p>如果矿工把coinbase transaction的地址改成自己的，然后去挖矿，这样提交上去的share矿主是不认可的，所以还是没用的</p>
+<p><strong>3）矿池之间的竞争</strong></p>
+<p>矿池之间是有竞争的，一种竞争方式就是到对方的矿池里去捣乱，派遣一些矿工去加入到对方的矿池里去挖矿，只提交share，但挖到真正的矿就将其丢弃掉，故意不提交。然而如果这个对手矿池仍然获得了出块奖励，这些矿工也能参与分红</p>
+<p><strong>4）大型矿池带来的危害</strong></p>
+<p>如果没有矿池，要发动51%攻击，攻击者要花费大量的硬件成本。有了矿池以后，矿池实际上将算力集中了起来，攻击者未必拥有很多算力，只要吸引矿工将算力集中到自己的矿池就可以</p>
+<p>在2014年的时候GHash矿池的总算力就超过了比特币系统中总算力的一半，引起了恐慌，然后GHash主动减少了算力，以防止大家对比特币失去信心</p>
+<p>如今的矿池的算力还算比较分散，有好几家矿池在竞争，但一个集体的算力完全可以潜伏分散在不同矿池中，等到攻击时再集中起来，矿工要转换矿池是很容易的</p>
+<p>矿池要收取管理费，有的收取出块奖励中的一部分，有的收取赚取的交易费。有恶意的矿池可以在发动攻击之前故意将管理费降得很低，吸引大量矿工进入矿池</p>
+<p><strong>5）51%算力矿池可以发动哪些攻击</strong></p>
+<p><strong>[1]分叉攻击</strong></p>
+<p><img src="/../article_img/Web3/img2-4.png" srcset="/img/loading.gif" lazyload></p>
+<p>因为算力占了半数以上，并且矿工挖矿任务被分配开并行进行，分叉出来的链的增长速度很快，最终势必成为最长合法链</p>
+<p><strong>[2]封锁交易（Boycott）</strong></p>
+<p><img src="/../article_img/Web3/img2-5.png" srcset="/img/loading.gif" lazyload></p>
+<p>假如攻击者不喜欢某个账户A，不想让和A有关的所有交易上链，在监听到有其他人发布了含有和A有关交易的区块，立刻发动分叉攻击竞争最长合法链</p>
+<p>即使大部分节点是诚实的，记账权也可能落在有恶意的节点手里，它完全可以不发布某些交易，但在那种情形下总有诚实的节点愿意发布这些交易，所以是没关系的</p>
+<p>但如果攻击者拥有半数以上的算力，依仗自己算力强公开抵制某些交易，只要一出现这些交易，马上进行分叉攻击，因为攻击者有半数以上的算力可以让分叉链变得更长。<strong>这样一来别的矿工也不敢随便打包这些交易了，因为一打包就分叉，自己辛苦挖的矿最后沦为丢弃的区块</strong></p>
+<p><strong>[3]盗币（将其他人账户的钱转走）</strong></p>
+<p>这个是不可能的，不论算力再强，因为没法伪造别人账户的签名（除非获得其私钥），所以没法伪造交易将别人账户上的钱转走。即便是仗着自己算力强，强行将不合法的区块发布到区块链上并沿着这条链继续延伸，诚实的节点依然不会沿着这条不合法的长链延伸，所以还是没用的</p>
+<p><strong>6）矿池出现的优劣</strong></p>
+<p>优点：解决了矿工收入不稳定的问题，减轻了矿工的负担</p>
+<p>缺点：威胁到了区块链系统的安全，使得51%攻击变得容易起来</p>
+<h4 id="8、BTC-比特币脚本"><a href="#8、BTC-比特币脚本" class="headerlink" title="8、BTC-比特币脚本"></a>8、BTC-比特币脚本</h4><h5 id="1）、交易实例"><a href="#1）、交易实例" class="headerlink" title="1）、交易实例"></a>1）、交易实例</h5><p><img src="/../article_img/Web3/img2-6.png" srcset="/img/loading.gif" lazyload></p>
+<p>比特币系统中使用的脚本语言非常简单，唯一可以访问的内存空间只有栈，所以也被称为基于栈的语言</p>
+<p><strong>交易结构：</strong></p>
+<p><img src="/../article_img/Web3/img2-7.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>交易的输入：</strong></p>
+<p><img src="/../article_img/Web3/img2-8.png" srcset="/img/loading.gif" lazyload></p>
+<p>交易的输入是一个数组，一个交易可以有多个输入，这个例子中输入只有一个。如果一个交易有多个输入，那么每个输入都要说明币的来源，并给出签名</p>
+<p><strong>交易的输出：</strong></p>
+<p><img src="/../article_img/Web3/img2-9.png" srcset="/img/loading.gif" lazyload></p>
+<p>交易的输出也是一个数组结构，这里例子中有两个输出</p>
+<h5 id="2）、输入输出脚本的执行"><a href="#2）、输入输出脚本的执行" class="headerlink" title="2）、输入输出脚本的执行"></a>2）、输入输出脚本的执行</h5><p><img src="/../article_img/Web3/img2-10.png" srcset="/img/loading.gif" lazyload></p>
+<p>上图中两个交易分属两个区块，中间隔了两个区块，B-&gt;C的这个交易的比特币的来源是前面A-&gt;B的这个交易。所以<strong>右边这个交易中的相应输入的txid是左边这个交易的id，右边这个交易中的vout指向的是左边这个交易的对应输出</strong></p>
+<p>在早期的比特币系统中，要验证这个交易的合法性，就要把B-&gt;C这个交易的输入脚本，和A-&gt;B这个交易的输出脚本拼在一起执行，看看能不能执行通过</p>
+<p>后来，出于安全因素的考虑，这两个脚本改为分别执行，首先执行输入脚本，如果没有出错，那么再执行输出脚本，如果能顺利执行，并且最后得到非零值（true），那么这个交易就是合法的</p>
+<p>如果一个交易有多个输入，<strong>每个输入脚本都要去找到前面币的来源区块中所对应的输出脚本</strong>，匹配之后来进行验证。全部验证通过后，这个交易才是合法的</p>
+<h5 id="3）、输入输出脚本的几种形式"><a href="#3）、输入输出脚本的几种形式" class="headerlink" title="3）、输入输出脚本的几种形式"></a>3）、输入输出脚本的几种形式</h5><p><strong>1）P2PK（Pay to Public Key）</strong></p>
+<p><img src="/../article_img/Web3/img2-11.png" srcset="/img/loading.gif" lazyload></p>
+<p>输入脚本中直接给出付款人的签名（<strong>付款人用自己的私钥对输入脚本所在的整个交易的签名</strong>），输出脚本中直接给出收款人（这里的收款人和前面的付款人是同一个人）的公钥，最后的CHECKSIG是检查签名时用的指令</p>
+<p>P2PK是最简单的一种形式，因为Public Key是直接在输出脚本中给出的</p>
+<p><strong>执行情况</strong>：</p>
+<p>一共三条语句，从上往下执行</p>
+<p><img src="/../article_img/Web3/img2-12.png" srcset="/img/loading.gif" lazyload></p>
+<p>第一条语句，将输入脚本中的签名压入栈</p>
+<p><img src="/../article_img/Web3/img2-13.png" srcset="/img/loading.gif" lazyload></p>
+<p>第二条语句，将输出脚本中的公钥压入栈</p>
+<p><img src="/../article_img/Web3/img2-14.png" srcset="/img/loading.gif" lazyload></p>
+<p>第三条语句，弹出栈顶的两个元素，用公钥PubKey检查一下签名Sig是否正确。如果正确，返回True，说明验证通过</p>
+<p><strong>实例：</strong></p>
+<p><img src="/../article_img/Web3/img2-15.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>2）P2PKH（Pay to Public Key Hash）</strong></p>
+<p><img src="/../article_img/Web3/img2-16.png" srcset="/img/loading.gif" lazyload></p>
+<p>P2PKH是最常用的一种形式。输出脚本中没有给出收款人的公钥，给出的是公钥的哈希值，公钥是在输入脚本中给出的。输入脚本既要给出签名也要给出公钥。其它的都是一些操作指令，用来验证签名的正确性</p>
+<p><strong>执行情况</strong>：</p>
+<p>一共七条语句，从上往下执行</p>
+<p><img src="/../article_img/Web3/img2-17.png" srcset="/img/loading.gif" lazyload></p>
+<p>第一条语句，将输入脚本中的签名压入栈</p>
+<p><img src="/../article_img/Web3/img2-18.png" srcset="/img/loading.gif" lazyload></p>
+<p>第二条语句，将输入脚本中的公钥压入栈</p>
+<p><img src="/../article_img/Web3/img2-19.png" srcset="/img/loading.gif" lazyload></p>
+<p>第三条语句，将栈顶元素复制一遍（所以又压入了一次公钥）</p>
+<p><img src="/../article_img/Web3/img2-20.png" srcset="/img/loading.gif" lazyload></p>
+<p>第四条语句，将栈顶元素取出来取哈希，再将得到的哈希值压入栈，所以栈顶的公钥变成了其哈希值</p>
+<p><img src="/../article_img/Web3/img2-21.png" srcset="/img/loading.gif" lazyload></p>
+<p>第五条语句，将输出脚本中提供的公钥的哈希值压入栈</p>
+<p><img src="/../article_img/Web3/img2-22.png" srcset="/img/loading.gif" lazyload></p>
+<p>第六条语句，弹出栈顶的两个元素，比较它们是否相等，防止有人用自己的公钥冒充币的来源的交易的收款人的公钥</p>
+<p><img src="/../article_img/Web3/img2-23.png" srcset="/img/loading.gif" lazyload></p>
+<p>第七条语句，弹出栈顶的两个元素，用公钥PubKey检查一下签名Sig是否正确。如果正确，返回True，说明验证通过</p>
+<p><strong>实例：</strong></p>
+<p><img src="/../article_img/Web3/img2-24.png" srcset="/img/loading.gif" lazyload></p>
+<p><strong>3）P2SH（Pay to Script Hash）</strong></p>
+<p><img src="/../article_img/Web3/img2-25.png" srcset="/img/loading.gif" lazyload></p>
+<p>P2SH是最复杂的一种形式，这种形式下<strong>输出脚本给出的不是收款人的公钥的哈希，而是收款人提供的赎回脚本（Redeem Script）的哈希</strong>。将来要花这个输出脚本的比特币的时候，相应交易的输入脚本要给出赎回脚本的具体内容，同时还要给出让赎回脚本能正确运行所需要的签名</p>
+<p><strong>验证过程：</strong></p>
+<ol>
+<li>验证输入脚本给出的赎回脚本内容，是否和对应输出脚本给出的赎回脚本哈希值相匹配</li>
+<li>反序列化并执行赎回脚本，以验证输入脚本给出的签名是否正确</li>
+</ol>
+<p><strong>赎回脚本的形式：</strong></p>
+<ul>
+<li>P2PK形式</li>
+<li>P2PKH形式</li>
+<li>多重签名形式</li>
+</ul>
+<p><strong>用P2SH实现P2PK：</strong></p>
+<p><img src="/../article_img/Web3/img2-26.png" srcset="/img/loading.gif" lazyload></p>
+<p>赎回脚本中给出公钥，输入脚本中给出交易签名和序列化后赎回脚本的具体内容，输出脚本中给出了赎回脚本的哈希值</p>
+<p><strong>第一阶段的验证，先验证输入脚本和输出脚本在一起执行的结果</strong></p>
+<p><img src="/../article_img/Web3/img2-27.png" srcset="/img/loading.gif" lazyload></p>
+<p>第一步，将输入脚本中的交易签名压入栈</p>
+<p><img src="/../article_img/Web3/img2-28.png" srcset="/img/loading.gif" lazyload></p>
+<p>第二步，将输入脚本中给出的赎回脚本压入栈</p>
+<p><img src="/../article_img/Web3/img2-29.png" srcset="/img/loading.gif" lazyload></p>
+<p>第三步，弹出栈顶元素取哈希再压栈，也就得到了赎回脚本的哈希（Redeem Script Hash）</p>
+<p><img src="/../article_img/Web3/img2-30.png" srcset="/img/loading.gif" lazyload></p>
+<p>第四步，将输出脚本中给出的赎回脚本的哈希值压入栈</p>
+<p><img src="/../article_img/Web3/img2-31.png" srcset="/img/loading.gif" lazyload></p>
+<p>第五步，比较栈顶两个元素是否相等，相当于用之前的输出脚本给出的赎回脚本哈希，验证了输入脚本提供的赎回脚本是否是正确的</p>
+<p><strong>第二阶段的验证，是对输入脚本提供的赎回脚本的验证，首先要将其反序列化，得到可以执行的赎回脚本。然后执行这个赎回脚本</strong></p>
+<p><img src="/../article_img/Web3/img2-32.png" srcset="/img/loading.gif" lazyload></p>
+<p>第一步，将赎回脚本中的公钥压入栈</p>
+<p><img src="/../article_img/Web3/img2-33.png" srcset="/img/loading.gif" lazyload></p>
+<p>第二步，验证输入脚本中给出的交易签名的正确性。验证通过就会返回True</p>
+<p><strong>为什么要弄这么复杂？使用P2PK不就可以了吗？为什么要将这部分功能嵌入到赎回脚本？</strong></p>
+<p>针对这个例子，这样做确实复杂了。实际上P2SH在比特币系统中起初并没有，后来通过软分叉加入了这个功能。实际上，该功能的常见应用场景是对多重签名的支持</p>
+<p>在比特币系统中，一个输出可能需要多个签名才能取出钱来。例如，对于公司账户，可能会要求5个合伙人中任意3个的签名才能取走钱，这样便为私钥泄露和丢失提供了一定程度的保护</p>
+<p><strong>多重签名：</strong></p>
+<p><img src="/../article_img/Web3/img2-34.png" srcset="/img/loading.gif" lazyload></p>
+<p>该功能通过CHECKMULTISIG来实现，输入脚本提供M个签名，输出脚本给出N个公钥和阈值M（N&gt;&#x3D;M），输入脚本只需要提供N个公钥中M个合法签名就能通过验证，且给出的M个签名顺序要和N个公钥中相对顺序一致</p>
+<p>输入脚本的第一行有一个红色的X，是因为比特币中CHECKMULTISIG的实现存在一个bug，执行时会从堆栈上多弹出一个元素。这个bug现在已经无法修改，因为去中心化系统中软件升级代价极大，需要硬分叉修改。所以，实际中采用的方案是在输入脚本往栈中多压入一个无用元素</p>
+<p>如下是一个N&#x3D;3，M&#x3D;2的多重签名脚本执行过程，给出的2个签名顺序和在公钥中相对顺序一致：</p>
+<p><img src="/../article_img/Web3/img2-35.png" srcset="/img/loading.gif" lazyload></p>
+<p>第一步，将输入脚本中多余的元素压入栈</p>
+<p><img src="/../article_img/Web3/img2-36.png" srcset="/img/loading.gif" lazyload></p>
+<p>第二步，将输入脚本中两个签名依次压入栈</p>
+<p><img src="/../article_img/Web3/img2-37.png" srcset="/img/loading.gif" lazyload></p>
+<p>第三步，将输出脚本中阈值M压入栈</p>
+<p><img src="/../article_img/Web3/img2-38.png" srcset="/img/loading.gif" lazyload></p>
+<p>第四步，将输出脚本中的三个公钥依次压入栈</p>
+<p><img src="/../article_img/Web3/img2-39.png" srcset="/img/loading.gif" lazyload></p>
+<p>第五步，将输出脚本中的N值压入栈</p>
+<p><img src="/../article_img/Web3/img2-40.png" srcset="/img/loading.gif" lazyload></p>
+<p>第六步，执行输出脚本中CHECKMULTISIG，是否栈中包含3个公钥对应签名中的2个，如果是，验证通过</p>
+<p>早期的实际应用中，多重签名就是这样写的。但是，在应用中体现出了一些问题。例如，在网上购物时候，某个电商使用多重签名，要求5个合伙人中任意3个人才能将钱取出。这就要求用户在生成，转账交易时候，要给出五个合伙人的转账公钥以及N个M的值。而对于用户来说，需要购物网站公布出来才能知道这些信息。不同电商对于数量要求不一致，会为用户转账交易带来不便之处（因为这些复杂性全暴露给了用户）</p>
+<p>为了解决这一问题，就需要用到P2SH</p>
+<p><strong>用P2SH实现多重签名：</strong></p>
+<p><img src="/../article_img/Web3/img2-41.png" srcset="/img/loading.gif" lazyload></p>
+<p>本质上是将复杂度从输出脚本转移到输入脚本，此时输出脚本只有三行，原来的复杂度被转入到赎回脚本redeemScript中。输出脚本只需要给出赎回脚本的哈希值即可。赎回脚本里要给出N个公钥还有N和M的值，赎回脚本在输入脚本提供，即收款人提供</p>
+<p>像前面提到的网上购物的例子，收款人是电商，只要在网站上公布赎回脚本的哈希值。用户生成转账交易的时候，把这个哈希值包含在输出脚本里即可。至于电商使用什么样的多重签名规则，对于用户来说是不可见的，用户也无需知道，这样做对用户更加友好</p>
+<p>输入脚本是电商在花掉这笔输出的时候提供的，其中包含序列化后赎回脚本的具体内容、让这个赎回脚本验证通过所需的M个签名。如果电商改变了所采用的多重签名规则，只要改变输入脚本和赎回脚本的内容，然后把新的哈希值公布出去即可，对用户来说，只不过是付款的时候要包含的哈希值发生了变化</p>
+<p><strong>第一阶段的验证，先验证输入脚本和输出脚本在一起执行的结果</strong></p>
+<p><img src="/../article_img/Web3/img2-42.png" srcset="/img/loading.gif" lazyload></p>
+<p>第一步，将输入脚本中为解决CHECKMULTISIG引入的bug添加的无用元素压入栈</p>
+<p><img src="/../article_img/Web3/img2-43.png" srcset="/img/loading.gif" lazyload></p>
+<p>第二步，将输入脚本中两个签名依次压入栈</p>
+<p><img src="/../article_img/Web3/img2-44.png" srcset="/img/loading.gif" lazyload></p>
+<p>第三步，将输入脚本中序列化的赎回脚本作为数据压入栈</p>
+<p><img src="/../article_img/Web3/img2-45.png" srcset="/img/loading.gif" lazyload></p>
+<p>第四步，弹出栈顶元素取哈希再压栈，也就得到了赎回脚本的哈希</p>
+<p><img src="/../article_img/Web3/img2-46.png" srcset="/img/loading.gif" lazyload></p>
+<p>第五步，将输出脚本中给出的赎回脚本的哈希值压入栈</p>
+<p><img src="/../article_img/Web3/img2-47.png" srcset="/img/loading.gif" lazyload></p>
+<p>第六步，判断两个哈希值是否相等</p>
+<p><strong>第二阶段的验证，把赎回脚本展开后执行</strong></p>
+<p><img src="/../article_img/Web3/img2-48.png" srcset="/img/loading.gif" lazyload></p>
+<p>第一步，先把M压入栈</p>
+<p><img src="/../article_img/Web3/img2-49.png" srcset="/img/loading.gif" lazyload></p>
+<p>第二步，依次把三个公钥和N压入栈</p>
+<p><img src="/../article_img/Web3/img2-50.png" srcset="/img/loading.gif" lazyload></p>
+<p>第三步，检查多重签名正确性，3个里面有2个是正确的</p>
+<p><strong>用P2SH实现多重签名实例：</strong></p>
+<p><img src="/../article_img/Web3/img2-51.png" srcset="/img/loading.gif" lazyload></p>
+<p>现在的多重签名，大多都采用P2SH的形式</p>
+<h5 id="4）、一个特殊的脚本"><a href="#4）、一个特殊的脚本" class="headerlink" title="4）、一个特殊的脚本"></a>4）、一个特殊的脚本</h5><p><img src="/../article_img/Web3/img2-52.png" srcset="/img/loading.gif" lazyload></p>
+<p>以RETURN开始，后面可以跟任何内容。RETURN操作无条件返回错误，所以包含该操作的脚本永远不可能通过验证。执行到RETURN，后续操作不会再执行。该脚本是证明销毁比特币的一种方法</p>
+<p><strong>为什么要销毁比特币？现在比特币价值很高，销毁是不是很可惜？</strong></p>
+<ol>
+<li>部分小币种（AltCoin）要求销毁部分比特币才能得到该种小币种。例如，销毁一个比特币可以得到1000个小币。即使用这种方法证明付出了一定代价，才能得到小币种</li>
+<li>往区块链中写入内容。我们经常说，区块链是不可篡改的账本，有人就利用该特性往其中添加想要永久保存的内容。例如：股票预测情况的哈希、知识产权保护（知识产权的哈希值）</li>
+</ol>
+<p>有没有觉得第二个应用场景有些熟悉？实际上，之前谈到比特币发行的唯一方法，便是通过铸币交易凭空产生。在铸币交易中，有一个CoinBase域，其中便可以写入任何内容。那么为什么不使用这种方法呢，而且这种方法不需要销毁比特币，可以直接写入</p>
+<p>因为这种方法只有获得记账权的节点才可以写入内容。而上面的方法，可以保证任何一个比特币系统中节点乃至于单纯的用户，都可以向区块链上写入想写入的内容。<strong>发布交易不需要有记账权，发布区块需要有记账权</strong></p>
+<p>任何用户都可以使用这种方法，通过销毁很小一部分比特币，换取向区块链中写入数据的机会</p>
+<p>实际上，很多交易并未销毁比特币，而是支付了交易费</p>
+<p><img src="/../article_img/Web3/img2-53.png" srcset="/img/loading.gif" lazyload></p>
+<p>上图为一个coinbase transaction，这个交易包含两个输出，第一个输出脚本是正常的Pay to Public Key Hash，输出的金额就是得到的出块奖励+交易费；第二个输出的金额是0，输出脚本开头是RETURN，第二个输出的目的就是为了往区块链里写入一些内容</p>
+<p><img src="/../article_img/Web3/img2-54.png" srcset="/img/loading.gif" lazyload></p>
+<p>上图是一个普通的转账交易，输出脚本也是以RETURN开头的，这个交易的输入是0.05个比特币，输出金额是0，说明输入金额全部用于支付交易费了。这个交易并没有销毁任何比特币，只不过把输入里的比特币作为交易费转给挖到矿的矿工了</p>
+<p>这种交易永远不会兑现，所以矿工不会将其保存在UTXO中，对全节点比较友好</p>
+<p><strong>实际中的脚本，都需要加上OP前缀，如：CHECKSIG应该为OP_CHECKSIG</strong></p>
+<p><strong>对应课程</strong>：</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Vt411X7JF">北京大学肖臻老师《区块链技术与应用》公开课</a></p>
+<p>本文转自 <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40378034/article/details/126085809">https://blog.csdn.net/qq_40378034/article/details/126085809</a>，如有侵权，请联系删除。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Web3/" class="print-no-link">#Web3</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>&lt;BTC&gt; 网络</div>
+      <div>http://example.com/2025/05/01/BTC_2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Peter</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/05/01/BTC_3/" title="&lt;BTC&gt; 分叉、匿名性">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">&lt;BTC&gt; 分叉、匿名性</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/05/01/BTC_1/" title="&lt;BTC&gt; 密码学原理，数据结构，协议，实现">
+                        <span class="hidden-mobile">&lt;BTC&gt; 密码学原理，数据结构，协议，实现</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"bFZ2utAtP6QxKUNJxwibP07k-gzGzoHsz","appKey":"rWP0FjbzaXytusY91AFDmytV","path":"window.location.pathname","placeholder":"留言仅限讨论，禁止广告等行为","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://bfz2utat.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/love.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxingxing.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/caidai.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

@@ -1,0 +1,1000 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/image/title.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Peter">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="写在前面：前段时间把b站上北大肖老师的区块链课程速通了一遍，这里引一下csdn上的优质课程笔记，便于个人后续温习。博客链接：https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_40378034&#x2F;category_11862943.html课程链接：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1Vt411X7JF&#x2F;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="&lt;ETH&gt; GHOST、难度调整、权益证明">
+<meta property="og:url" content="http://example.com/2025/05/01/ETH_2/index.html">
+<meta property="og:site_name" content="Peter ThinkTank">
+<meta property="og:description" content="写在前面：前段时间把b站上北大肖老师的区块链课程速通了一遍，这里引一下csdn上的优质课程笔记，便于个人后续温习。博客链接：https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_40378034&#x2F;category_11862943.html课程链接：https:&#x2F;&#x2F;www.bilibili.com&#x2F;video&#x2F;BV1Vt411X7JF&#x2F;">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/article_img/Web3/web3.jpg">
+<meta property="article:published_time" content="2025-04-30T20:00:00.000Z">
+<meta property="article:modified_time" content="2025-05-06T12:16:43.394Z">
+<meta property="article:author" content="Peter">
+<meta property="article:tag" content="Web3">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/article_img/Web3/web3.jpg">
+  
+  
+  
+  <title>&lt;ETH&gt; GHOST、难度调整、权益证明 - Peter ThinkTank</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_4448993_m6xmkls2kf.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/gundongtiao.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Peter Think Tank</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-shouye"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives" target="_self">
+                <i class="iconfont icon-guidang"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-biaoqian"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-guanyu"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-youqinglianjie"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-book"></i>
+                <span>文档</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/" target="_self">
+                    
+                    <span>主题博客</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/guide/" target="_self">
+                    
+                    <span>配置指南</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/icon/" target="_self">
+                    
+                    <span>图标用法</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="&lt;ETH&gt; GHOST、难度调整、权益证明"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Peter
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-05-01 04:00" pubdate>
+           2025 年 05 月 01 日 , 凌晨 04:00 , 星期四
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          17k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          146 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">&lt;ETH&gt; GHOST、难度调整、权益证明</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <p>写在前面：<br>前段时间把b站上北大肖老师的区块链课程速通了一遍，这里引一下csdn上的优质课程笔记，便于个人后续温习。<br>博客链接：<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40378034/category_11862943.html">https://blog.csdn.net/qq_40378034/category_11862943.html</a><br>课程链接：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Vt411X7JF/">https://www.bilibili.com/video/BV1Vt411X7JF/</a></p>
+<span id="more"></span>
+
+<h4 id="5、ETH-GHOST"><a href="#5、ETH-GHOST" class="headerlink" title="5、ETH-GHOST"></a>5、ETH-GHOST</h4><p>以太坊把出块时间降到了十几秒，这对于提高系统的throughput（吞吐量）和降低反应时间来说都是很有帮助的，跟比特币的10分钟的出块时间相比，以太坊的出块速度相当于提高到了40倍</p>
+<p>但是这样大幅度降低出块时间之后也带来一些新的问题，比特币和以太坊都是运行在应用层的共识协议，底层是一个P2P的Overlay Network，这个Overlay Network本身传输的时间是比较长的，因为它的拓扑协议做flooding的时候没有考虑实际的拓扑结构，就带来一个问题，发布一个区块的时候，这个区块在网络上传到其他节点可能需要十几秒的时间</p>
+<p>对于比特币来说，10分钟的出块时间相当于600秒，足够让新发布的区块传播到网上的其他节点，即使这样，因为挖矿是个概率的过程，仍然有可能有两个矿工同时获得记账权，同时发布区块，会带来临时性的分叉；对于以太坊来说，这种临时性的分叉会变成常态，而且分叉的数目也会变得更多，因为十几秒的出块时间很有可能别的节点没有来得及收到发布的区块，还是沿着原来的区块链往下挖，可能等到收到发布的区块的时候，他自己已经挖到了新的区块</p>
+<p>那对于共识协议来说，有什么挑战呢？比特币只有在最长合法链上的那些区块，里面所包含的出块奖励才是真正有用的，其他的一些分叉的链上的出块奖励其实最后是作废的</p>
+<p><img src="/../article_img/Web3/img5-1.png" srcset="/img/loading.gif" lazyload></p>
+<p>比如说上图这个区块链，分了三个叉，差不多是同一个时间取得了记账权，最后中间这个区块胜出成为最长合法链，那么上面和下面的这个区块叫做orphan block或者stale block，就是挖到这个区块的矿工在里面有一个铸币交易，能够得到一定数量的比特币，但这个实际上是没有用的，因为不在最长合法链上，所以得到的出块奖励最后等于作废了</p>
+<p>对于比特币来说，因为出现这种临时性的分叉不是很多，所以这么规定还是可以接受的。但是对于以太坊也这样处理的话，那么意味着这个矿工挖到的区块有很大概率是白挖了，对于个体矿工特别明显。从过去的经验来看，大型矿池所在的分叉更有可能成为最长合法链，这就促使别的矿工沿着大型矿池所在的分叉继续挖，因为沿着别的链去挖的话，很有可能就白挖了，这样越是大型矿池得到的收益越大，这种情况叫做centralization bias，就是中心化带来的不成比例的优势，如果以太坊按照比特币的共识机制就会有一定的问题</p>
+<h5 id="1）、GHOST协议最初版本"><a href="#1）、GHOST协议最初版本" class="headerlink" title="1）、GHOST协议最初版本"></a>1）、GHOST协议最初版本</h5><p>以太坊中采用一个基于GHOST协议的共识机制，这个并不是以太坊发明的，在以太坊出现以前已经有GHOST协议了，以太坊对这个协议做一些修改</p>
+<p><strong>GHOST协议的核心思想是：矿工挖到一个区块，这个区块最后作废了，为了补偿矿工所作的工作，给一些补偿</strong>。以太坊中这些作废的区块叫做<strong>Uncle Block</strong>（叔父区块），因为相对于最长合法链的当前区块来说，是他的叔父区块。<strong>最长合法链的下一个区块在发布的时候可以把叔父区块包含进来，这样的话，叔父区块可以得到 7 8 \frac{7}{8} 87​的出块奖励</strong></p>
+<p>以太坊的出块奖励，刚开始的时候是5个以太币，17年下半年的时候改成3个以太币，所以出块奖励是 7 8 × 3 \frac{7}{8} \times 3 87​×3个以太币，所以挖到矿最后虽然没有被认可但也可以得到一定的好处，<strong>那个包含叔父区块的区块可以得到额外的 1 32 × 3 \frac{1}{32}\times 3 321​×3个以太币的奖励</strong>，加起来一共可以得到 1 32 × 3 + 3 \frac{1}{32}\times 3 + 3 321​×3+3个以太币的奖励</p>
+<p><img src="/../article_img/Web3/img5-2.png" srcset="/img/loading.gif" lazyload></p>
+<p>一个区块最多可以包括两个叔父区块，所以上图中当中上下两个叔父区块都可以被包含进去，那么包含了两个叔父区块的区块的得到的奖励还要乘以2，就是 2 × 1 32 × 3 + 3 2 \times \frac{1}{32}\times 3 + 3 2×321​×3+3个以太币</p>
+<p>这个协议的核心思想是对于挖到了矿，但是没有得到认可的那些矿工给予一种安慰，虽然你挖的区块没有成为最长合法链上的区块，但是仍然可以得到大部分的出块奖励，<strong>这样设计有利于鼓励系统中出现分叉之后及时进行合并</strong>，这是GHOST协议最初的版本</p>
+<p><strong>最初的版本也有缺陷：</strong></p>
+<ol>
+<li><img src="/../article_img/Web3/img5-3.png" srcset="/img/loading.gif" lazyload></li>
+</ol>
+<p>uncle block只能包含两个，如果出现第三个，第三个就不开心了，设计GHOST的目的是如果你给uncle block一点好处的话，他们不愿意合并过来，因为一旦放弃自己所在的分叉就什么好处都没有了，所以要给点好处，把他们招安过来，但是只能招安两个，如果出现第三个uncle block就没办法了。其实，只能包含两个也是有道理的，因为叔父区块得到 7 8 \frac{7}{8} 87​的出块奖励是很高的，要是不限制的话，那么以太坊中的以太币就太不值钱了</p>
+<ol start="2">
+<li><img src="/../article_img/Web3/img5-4.png" srcset="/img/loading.gif" lazyload></li>
+</ol>
+<p>区块1把区块2作为叔父区块的前提是，在挖区块1的时候已经知道叔父区块的存在了，如果已经发布了区块1，然后才知道叔父区块，这时候已经来不及了，叔父区块就变成什么好处都没有了</p>
+<ol start="3">
+<li>如果这个矿工比较自私的话，矿池之间存在竞争关系，出于商业目的，有可能故意不包含叔父区块，就是挖的时候知道这个叔父区块，但是就是不包含，这样的话，对叔父区块来说， 7 8 \frac{7}{8} 87​的出块奖励是得不到的，对于他自己来说， 1 32 \frac{1}{32} 321​的出块奖励是得不到了，好像是损人不利己，但要从商业竞争的角度讲，这么做对这个矿工的损失是比较小的，对挖出叔父区块的矿工的损失是比较大的</li>
+</ol>
+<h5 id="2）、GHOST协议新的版本"><a href="#2）、GHOST协议新的版本" class="headerlink" title="2）、GHOST协议新的版本"></a>2）、GHOST协议新的版本</h5><p><img src="/../article_img/Web3/img5-5.png" srcset="/img/loading.gif" lazyload></p>
+<p>把协议修改一下，区块1如果没有包含叔父区块（区块2），往下再有一个区块（区块3），按道理来说区块2就不是区块3的叔父区块了，因为区块2跟区块3的爷爷来说是一辈的，但是以太坊规定不能论资排辈，区块2还可以当做区块3的叔父区块。如果再往下挖一个（区块4），那就更不对了，区块2就是区块4的曾祖父的那一辈了，但以太坊不管，区块2还是区块4的叔父区块</p>
+<p>这么规定的好处，如果某个矿池（挖出区块1的矿工）出于竞争关系故意不把这个叔父区块（区块2）包含进去，你不包含没关系，别人可以包含，下一个区块可能不是你挖出来的，不可能最长合法链上都是你挖出来的吧。甚至有可能下一个区块是跟挖出区块2的是一家的，就是挖出区块2的矿工看到最长合法链之后会切换到这里来挖，然后把自己之前挖出的区块2给包含进去</p>
+<p>本质就是为了改进最初版本的GHOST协议存在的一些问题，所以<strong>把叔父的定义扩展了，不一定是当代叔父，可能是隔着几代的叔父</strong>，问题就在于隔多少代呢，以太坊中怎么规定呢？</p>
+<p><img src="/../article_img/Web3/img5-6.png" srcset="/img/loading.gif" lazyload></p>
+<p>如上图所示，M为区块链上一个区块，F是M严格意义上的叔父，E为其严格意义上的爷爷辈。以太坊中规定，如果M包含F辈区块，则F获得 7 8 \frac{7}{8} 87​出块奖励；如果M包含E辈区块，则F获得 6 8 \frac{6}{8} 86​出块奖励，以此类推向前。直到包含A辈区块，A获得 2 8 \frac{2}{8} 82​出块奖励，再往前的叔父区块，对于M来说就不再认为是M的叔父了</p>
+<p><strong>叔父区块的定义是必须跟当前区块在7代以内有共同的祖先（at most seven generation），超过7代就不认了，换句话说，合法的叔父只有6个辈分</strong></p>
+<p><strong>这么设计的原因</strong>：</p>
+<ol>
+<li>如果不限制叔父的辈分，不限制隔多少代的话，那么实现起来，对于全节点来说，要维护的状态的就太多了，因为可能要记着隔着100代以前有哪些叔父区块，发布的区块包含的叔父区块其他节点同样也是要验证一下的</li>
+<li>设计最多隔着7代，并且这7代以内出块奖励是逐渐递减的，有利于鼓励出现分叉之后，尽早进行合并。一出现分叉就马上合并的时候能得到的出块奖励是最多的，是 7 8 \frac{7}{8} 87​，如果隔着好几代之后，出块奖励就越来越少了，隔得代数太多了就得不到任何出块奖励了</li>
+</ol>
+<p><strong>叔父区块的奖励叫做uncle reward，当前区块包含一个叔父区块，就会得到 1 32 \frac{1}{32} 321​的出块奖励，不管包含的是哪一个辈分的叔父</strong></p>
+<p>设计这个协议主要是为了解决系统中出现的临时性分叉（state fork，对于区块链当前的状态产生了临时性的意见分歧）。比特币和以太坊中为什么规定最长合法链的原则？为了防止篡改，使得交易不容易被篡改，其实也是为了解决临时性分叉。最长合法链提供一个出现临时性分叉之后，进行合并的一种机制，最长链会胜出，如果这个分叉是别的原因造成的，比如说是出于对运行的区块链协议有不同的意见，那么这种方法是解决不了的</p>
+<h5 id="3）、以太坊中的奖励"><a href="#3）、以太坊中的奖励" class="headerlink" title="3）、以太坊中的奖励"></a>3）、以太坊中的奖励</h5><p>比特币发布一个区块，实际上得到的是两部分奖励，一部分叫做block reward（出块奖励，也叫做static reward静态奖励），一部分叫做tx fee（交易费，也叫做动态奖励，因为要执行交易才能得到）</p>
+<p><strong>以太坊中也是类似的，也有一个静态的block reward，就是那3个以太币，动态奖励叫gas fee（汽油费），区块里包含的智能合约，执行智能合约的时候可以得到汽油费。叔父区块得到 7 8 \frac{7}{8} 87​的奖励只限于block reward</strong>，就是 7 8 × 3 \frac{7}{8} \times 3 87​×3个以太币，叔父区块是得不到汽油费的。汽油费所占的比例是非常小的，大部分是出块奖励，跟比特币的情况是类似的，比特币也是tx fee只占很小一部分</p>
+<p><strong>以太坊中没有规定定期要把出块奖励减半</strong>，比特币那么规定是为了人为制造稀缺性，以太坊中5个以太币在17年下半年降为3个以太币，不是为了人为制造稀缺性，实际上跟挖矿难度调整有关。17年出现了挖矿难度计算公式，那个难度炸弹被回调了300万个区块，这样导致挖矿难度大幅度下降，为了维护公平性，也是为了总共以太币的供给量不要出现剧烈变化，所以降到了3个以太币，这是一次性的，并没有说以后会不断地下调</p>
+<p>比特币一般当作数字黄金，以太币有些人比喻成石油，是用来花的，用来消耗，然后可以执行智能合约的。这个比喻不是完全的恰当，因为石油花完之后就没了，以太坊中执行智能合约是要消耗gas的，但这个gas只是从一个账户转移到另外一个账户，因为发布智能合约的时候，要付出gas费，执行这个智能合约的矿工可以得到这个gas费</p>
+<p><strong>问题1：把叔父区块包含进来的时候，叔父区块的交易要不要执行，以太坊是一个交易驱动的状态机，比特币也一样，所以在最长合法链上每次发布一个新的区块都会使当前状态转移到下一个状态，现在引入了叔父区块，要不要执行叔父区块的交易呢？</strong></p>
+<p>不应该执行，最长合法链上的父区块和他的叔父区块包含的交易可能是冲突的。如果它们包含不同的交易，不同交易有可能是不能都执行的，账户余额花两次减两次，但是有可能一个交易花了之后，另一个交易就没法花了，所以这么包含的话，要执行叔父区块的交易，可能有些交易就包含了非法交易，他的叔父区块本身不一定是非法的，执行完父区块的交易，再去执行叔父区块的交易可能就变成非法的</p>
+<p><strong>以太坊中只有在最长合法链上的交易才会被执行，叔父区块这些交易当前区块是不执行的，而且根本就不检查叔父区块交易的合法性，只检查叔父区块是不是一个合法发布的区块，换句话说，这个区块是不是符合挖矿难度</strong>，这个是要查的，如果不查的话，你可能根本没有获得记账权，就发布一个东西出去，也不要求在主链上，把我当成叔父就行了</p>
+<p><strong>问题2：前面举的例子中，叔父区块的共同特点是同时分叉之后第一个区块。如果分叉之后后面还跟着一串，那些怎么办？如下图所示，上面是最长合法链，下面是分叉链，区块2算不算是区块1的叔父区块呢？</strong></p>
+<p><img src="/../article_img/Web3/img5-7.png" srcset="/img/loading.gif" lazyload></p>
+<p>按辈分是算，那为什么不能设立一个协议，把下面分叉链当作叔父区块，给他们每个一点奖励，鼓励他合并上去，相当于以前招安的时候是单个招安，现在已经拉出一个队伍来，把整个队伍招安过来。<strong>这么规定会出现一个问题，分叉攻击就变得太便宜了</strong></p>
+<p><img src="/../article_img/Web3/img5-8.png" srcset="/img/loading.gif" lazyload></p>
+<p>比如说在上图位置的区块上有一笔大额的转账交易A-&gt;B，B等了6个确认，认为这个交易肯定没有问题了。然后A发动分叉攻击，把钱转给他自己，这个分叉攻击要成功，需要下面这条链比上面这条链要长，这个代价是比较大的，因为风险很高，如果不能变得比上面链长，那这一长串的区块都白挖了，这就是分叉攻击的代价</p>
+<p>但是如果把GHOST协议改了，把下面链认作叔父区块，每个给一点奖励，让他整体合并上来的话，那样，分叉攻击的风险就大幅度下降了，反正就先分叉攻击你，攻击成功就把交易回滚了，攻击失败那我招安过去，也能得到区块奖励，所以以太坊中规定，<strong>只有分叉后的第一个区块可以得到uncle reward，后面的都不行</strong></p>
+<h4 id="6、ETH-挖矿算法"><a href="#6、ETH-挖矿算法" class="headerlink" title="6、ETH-挖矿算法"></a>6、ETH-挖矿算法</h4><p>对于基于工作量证明的系统来说，挖矿是保障区块链安全的重要手段，有时候说Block chaim is secured by mining</p>
+<p>bug bounty：有的公司悬赏来找软件中的漏洞，如果能找到软件中的安全漏洞就可以得到一笔赏金</p>
+<p>比特币的挖矿算法是一个天然的bug bounty，如果你能找到里面的漏洞，或者是某一个挖矿的捷径就能取得很大的利益。但是到目前为止还没有人发现有什么捷径可走，所以比特币的挖矿算法总的来说是比较成功的，是经受住时间检验的</p>
+<p>但是比特币的挖矿算法也有一些值得改进的地方，其中有一个保守争议的问题就是<strong>挖矿设备的专业化</strong>。用普通的计算机挖不到矿，只能用专门的设备，专用的ASIC芯片来挖矿，很多人认为这种做法和去中心化的理念是背道而驰的，也跟比特币的设计初衷相违背的。中本聪最早的比特币论文，提出：One cpu, one vote。理想状况下，应该让普通老百姓也能参与挖矿过程，就用家里的桌面机、笔记本电脑，甚至手机来挖矿，这样也更安全，因为算力分散之后，有恶意的攻击者想要聚集到51%的算力发动攻击，这个难度就会大得多</p>
+<p>所以比特币之后出现的加密货币包括以太坊设计mining puzzle的时候，一个目标就是要做到ASIC resistance，那么怎么才能设计出对ASIC芯片不友好的mining puzzle呢？</p>
+<p>一个常用的做法就是增加mining puzzle对内存访问的需求，也就是所谓的memory hard mining puzzle。ASIC芯片相对于普通计算机而言，主要优势是算力强，但是在内存访问的性能上没有那么大的优势，同样的价格买一个ASIC矿机和买一个普通的计算机，这个ASIC矿机的计算能力是普通计算机的几千倍，但是内存访问方面的性能差距远远没有这么大，<strong>所以能设计出一个对内存要求很高的puzzle，就能起到遏制芯片的作用</strong></p>
+<h5 id="1）、莱特币的挖矿算法"><a href="#1）、莱特币的挖矿算法" class="headerlink" title="1）、莱特币的挖矿算法"></a>1）、莱特币的挖矿算法</h5><p>莱特币曾经一度成为市值仅次于比特币的第二大货币，他的puzzle基于Scrypt，Scrypt是一个对内存性能要求较高的哈希函数，以前用于计算机安全领域，跟密码相关</p>
+<p><strong>莱特币挖矿算法的基本思想：</strong></p>
+<ol>
+<li><img src="/../article_img/Web3/img5-9.png" srcset="/img/loading.gif" lazyload></li>
+</ol>
+<p>开一个很大的数组，然后按照顺序填充一些伪随机数。seed为种子节点，通过seed进行一些运算获得第一个数，之后每个数字都是通过前一个位置的值取哈希得到的。伪随机数是说取哈希值后的值你也不知道，看上去就是乱七八糟的数一样，就好像随机数，但我们不可能真的用随机数，真的用随机数没法验证。填充完之后，数组里面的数值是有前后依赖关系的，是从第一个数依次算出来的</p>
+<ol start="2">
+<li><img src="/../article_img/Web3/img5-10.png" srcset="/img/loading.gif" lazyload></li>
+</ol>
+<p>在求解这个puzzle的时候，按照伪随机数的顺序从数组当中读取一些数，每次读取的位置跟前一个数相关。例如：第一次，从A位置读取其中数据，根据A中数据计算获得下一次读取位置B，第二次，从B位置读取其中数据，根据B中数据计算获得下一次读取位置C。这个也是一种伪随机数的顺序，因为是经过哈希运算之后得到下一个读取的位置</p>
+<p>如果这个数组开的足够大的时候，对于挖矿的矿工来说就是memory hard，因为如果不保存数组，那么挖矿的计算复杂度会大幅度上升。比如说，在求解puzzle的时候，一开始在A这个位置，如果没有保存数组的话，还得从第一个数，依次算出这个值，然后要读取第二个位置的数，需要再算一遍算到B位置的值，下面是C也是一样，要算到C位置的值，这个计算复杂度会大幅度上升</p>
+<p>所以要想高效的挖矿，这个内存区域是需要保存的，有的矿工可能只保存一部分内存区域的内容。比如说，这个数组当中只保留奇数位置的元素，偶数位置的元素就不存了，这样数组可以少一半，用到偶数位置的数的时候要根据另外一半去算一下，计算复杂度会提高一点，但是内存量可以减小一半，叫做time-memory trade off</p>
+<p>这个设计的核心思想是不能像比特币那样主要进行哈希运算，要增加运算过程中对内存访问的需求。要设计一个对ASIC芯片不友好的，让普通计算机能参与的，设计的任务更像是普通计算机干的事情，而不是像一个挖矿专用的ASIC芯片干的事情。普通计算机内存很大，就要利用这个特性，设计puzzle对资源的需求，特别像是普通计算机对资源的配备比例</p>
+<p><strong>这个puzzle好的地方是对于矿工挖矿的时候是memory hard，坏的地方是对轻节点来说也是memory hard</strong></p>
+<p>设计puzzle的一个原则是difficult to solve, but easy to verify，<strong>这个puzzle设计的问题就在于验证这个puzzle需要的内存区域跟求解这个puzzle需要的区域几乎是一样大的，轻节点验证的时候也得保存这个数组</strong>，不然计算复杂度也是大幅度提高</p>
+<p>这样造成一个结果就是莱特币在真正使用的时候，这个内存区域不敢设置的太大，比如说设置一个1G的数组，这对于计算机来说是不大的，但是如果是一个手机上的app，1G的内存可能就太大了。因为这个原因，实际莱特币在使用的时候，这个数组只有128K，这个是非常小的，连1M都不到，就是为了照顾轻节点，那么最后的效果怎么样呢</p>
+<p>当初莱特币在发行的时候，目标不仅仅是ASIC resistance，还是GPU resistance，就是挖矿最好连GPU都不要用，都用普通的CPU挖矿就行了。结果后来就出现GPU挖矿的，再后来就出现用ASIC芯片挖矿的，实践证明莱特币要求的128K内存不足以对ASIC芯片的生产和设计带来实质性的障碍，所以从这一点来说，莱特币的设计目标没有达到</p>
+<p>但是<strong>莱特币早期宣传的设计目标对于解决冷启动问题是很有帮助的</strong>，任何一个加密货币，都存在冷启动问题，包括比特币。一开始的时候，没有人知道这个加密货币，你就发行一个货币，没有人参与，这对于基于工作量证明的加密货币来说，挖矿人太少是不安全的，因为发动恶意攻击难度太低</p>
+<p>比特币早期也是不安全的，一开始只有中本聪一个人在用，后来变成少数几个人在挖矿，那个时候，如果想对比特币发动恶意攻击是很容易的，那么比特币是怎么解决这个冷启动的问题呢？现在谁也说不清楚了，但总的来说是一个循环迭代的过程，中本聪宣传的多了，对比特币感兴趣的人就多了，然后参与挖矿人就多了，比特币就变得更安全了，价值也提高了，然后对比特币感兴趣的人就更多了，挖矿的人也更多了，然后比特币变得更安全了，价值就更进一步提高了，形成一个良性循坏</p>
+<p>莱特币虽然没有达到当初的设计目标，但是他早期的宣传，这种更民主，让更多人参与的理念对于聚集人气来说是很重要的，所以莱特币一直到现在也是一个比较主流的加密货币。<strong>除了mining puzzle之外，莱特币跟比特币的另一个区别是来特比的出块速度是比特币的4倍，他的出块间隔是两分半，而不是十分钟，除此之外，这两种加密货币基本上是一样的</strong></p>
+<h5 id="2）、以太坊的挖矿算法"><a href="#2）、以太坊的挖矿算法" class="headerlink" title="2）、以太坊的挖矿算法"></a>2）、以太坊的挖矿算法</h5><p>以太坊也是用一种memory hard mining puzzle，但是在设计上跟莱特币有很大的不同</p>
+<p>以太坊用的是两个数据集，一大一小，小的是16M的cache，大的数据集是一个1G的dataset（DAG），这1G的数据集是从16M的cache生成出来的。为什么要设计成一大一小的两个数据集呢？就是为了便于验证，<strong>轻节点只要保存16M cache就行了，只有需要挖矿的矿工才需要保存1G的dataset</strong></p>
+<p><strong>以太坊挖矿算法的基本思想：</strong></p>
+<ol>
+<li><p>16M的cache数据生成方式与莱特币中生成方式是比较类似的，通过seed进行一些运算获得第一个数，之后每个数字都是通过前一个位置的值取哈希获得的</p>
+</li>
+<li><p>和莱特币的不同点：</p>
+<p>莱特币是直接从数组当中按照伪随机数的顺序读取一些数，然后进行运算</p>
+<p>以太坊是要先生成一个更大的数组，以太坊中这两个数组大小并不固定，因为考虑到计算机内存不断增大，因此该两个数组需要定期增大</p>
+<p><img src="/../article_img/Web3/img5-11.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>大的DAG生成方式：</p>
+<p>大的DAG中每个元素都是从小的cache中按照伪随机顺序读取一些元素，方法和莱特币里面求解puzzle的过程是类似的。如第一次读取A位置数据，对当前哈希值更新迭代算出下一次读取位置B，再进行哈希值更新迭代计算出C位置元素，从cache里面来回迭代读取256次，最终算出一个数作为DAG中第一个元素。依次类推，DAG中每个元素都是从cache里面按照伪随机数的顺序读取256次，不断进行迭代更新，最后得到一个哈希值存在里面</p>
+<p><img src="/../article_img/Web3/img5-12.png" srcset="/img/loading.gif" lazyload></p>
+</li>
+<li><p>求解puzzle的时候，用的是大数据集中的数，这个cache是不用的，按照伪随机数的顺序从大的数据集中读取128个数。根据区块block header和其中的nonce值计算一个初始哈希，根据其映射到某个初始位置A，读取A位置的数及其相邻的后一个位置A’上的数，根据该两个数进行运算，算得下一个位置B，读取B和B’位置上的数，依次类推，迭代64次，每次读两个数，共读取128个数。最后，计算出一个哈希值与挖矿难度目标阈值比较，若不符合就重新更换nonce，重复以上操作直到最终计算哈希值符合难度要求或当前区块已经被挖出</p>
+</li>
+</ol>
+<p><img src="/../article_img/Web3/img5-13.png" srcset="/img/loading.gif" lazyload></p>
+<h5 id="3）、通过伪代码理解以太坊挖矿算法"><a href="#3）、通过伪代码理解以太坊挖矿算法" class="headerlink" title="3）、通过伪代码理解以太坊挖矿算法"></a>3）、通过伪代码理解以太坊挖矿算法</h5><p><img src="/../article_img/Web3/img5-14.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>第一步首先生成16M cache，cache中每个元素都是64个字节的哈希值，生成的方法与莱特币类似，第一个元素是种子的哈希，就是这个seed的哈希，后面每个元素是前一个的哈希。这个哈希的内容每隔3万个区块会变化一次，这个seed每隔3万个区块会发生变化，然后重新生成cache中的内容，同时cache的容量要增加原始大小的 1 128 \frac{1}{128} 1281​，也就是16M的 1 128 \frac{1}{128} 1281​=128K</p>
+<p><img src="/../article_img/Web3/img5-15.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>第二步是从这个cache生成1G的大数据集。上图这个函数的功能是通过cache来生成dataset中的第i个元素，基本思想是按照伪随机数的顺序读取cache中的256个数，每次读取的位置是由上一个位置的数值经过计算得到的。这里用的两个函数get_int_from_item和make_item，是自己定义的，源代码中是没有的，把源代码中一些相关的内容总结成了这两个函数。这个get_int_from_item函数就是用当前算出来的哈希值求出下一个要读取的位置，然后make_item函数用cache中这个位置的数和当前的哈希值计算出下一个哈希值，这样迭代256轮，最后得到一个64字节的哈希值，作为大数据集中的第i个元素</p>
+<p><img src="/../article_img/Web3/img5-16.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>这个calc_dataset是生成整个1G数据集的过程，就是不断调用calc_dataset_item函数来依次生成大数据集中的每个元素</p>
+<p><img src="/../article_img/Web3/img5-17.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>上图的两个函数，分别是矿工用来挖矿的函数和轻节点用来验证的函数</p>
+<p>先看hashimoto_full这个函数，这个是矿工用来挖矿的函数。它有四个参数，第一个参数header是当前要生成的区块的块头，以太坊和比特币一样，挖矿只用到块头的信息，这样设计的原因是，轻节点只下载块头就可以验证这个区块是否符合挖矿的难度要求；第二个参数nonce就是当前尝试的nonce值，以太坊就像比特币一样，挖矿的时候，也是要尝试大量的nonce才能找到一个符合要求的，第三个参数full_size是大数据集中元素的个数，元素的个数每3万个区块会增加一次，增加原始大小的 1 128 \frac{1}{128} 1281​也就是1G的 1 128 \frac{1}{128} 1281​=8M；最后这个参数dataset就是前面生成的大数据集。挖矿的过程是这样的，首先根据块头的信息，和当前nonce算出一个初始哈希值，然后要经过64轮的循环，每一轮循环读取大数据集中两个相邻的数，读取的位置是由当前哈希值计算出来的，然后再根据这个位置上的数值来更新当前的哈希值，这跟前面生成大数据集的方法是类似的，循环64次，最后返回一个哈希值，跟挖矿难度目标域值相比较</p>
+<p><strong>问题：每次读取大数据集中两个相邻位置的哈希值，这两个哈希值有什么联系吗？</strong></p>
+<p>其实是没有联系的，它们虽然位置相邻，但是生成的过程是独立的，每个都是由前面那个16M的cache中的256个数生成的，而且256个数的位置是按照伪随机数的顺序产生的，这个是<strong>构造大数据集的一个特点，每个元素独立生成，这才给轻节点的验证提供了方便</strong>，所以每次读取的相邻两个位置的哈希值是没有什么联系的</p>
+<p>hashimoto_light这个函数是轻节点用来验证的函数，也是有四个参数，但是含义跟上面那个矿工用的函数有所不同。轻节点是不挖矿的，当他收到某个矿工发的区块的时候，这里用来验证的函数的第一个参数header是这个区块的块头；第二参数是包含在这个块头里的nonce，是发布这个区块的矿工选好的；轻节点的任务是验证这个nonce是否符合要求，验证用的是16M的cache，也就是最后的参数cache；第三个参数full_size仍然是大数据集的元素个数，跟上面那个挖矿的那个full_size含义是一样的，并不是cache中的元素个数</p>
+<p>验证的过程也是64轮循环，看上去与挖矿的过程类似，只有一个地方有区别：每次需要从大数据集中读取元素的时候，因为轻节点没有保留大数据集，所以要从cache中重新生成其他地方的代码逻辑是一样的，每次从当前的哈希值算出要读取的元素的位置，这个位置是指在在大数据集中的位置，但是轻节点并没有这个大数据集，所以要从cache中生成大数据集中这个位置的元素，大数据集中每个元素都可以独立生成出来</p>
+<p><img src="/../article_img/Web3/img5-18.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>最后这个函数，是矿工挖矿的主循环，其实是不断尝试nonce的过程，这里的target就是挖矿的难度目标，跟比特币类似，也是可以动态调整的，nonce的可能取值是从0-2的64次方，对每个nonce用hashimoto_full函数算出一个哈希值，看看是不是小于难度目标，如果不行的话，就再试下一个nonce</p>
+<p><img src="/../article_img/Web3/img5-19.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>最后这一页是前面讲过的所有函数的一个汇总，同时解释了为什么轻节点可以只保存cache，而矿工要保存整个大数据集。其实轻节点做一次验证的计算量也不算少，同样要经过64轮循环，每次循环用到大数据集中的两个数，所以是128个数，每个数是从cache里的256个数计算得到的，跟比特币相比，以太坊中验证一个nonce的计算量要大很多，但是仍然在可以接受的范围内，相比之下，如果矿工每次都这么折腾的话，代价就太大了，因为要尝试的nonce就太多了</p>
+<p>到目前为止，以太坊挖矿主要还是以GPU为主，用ASIC矿机的很少，所以从这一点来说，它比莱特币来说要成功，起到了ASIC resistance的作用，这个跟以太坊的挖矿算法需要的大内存是很有关系的，这个挖矿算法就是ethash，矿工挖矿需要1G的内存，跟莱特币的128K比，差了有八千多倍，即使是16M的cache跟128K比，也要大了一百多倍，所以这个差距是很大的，而且还是按照这两个数据集的最初的大小算的，因为定期会增长嘛，如果按照现在这个2.5G差距就更大了</p>
+<h5 id="4）、权益证明（POS：Proof-of-Stake）"><a href="#4）、权益证明（POS：Proof-of-Stake）" class="headerlink" title="4）、权益证明（POS：Proof of Stake）"></a>4）、权益证明（POS：Proof of Stake）</h5><p>以太坊没有出现ASIC矿机还有另外一个原因，以太坊从很早就计划要从<strong>工作量证明转向权益证明</strong>，所谓的POW-&gt;POS（Proof of Stake）。所谓的<strong>权益证明，就是按照所占的权益进行投票来形成共识</strong>，就不用挖矿了，权益证明是不挖矿，就类似于股份公司按照股票多少来进行投票，这个对于ASIC矿机的厂商来说是个威胁，因为ASIC芯片的研发周期是很长的，一款芯片从设计研发流片到最后生产出来，一年的周期就已经算是很快的了，而且研发的成本也很高，将来以太坊转入权益证明之后，就不挖矿，那些投入的研发费用就白费了</p>
+<h5 id="5）、预挖矿（Pre-Mining）"><a href="#5）、预挖矿（Pre-Mining）" class="headerlink" title="5）、预挖矿（Pre-Mining）"></a>5）、预挖矿（Pre-Mining）</h5><p>以太坊中采用了<strong>预挖矿</strong>（Pre-Mining），所谓预挖矿并不是说真的去挖矿，而是说，<strong>在当初发行货币的时候，预留一部分货币给以太坊的开发者</strong>，有点像创业公司会留一部分股票给创始人和早期员工一样，将来这个加密货币成功了的话，这些预留的币就变得是很值钱了</p>
+<p>跟比特币相比，比特币就没有采用pre-mining的模式，所有的比特币都是挖出来的，只不过早期的时候，挖矿的难度，要容易的多，与pre-mining相关的一个概念叫pre-sale（就是把pre-mining预留的那些币通过出售的方法来换取一些资产用于加密货币的开发工作），有点类似于众筹，如果你看好这个加密货币的未来，可以在pre-sale的时候买入，将来这个加密货币成功之后呢，同样可以赚很大一笔钱</p>
+<h4 id="7、ETH-难度调整"><a href="#7、ETH-难度调整" class="headerlink" title="7、ETH-难度调整"></a>7、ETH-难度调整</h4><h5 id="1）、以太坊难度调整"><a href="#1）、以太坊难度调整" class="headerlink" title="1）、以太坊难度调整"></a>1）、以太坊难度调整</h5><p>比特币是每隔2016个区块会调整一下挖矿难度，目的是维持出块时间在十分钟左右，以太坊是每个区块都有可能调整挖矿难度，调整的方法也比较复杂也改过好几个版本</p>
+<p><img src="/../article_img/Web3/img5-20.png" srcset="/img/loading.gif" lazyload></p>
+<p>上图是以太坊的难度调整公式，H是指当前这个区块， H i H_i Hi​是这个区块的序号，D(H)是这个区块当前的难度。这个难度调整的公式有两部分，max括号里的是第一部分，管它叫基础部分，目的是为了维持出块时间大概在十五秒左右；后面跟的是第二部分，也称为难度炸弹，主要是为了向权益证明过渡，将来的以太坊想把共识机制从工作量证明逐步转入权益证明</p>
+<p>第一部分调整的方法是在父区块的难度基础上，加上一些自调整的部分，P(H)就是父区块的难度，所谓的父区块就是当前区块链的最后一个区块，对于我们正在挖的这个区块来说，它是这个区块的父区块</p>
+<p>第一部分的难度调整有一个下限，就是这里的 D 0 D_0 D0​，131072，这一部分无论你去怎么调整，最小不能低于这个难度，这是为了保证挖矿有一个最低的难度</p>
+<p><img src="/../article_img/Web3/img5-21.png" srcset="/img/loading.gif" lazyload></p>
+<p>上图是自适应难度调整部分，先看一下第一部分，x是调整的力度，是父区块的难度除以2048，所以调整难度时，无论上调下调，都是按照这个力度的整数倍进行调整的，按照父区块的难度的 1 2048 \frac{1}{2048} 20481​作为调整的一个单位</p>
+<p>下面那个奇怪的符号是y-后面的一项，这个符号的取值跟两个因素有关，一个是出块时间，另外一个是有没有叔父区块，就是父区块有没有叔父区块，那么为什么要跟叔父区块相关呢？</p>
+<p>因为如果是当前区块的最后一个区块，它包含有一个叔父区块的话，这个时候，系统中的货币总供应量是增加的，因为叔父区块要得到出块奖励，那么包含叔父区块的这个父区块也有得到一定的奖励，所以这两个合在一起就会使货币的总供应量增加，为了维持系统中的总供应量的稳定，一种平衡，所以挖这个区块的难度就要提高一个单元</p>
+<p>后面这个-99是说难度调整系数部分有一个下限，Max前面这部分有可能是正的，有可能是负的，如果是负的话，说明难度要往下调，最多一次性只能调整99个单元，每个单位是父区块难度的 1 2048 \frac{1}{2048} 20481​，所以一次性下调难度最多是 99 2048 \frac{99}{2048} 204899​</p>
+<p><img src="/../article_img/Web3/img5-22.png" srcset="/img/loading.gif" lazyload></p>
+<p>上图这个公式，y就是我们说的取决于有没有叔父区块，有叔父区块的话，y&#x3D;2，没有叔父区块的话，y&#x3D;1，那么不论是哪种情况，都是常数，所以都是常数减去后面这一项，但如果后面这一项比前面这个常数大的话，减出来是个负数，说明这个难度是要下调的。相反，如果后面那一项比前面那一项要小的话，减出来就是个正数，说明难度要上调</p>
+<p>H S H_S HS​是当前区块的时间戳， P ( H ) H S P(H)H_S P(H)HS​是父区块的时间戳，这两项相减， H S − P ( H ) H S H_S - P(H)H_S HS​−P(H)HS​就是当前区块的出块间隔，这个出块间隔除以9，然后向下取整</p>
+<p>如果当前区块的出块时间在1-8秒之间，后面往下取整的那一部分算出来是0，y-0&#x3D;y，假设没有叔父区块，那么y是等于1的，那么这整个就是等于是1，说明这种情况下，难度要上调一个单位，因为我们希望保证稳定的出块时间是在15秒，现在的出块时间变成了1-8s，说明出块速度有点太快了，把难度上调一个单位维持下平衡</p>
+<p>如果出块时间是在9-17s之间，后面是1，前面也是1，1-1&#x3D;0，说明这个时候出块时间是符合要求的，希望是15s，实际是9-17s之间，这个时候可以不用调，光考虑基础部分，不考虑难度炸弹的话，就是基本上可以不用调</p>
+<p>如果出块时间是在18-26s之间，那么后面那项算出来是2，变成了1-2&#x3D;-1，说明难度要下调一个单位，如果出块时间更长呢，比26s更长，那么下调的幅度也会更大</p>
+<p>上图这个公式里max的第二项有一个-99，如果单次的出块时间非常非常长，你可能前面算出来是个负的很厉害的数，但是你一次性下调也不能超过99个单位，这是为了防止一些系统中出现的异常情况，像一些黑天鹅事件，正常情况下，不能出现这个幅度的下调</p>
+<h5 id="2）、难度炸弹"><a href="#2）、难度炸弹" class="headerlink" title="2）、难度炸弹"></a>2）、难度炸弹</h5><p><strong>为什么要设置难度炸弹？</strong></p>
+<p>以太坊的共识机制要从工作量证明逐步转入权益证明，而权益证明是不挖矿的，这就带来一个问题，那些已经在挖矿设备上投入大量资金的矿工会不会联合起来抵制这个转换</p>
+<p>因为矿工已经花了好多钱购买矿机，现在被告知要搞权益证明了，那这些挖矿设备都没用了，那矿工肯定有意见，所以以太坊就担心大家不愿意转入权益证明，本来从工作量证明转入权益证明就是要经过硬分叉来实现，相当于你改了这个共识协议了，如果因为这些挖矿设备有些人不原意转过来，造成社区的分裂，可能出现的情况是，以太坊可能出现两条平行的链，为了避免这种情况，所以以太坊在设计这个难度调整公式的时候就加了一个难度炸弹</p>
+<p><img src="/../article_img/Web3/img5-23.png" srcset="/img/loading.gif" lazyload></p>
+<p>最初设计这个难度炸弹的时候，没有第二行，没有减去三百万这一行，第一行直接用的就是 H i H_i Hi​，当前区块的序号，没有 H i ′ H_i’ Hi′​这一项，就是当前的区块号除以10万，向下取整，然后作为2的指数，也就是说，难度炸弹这部分的取值，是从指数形式增长的</p>
+<p>早期的时候，以太坊刚刚上线不久的时候，区块号都比较小，所以难度炸弹这部分算出来的值是很小的，基本上可以忽略不计，那么难度调整主要还是由难度调整的第一部分（基础部分）来决定的，或者说是由系统中的出块时间来决定的</p>
+<p>然而随着时间的推移，区块号变得越来越大，这个时候难度炸弹的威力开始显现出来，指数函数增长到后期，速度是非常恐怖的，所以当初设计的思想是等到这个难度炸弹的威力开始发挥出来的时候，也正是从以太坊需要从工作量证明转入权益证明的时候，那个时候因为挖矿变得越来越难了，所以大家也就原意转入权益证明了，因为如果不转的话，要挖出矿来，就太费劲了</p>
+<p>但实际情况，基于权益证明的共识机制实际设计出来有很多问题要解决，远远没有当初想象的那么顺利，这样造成的结果就是，转入权益证明的时间点被一再的推迟，然后出现的情况就是挖矿已经变得越来越难了，因为难度炸弹的威力已经显现出来了，但是大家还是得继续挖，因为没有别的方法可以达成共识</p>
+<p>原来是担心大家不愿意转，现在变成了想转也没法转，因为权益证明的共识机制还没有开发出来，这个情况到2017年四五月份中旬的时候就已经很明显了，出块时间已经逐渐开始增长了，原来是说要稳定在15秒，那个时候就不断的变成了从15秒不断地增加，16秒，17秒，最后增加到30秒左右，而且如果不采取措施，还会继续增长上去</p>
+<p><strong>难度炸弹调整：</strong></p>
+<p>以太坊最后在一个EIP当中，决定计算难度炸弹地时候，要把区块号回退300万个区块来计算，就这个公式中，把真实的区块号减去三百万，算出 H i ′ H_i’ Hi′​，这个可以看成是假的区块号，然后算难度炸弹的时候是用这个假的区块号算的，这个给权益证明的上限争取了一些时间</p>
+<p><img src="/../article_img/Web3/img5-24.png" srcset="/img/loading.gif" lazyload></p>
+<p>上图中，y轴是难度炸弹的取值，x轴是区块号，是以10万为单位，可以看到早期的时候，区块号比较小的时候，这个难度炸弹的作用是很不明显的，基本可以忽略不计，难度调整基本上是根据系统中的出块时间进行调整的，然后，这个图的前半部分是按照原来那个公式算的，就是在没有决定回调之间的原始公式算的，直接用正常的区块号算。大概是370万个区块左右，这个难度炸弹的威力开始指数上升，到上面这个尖峰，这个尖峰的位置就是以太坊决定回调这个难度炸弹的时候，减了三百万个区块，所以这个难度炸弹的取值一下就掉下来了，后面看上去好像是个平的直线，其实也是在增长，只不过是因为那个尖峰的位置太高了，所以看上去好像是直线，前面这个部分其实也是在增长，也是因为这个尖峰太高了，所以看不出来</p>
+<h5 id="3）、以太坊发展的四个阶段"><a href="#3）、以太坊发展的四个阶段" class="headerlink" title="3）、以太坊发展的四个阶段"></a>3）、以太坊发展的四个阶段</h5><p><img src="/../article_img/Web3/img5-25.png" srcset="/img/loading.gif" lazyload></p>
+<p>以太坊的发展被分成了四个阶段，Frontier、Homestead、Metropolis,Serenity，其中Metropolis又分为两个阶段，Byzantium和Constantinople，我们处于Byzantium阶段（拜占庭阶段），难度炸弹的回调就是在Byzantium阶段进行的</p>
+<p>EIP：Ethereum Improvement Proposal，BIP:BitCoin Improvement Proposal</p>
+<p><strong>在难度回调的同时，把出块奖励从5个以太币降到了3个以太币</strong>，因为如果不这么调的话，对于回调之前的矿工是不公平的。这个回调是突然进行的，昨天挖矿的时候挖的很辛苦，得到的是5个以太币，结果今天一夜之间难度降低了，你挖矿也是得了5个以太币，那对我来说就不公平，而且从系统当中获益的总供应量来说要维护总供应量的稳定，现在变得是挖矿要容易了，所以就相应的把出块奖励减少一些，这里说明一点，<strong>比特币当中每隔一段时间出块奖励减半的做法在以太坊中是没有的，像这个把5个以太币降低3个就是一次性的，并不是说以后定期都这么做</strong></p>
+<h5 id="4）、难度调整具体代码实现"><a href="#4）、难度调整具体代码实现" class="headerlink" title="4）、难度调整具体代码实现"></a>4）、难度调整具体代码实现</h5><p><img src="/../article_img/Web3/img5-26.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>上图是Byzantium阶段挖矿难度调整的代码，输入是父区块的时间戳和父区块的难度，计算出当前挖的这个区块的难度。这里面的注释给出了难度计算公式，也是分成两部分，括号里面是第一部分是难度调整的基础部分，后面加上2的periodCount-2次方，这就是难度炸弹，基础部分是在parent_diff的基础上加上后面那一项，后面那一项就是前面这个难度调整的力度，parent_diff&#x2F;2048乘以后面的系数，后面max的前面那一串就是前面ppt公式的那个y，如果有叔父区块是2，没有的话是1，减去后面这个就是出块间隔除以9向下取整，后面这个-99也是难度调整的下限</p>
+<p>下面这几行代码，bigTime就是当前区块的时间戳，bigParentTime就是父区块的时间戳</p>
+<p><img src="/../article_img/Web3/img5-27.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>上图的代码主要是计算基础部分的难度调整，第一行就是把当前时间戳减去父区块的时间戳算出出块时间，然后第二行除以9向下取整</p>
+<p>下面这个if else就是判断一下是不是有叔父区块，有的话，是用2减去前面这个数x，没有的话用1减去前面这个数x，然后接下来跟负的99相比，往下调有一个节限，不能比-99还要小，接下来算的是难度调整的力度，父区块的难度除以这个DifficultyBoundDivisor实际上就是2048，然后跟前面算出的系数相乘，加到父区块的难度上面去，基础部分的难度调整有一个下限，难度再小也不能小于那个 D 0 D_0 D0​，这个MinimumDifficulty就是那个 D 0 D_0 D0​：131072</p>
+<p><img src="/../article_img/Web3/img5-28.png" srcset="/img/loading.gif" lazyload alt="在这里插入图片描述"></p>
+<p>上图是难度炸弹的计算，fakeBlockNumber假的区块号就是前面讲的 H i ′ H_i’ Hi′​。下面这个if的判断跟2999999相比，比它大的话，就要减掉2999999，为什么不减3000000，前面的公式不是减三百万吗？因为这里判断的是父区块的序号，而我当前挖的这个区块，比父区块要多一个，所以按照父区块的序号算的话，就正好差一个</p>
+<h4 id="8、ETH-权益证明"><a href="#8、ETH-权益证明" class="headerlink" title="8、ETH-权益证明"></a>8、ETH-权益证明</h4><h5 id="1）、POW机制能耗状况"><a href="#1）、POW机制能耗状况" class="headerlink" title="1）、POW机制能耗状况"></a>1）、POW机制能耗状况</h5><p>比特币和以太坊目前都是基于工作量的证明，这种共识机制收到了一个普遍的批评就是浪费电</p>
+<p><img src="/../article_img/Web3/img5-29.png" srcset="/img/loading.gif" lazyload></p>
+<p>上图展示的是比特币能耗随时间变化的情况，y轴是TWh是Terawatt Hours，这是 1 0 12 10^{12} 1012，KWh&#x3D;Kilowatt hours，是 1 0 3 10^3 103，所谓叫千瓦时，一度电的意思，通过这个图可以看出比特币能耗随时间是不断增长的</p>
+<p><img src="/../article_img/Web3/img5-30.png" srcset="/img/loading.gif" lazyload></p>
+<p>上图是比特币的能耗统计数据：</p>
+<p>比特币每年的总能耗，大概是70个TWh，相当于治理这个这个国家的能耗，也相当于647万多美国家庭的能耗，占全世界总能耗的0.31%</p>
+<p>具体到每个交易上来说，平均每个交易的能耗是1014个千瓦时，相当于34.26个美国家庭一天的能耗，这个能耗是相当大，一个交易要花1000度电，信用卡公司处理一个交易的能耗远远到不了这个数字</p>
+<p>比特币挖矿的每年总收入是60多亿美元，接近61亿美元，费用是差不多35亿美元，占总收入的57.48%，说明挖矿的利润空间还是很大的</p>
+<p><img src="/../article_img/Web3/img5-31.png" srcset="/img/loading.gif" lazyload></p>
+<p>上图是以太坊的统计数据，以太坊的能耗也是随时间增长的，中间有一些波动</p>
+<p><img src="/../article_img/Web3/img5-32.png" srcset="/img/loading.gif" lazyload></p>
+<p>从具体的数据上来看，以太坊一年的能耗大概是20个TWh，跟刚才比特币的70个还是少了不少，相当于冰岛这个国家的能耗，也相当于183万个美国家庭的能耗，能耗占全世界总能耗的0.09%，平均到每个交易上，每个交易是67个千瓦时，相当于2.25个美国家庭一天的能耗</p>
+<p>从道理上讲，比特币的交易是比较简单的，就是一些单纯的转账交易，以太坊的交易有可能包含对智能合约的调用，所以以太坊的能耗应该更高才对，而实际上是比比特币要低了很多，一个是67度电，一个是1000多度电。因为出块时间长，比特币要10分钟才能挖出一个区块，以太坊15秒就可以挖出一个区块，所以以太坊的出块时间很短，挖矿挖的时间就短，所以每个交易平均下来的能耗要小很多，当然以太坊的这个单位交易的能耗仍然比信用卡公司要高的很多</p>
+<p><img src="/../article_img/Web3/img5-33.png" srcset="/img/loading.gif" lazyload></p>
+<p>以太坊每年挖矿的收入是50多亿美元，费用接近24亿美元。如果把比特币和以太坊的能耗加在一起当作一个国家来算的话，它在国家中的排行榜是这样的，芬兰，比利时，巴基斯坦，然后就是比特币加以太坊，然后是哈萨克斯坦，阿联酋，荷兰</p>
+<h5 id="2）、思考"><a href="#2）、思考" class="headerlink" title="2）、思考"></a>2）、思考</h5><p>挖矿的过程这些能耗是不是必须的，思考几个问题：</p>
+<p>矿工为什么要挖矿？为了取得出块奖励，为了获得收益</p>
+<p>为什么要给矿工这些收益，这些出块奖励呢？为了激励矿工参与区块链的维护</p>
+<p>那矿工具体是怎么挖矿的呢，比如说你决定参与挖矿要成为一个矿工，你需要怎么做？你需要找一笔挖矿资金，然后去买这些设备，可以买矿机、GPU，然后开始挖矿</p>
+<p>那挖矿的收益是由什么决定的？是由你算力所占的比例决定的，是由你有多少矿机，占了多少硬件设备，最终是由你投入的资金决定的</p>
+<p>那既然最终是拼钱，那么直接把钱拿出来比一比不就行了吗。现在是矿工通过竞争算力来决定挖矿的收益如何分配，能不能改成直接靠比钱的多少来决定收益。比如我出100万，你出50万，现在的做法是咱们用这些钱去买矿机，然后用这个矿机开始挖矿，比拼下算力，看谁挖的区块多，那与其这样，还不如我们都<strong>把这些钱投入区块链开发，将来就按照每个人投入的资金的多少来决定收益的分配</strong>。那还挖矿干嘛，直接拼钱不就行了，这个就是权益证明的一个基本思想，有时候管这种方法叫做virtual mining（虚拟挖矿）</p>
+<h5 id="3）、权益证明"><a href="#3）、权益证明" class="headerlink" title="3）、权益证明"></a>3）、权益证明</h5><p><strong>采用权益证明的加密货币，一般在正式发行之前，会先预留一部分货币给开发者，也会出售一部分货币，来换取开发这个加密货币所需要的资金，将来按照权益证明的共识机制，每个人是按照持有货币的数量来进行投票的，那这种方法跟工作量证明相比有什么优点？</strong></p>
+<p>一个明显的好处是，省去了挖矿的过程，也避免了因此产生的能耗和对环境影响，减少了温室气体的排放</p>
+<p>基于工作量证明的共识系统从某种意义上来说，维护区块链安全的资源不是一个闭环，这是什么意思呢？我们说Block chain is secured by mining，用美元可以购买矿机，然后参与挖矿，也就是说，是从加密货币系统的外面得到的。虽然16、17年加密货币的市值有了很大的增长，但是18年开始又下跌了不少，无论怎么说，它跟世界经济总量相比，仍然是微乎其微的，比如说美国股市的总市值相比，这两个完全不在同一个数量级上。所以如果有某个组织想要发动恶意攻击，只需用足够的资金来购买挖矿设备，然后聚集到加密货币总算力一半以上的算力就行了，也就是说，发动这种攻击所要的资源是可以从外面的世界得到的</p>
+<p>像比特币这样比较主流的加密货币，抗攻击的能力还是相对比较强的，因为系统的总算力还是比较大的，如果是一些刚刚发行的小的这种遇到这样的攻击可能就是致命性的。如果这种小的币种刚刚发行不久，就遇到这种攻击，那么很可能这个币价就直线下降甚至归零了，那么对于这个开发者和早期矿工来说，遭受的损失可能是灾难性的，专门有一个词叫做AltCoin Infanticide（Infant：婴儿，Infanticide：扼杀在摇篮里），不等这个加密货币长大，就把它先干掉了</p>
+<p><strong>那么如果采用的是权益证明，情况会有什么不同呢？</strong></p>
+<p>有点类似于股份制公司按每人占的股份进行投票，权益证明是按照你有多少这个币种的币进行投票的，所以如果有某个人想发动恶意攻击，比如说51%的攻击，他首先要获得这个币种发行量一半以上的份额才行，也就是说<strong>发动攻击的资源只能从加密货币系统内部得到，这就是为什么说它是一个闭环</strong></p>
+<p>无论这个组织者在外面有多少钱，都不会对这个加密货币造成直接的影响，必须用这些钱去买币，买到足够多的币然后才能发动攻击。而一旦有人大量买入加密货币，会出现价格大涨，本来一个刚刚发行的小币种，没有多少人买的，价值也不高，突然有人为了搞垮它大量买入这种币种，让它价格大涨，如果你是这个币的开发者或者是早期投资者，出现这种情况你会怎么想？你会觉得这不一定是坏事啊，我正好可以从中大赚一笔，有点类似于股份制公司遭受恶意收购，就为什么说工作量证明的系统维护它安全的资源不是一个闭环，权益证明才是一个闭环</p>
+<p><strong>权益证明和工作量证明并不是互斥的，有的加密货币采用的是一种混合模型，它仍然是要挖矿的，但是挖矿的难度跟你占有的权益，你持有多少币是相关的</strong></p>
+<p>比如说每个矿工持有一定数量的这个币，挖矿的时候你持有的币越多，挖矿的难度就越小，根据你持有的这个币的权益降低你的挖矿难度。但如果就像这么简单去设计，其实是有一定问题的，那样的话，系统中持有币数量最多的那个人，每次挖矿都是最容易的。所以有的加密货币要求你投入的币会被锁定一段时间，不能重复使用，比如挖当前区块的时候，你投入一定数量的币，用于降低挖矿难度，等这个区块发布出来之后，你投入的这些币就会被锁定一段时间，下次再挖下一个区块的时候，这个币就不能再用了，要过一段时间，过多少个区块以后，才能再重复使用，这个有时候管它叫做Proof of Deposit</p>
+<p><strong>基于权益证明的共识机制该怎么设计有很多挑战，其中这种早期的权益证明遇到的一个挑战就是两边下注的问题</strong></p>
+<p><img src="/../article_img/Web3/img5-34.png" srcset="/img/loading.gif" lazyload></p>
+<p>比如说有这样上图这样一个区块链，出现了分叉。如果是挖矿的话，会沿着上面这条链去挖，因为这个是最长合法链，其实下面那条链也有可能成为最长合法链，如果连续挖出好几个区块，它有可能比上面那条链还要长，但是你不会两个都挖，两边都挖的话，算力分散了，挖到的概率就小了。但是用权益证明的话，可以两边都下注，如果上面那条链成为最长合法链，下面那条链锁定的那些币是没有影响的，比如说，你挖下面区块投入的那些币，只是记录在下面的分叉上，并不影响你在上面分叉的使用，这个叫做nothing at stake，这是早期基于权益证明遇到的一个问题</p>
+<h5 id="4）、以太坊准备采用的权益证明"><a href="#4）、以太坊准备采用的权益证明" class="headerlink" title="4）、以太坊准备采用的权益证明"></a>4）、以太坊准备采用的权益证明</h5><p>以太坊中准备采用的权益证明协议叫做Casper the Friendly Finality Gadget（FFG），该协议在过渡阶段也是要跟工作量证明混合使用的，为工作量证明提供叫做Finality，<strong>Finality是一种最终的状态，包含在Finality中的交易不会被取消</strong></p>
+<p>单纯基于工作量证明就基于挖矿的交易是有可能被回滚的，就比如说，某个交易被写到区块链上，然后有人从前面开始分叉，挖出一条更长的分叉链，这个时候原来写入区块链的那个交易有可能就无效了，比特币当中规定要等六个确定区块，那个只是说等了六个确定区块之后，发生回滚的可能性已经非常小了，但是有个某个有恶意的攻击者，从前面开始分叉，只要他算力足够强占到半数以上的算力，那么仍然有可能让这个分叉链变得比原来的链更长，所以单纯基于挖矿的是缺乏这种Finality</p>
+<p>Casper协议引入了一个概念叫做<strong>验证者Validator，要想成为一个Validator必须要投入一定数量的以太币作为保证金，这个保证金会被系统锁定。Validator的职责是要推动系统达成共识，投票决定那条链是最长合法链，投票的权益决定于保证金的数目大小</strong></p>
+<p>具体的做法有点类似于数据库里的two-phase commit，混用的时候还是有人挖矿的，挖矿的时候，<strong>每挖出100个区块就作为一个epoch，然后决定能不能成为Finality，要进行一些投票，第一轮投票是一个Prepare Message，然后第二轮是Commit Message，Casper规定每一轮投票都要得到 2 3 \frac{2}{3} 32​的验证者才能通过，这是按照保证金的金额大小来算的</strong></p>
+<p><strong>实际系统当中不再区分这两个Message，而且把这个epoch从原来的100个区块减少到50个区块，变成了每50个区块就是一个epoch，每个epoch只用一轮投票的就行了，这一轮投票对于上一个epoch来说是个Commit Message，对于下一个来说是一个Prepare Message，那么要连续两轮投票，两个epoch都得到 2 3 \frac{2}{3} 32​以上的多数，才算有效</strong></p>
+<p><img src="/../article_img/Web3/img5-35.png" srcset="/img/loading.gif" lazyload></p>
+<p>上图是一条区块链，两个虚线中间间隔了100个区块，原始版本的Casper协议是把中间是间隔了100个区块定义成一个epoch，然后结束有两轮投票，每一个要 2 3 \frac{2}{3} 32​的验证者才能算通过，这是原始的版本</p>
+<p><img src="/../article_img/Web3/img5-36.png" srcset="/img/loading.gif" lazyload></p>
+<p>优化以后，原来100个区块的epoch，变成了50个区块的epoch，然后每个epoch结束的时候只要一轮投票，对于前一个epoch来说是Commit Message，对于后一个epoch来说是Prepare Message，然后有连续两个投票的都要有 2 3 \frac{2}{3} 32​的验证者支持才算通过</p>
+<p><strong>那验证者参与有什么好处呢？</strong></p>
+<p><strong>如果验证者履行职责的话，可以得到相应的奖励</strong>，就像矿工挖矿能得到出块奖励一样，验证者做这个工作也可以得到这个奖励。<strong>相反如果验证者有不良行为被发现的话，要受到相应的处罚</strong>，比如某个验证者行政不作为，该投票的时候不去投票，结果导致系统迟迟达不成共识，这种情况下要扣掉他的一部分保证金；如果某个验证者，乱作为乱投票，给两个有冲突的分叉都投票，就两边下注，这种情况被发现的话，要没收全部的保证金，没收到保证金被销毁掉了，相当于减少了系统中以太币的总供应量</p>
+<p><strong>每个验证者有一定的任期</strong>，即使你交了保证金也不是可以永远当验证者，<strong>任期满了之后要经过一定时间的等待期</strong>，等待期是为了让其他的验证者检举揭发这个验证者有没有什么不良的行为，进行惩处，如果等待期过了，没有什么问题，验证者可以取回当初的保证金和得到的奖励，这就是Casper协议的一个过程</p>
+<p><strong>Casper协议可以给挖矿完成一个区块链的某一种状态，做一个check point（检查点），那这个check point是不是绝对安全的？换句话说，通过这个验证者投票达成的Finality有没有可能被推翻？</strong></p>
+<p>原来说包含在Finality里的交易是不会被推翻的，这个是不是绝对的，假设有某个有恶意的组织要发动攻击，如果这个组织仅仅是矿工的话，他是没有办法推翻已经达成的Finality，因为Finality是验证者投票投出来的，单纯是有恶意的矿工，无论他算力有多强，如果没有验证者作为同伙是不可能推翻的</p>
+<p>那什么情况下会出现攻击成功的情况，一定是有大量的验证者两边下注，Casper协议要求每轮投票有 2 3 \frac{2}{3} 32​以上的验证者支持才算通过，如果出现这种情况，至少是 1 3 \frac{1}{3} 31​的验证者是两边都投票的，一旦发现，这 1 3 \frac{1}{3} 31​的验证者的保证金将会被没收，所以可以看到基于权益证明的共识机制和基于工作量证明的共识机制是很不一样的</p>
+<p><strong>以太坊是要逐步从工作量证明过渡到权益证明，随着时间的推移，挖矿得到的奖励是越来越少的，权益证明得到的奖励是越来越多的，最后达到完全不用挖矿的境界</strong></p>
+<p><strong>那既然权益证明这么好，以太坊为什么不从一开始就用权益证明呢？</strong></p>
+<p>因为权益证明不是很成熟，工作量证明是比较成熟的，是经过了时间的检验，比特币和以太坊的挖矿算法都经历了bug bounty的检验，没有人发现什么漏洞，很多人认为权益证明是未来的方向，但是目前主流的加密货币用的还是工作量证明</p>
+<h5 id="5）、其他观点"><a href="#5）、其他观点" class="headerlink" title="5）、其他观点"></a>5）、其他观点</h5><p>对于挖矿消耗大量电能这个观点有人提出了不同的看法，他们认为其所消耗的电能所占比值并不大，而且其对于环境的影响是有限的</p>
+<p>挖矿的一个好处是提供了把电能转化成钱的一种手段。而电能本身难以传输和存储，比特币矿产都是建在电力丰富的地方，所以有人认为挖矿消耗电能并不是坏事，可以有效的化解过剩产能，带动当地经济的发展</p>
+<p><strong>对应课程</strong>：</p>
+<p><a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1Vt411X7JF">北京大学肖臻老师《区块链技术与应用》公开课</a></p>
+<p>本文转自 <a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_40378034/article/details/126559694">https://blog.csdn.net/qq_40378034/article/details/126559694</a>，如有侵权，请联系删除。</p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Web3/" class="print-no-link">#Web3</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>&lt;ETH&gt; GHOST、难度调整、权益证明</div>
+      <div>http://example.com/2025/05/01/ETH_2/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Peter</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年5月1日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2025/05/01/ETH_3/" title="&lt;ETH&gt; 智能合约">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">&lt;ETH&gt; 智能合约</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/05/01/ETH_1/" title="&lt;ETH&gt; 以太坊概述、账户、状态树&amp;交易树&amp;收据树">
+                        <span class="hidden-mobile">&lt;ETH&gt; 以太坊概述、账户、状态树&amp;交易树&amp;收据树</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"bFZ2utAtP6QxKUNJxwibP07k-gzGzoHsz","appKey":"rWP0FjbzaXytusY91AFDmytV","path":"window.location.pathname","placeholder":"留言仅限讨论，禁止广告等行为","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://bfz2utat.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/love.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxingxing.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/caidai.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>
