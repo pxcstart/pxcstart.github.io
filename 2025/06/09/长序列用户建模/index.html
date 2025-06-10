@@ -1,0 +1,861 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=auto>
+
+
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/fluid.png">
+  <link rel="icon" href="/image/title.png">
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="Peter">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="SIM模型  模型由GSU+ESU两部分组成： 通用搜索单元GSU: 从原始的任意长顺序行为数据中进行通用搜索，结合候选项的查询信息，得到与候选项相关的子用户行为序列 精确搜索单元ESU: 模拟候选项目与 SBS 之间的精确关系 对于GSU部分，模型提出了两种通用搜索方案：硬搜索Hard Search 和 软搜索Soft Search  $$ r_i &#x3D; \begin{cases}  Sign(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="长序列用户建模">
+<meta property="og:url" content="http://example.com/2025/06/09/%E9%95%BF%E5%BA%8F%E5%88%97%E7%94%A8%E6%88%B7%E5%BB%BA%E6%A8%A1/index.html">
+<meta property="og:site_name" content="Peter ThinkTank">
+<meta property="og:description" content="SIM模型  模型由GSU+ESU两部分组成： 通用搜索单元GSU: 从原始的任意长顺序行为数据中进行通用搜索，结合候选项的查询信息，得到与候选项相关的子用户行为序列 精确搜索单元ESU: 模拟候选项目与 SBS 之间的精确关系 对于GSU部分，模型提出了两种通用搜索方案：硬搜索Hard Search 和 软搜索Soft Search  $$ r_i &#x3D; \begin{cases}  Sign(">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/article_img/lifelong/img1.png">
+<meta property="article:published_time" content="2025-06-09T12:00:00.000Z">
+<meta property="article:modified_time" content="2025-06-10T09:08:46.645Z">
+<meta property="article:author" content="Peter">
+<meta property="article:tag" content="Recsys">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://example.com/article_img/lifelong/img1.png">
+  
+  
+  
+  <title>长序列用户建模 - Peter ThinkTank</title>
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/twitter-bootstrap/4.6.1/css/bootstrap.min.css" />
+
+
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/github-markdown-css/4.0.0/github-markdown.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/hint.css/2.7.0/hint.min.css" />
+
+  <link  rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+<!-- Do not modify the link that theme dependent icons -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1749284_5i9bdhy70f8.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_1736178_k526ubmyhba.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+
+  <link id="highlight-css" rel="stylesheet" href="/css/highlight.css" />
+  
+    <link id="highlight-css-dark" rel="stylesheet" href="/css/highlight-dark.css" />
+  
+
+
+
+  
+<link rel="stylesheet" href="//at.alicdn.com/t/c/font_4448993_m6xmkls2kf.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/shubiao.css">
+<link rel="stylesheet" href="//cdn.jsdelivr.net/gh/bynotes/texiao/source/css/gundongtiao.css">
+
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    Fluid.ctx = Object.assign({}, Fluid.ctx)
+    var CONFIG = {"hostname":"example.com","root":"/","version":"1.9.8","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false,"scope":[]},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"left","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"code_language":{"enable":true,"default":"TEXT"},"copy_btn":true,"image_caption":{"enable":true},"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"placement":"right","headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":true,"follow_dnt":true,"baidu":null,"google":null,"tencent":{"sid":null,"cid":null},"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false},"umami":{"src":null,"website_id":null,"domains":null,"start_time":"2024-01-01T00:00:00.000Z","token":null,"api_server":null},"woyaola":null,"cnzz":null},"search_path":"/local-search.xml","include_content_in_search":true};
+
+    if (CONFIG.web_analytics.follow_dnt) {
+      var dntVal = navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack;
+      Fluid.ctx.dnt = dntVal && (dntVal.startsWith('1') || dntVal.startsWith('yes') || dntVal.startsWith('on'));
+    }
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+  
+
+  <header>
+    
+
+<div class="header-inner" style="height: 70vh;">
+  <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>Peter Think Tank</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/" target="_self">
+                <i class="iconfont icon-shouye"></i>
+                <span>首页</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives" target="_self">
+                <i class="iconfont icon-guidang"></i>
+                <span>归档</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/" target="_self">
+                <i class="iconfont icon-biaoqian"></i>
+                <span>标签</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/" target="_self">
+                <i class="iconfont icon-guanyu"></i>
+                <span>关于</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/links/" target="_self">
+                <i class="iconfont icon-youqinglianjie"></i>
+                <span>友链</span>
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" target="_self" href="javascript:;" role="button"
+                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="iconfont icon-book"></i>
+                <span>文档</span>
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/" target="_self">
+                    
+                    <span>主题博客</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/guide/" target="_self">
+                    
+                    <span>配置指南</span>
+                  </a>
+                
+                  
+                  
+                  
+                  <a class="dropdown-item" href="https://hexo.fluid-dev.com/docs/icon/" target="_self">
+                    
+                    <span>图标用法</span>
+                  </a>
+                
+              </div>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              <i class="iconfont icon-search"></i>
+            </a>
+          </li>
+          
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">
+              <i class="iconfont icon-dark" id="color-toggle-icon"></i>
+            </a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+  
+
+<div id="banner" class="banner" parallax=true
+     style="background: url('/img/default.png') no-repeat center center; background-size: cover;">
+  <div class="full-bg-img">
+    <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+      <div class="banner-text text-center fade-in-up">
+        <div class="h2">
+          
+            <span id="subtitle" data-typed-text="长序列用户建模"></span>
+          
+        </div>
+
+        
+          
+  <div class="mt-3">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-author" aria-hidden="true"></i>
+        Peter
+      </span>
+    
+    
+      <span class="post-meta">
+        <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+        <time datetime="2025-06-09 20:00" pubdate>
+           2025 年 06 月 09 日 , 晚上 08:00 , 星期一
+        </time>
+      </span>
+    
+  </div>
+
+  <div class="mt-1">
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-chart"></i>
+        
+          <!-- compatible with older versions-->
+          1.7k 字
+        
+      </span>
+    
+
+    
+      <span class="post-meta mr-2">
+        <i class="iconfont icon-clock-fill"></i>
+        
+        
+        
+          <!-- compatible with older versions-->
+          15 分钟
+        
+      </span>
+    
+
+    
+    
+  </div>
+
+
+        
+      </div>
+
+      
+    </div>
+  </div>
+</div>
+
+</div>
+
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+
+    </div>
+
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div id="board">
+          <article class="post-content mx-auto">
+            <h1 id="seo-header">长序列用户建模</h1>
+            
+            
+              <div class="markdown-body">
+                
+                <ol>
+<li>SIM模型</li>
+</ol>
+<p>模型由GSU+ESU两部分组成：</p>
+<p><strong>通用搜索单元GSU:</strong> 从原始的任意长顺序行为数据中进行通用搜索，结合候选项的查询信息，得到与候选项相关的子用户行为序列</p>
+<p><strong>精确搜索单元ESU:</strong> 模拟候选项目与 SBS 之间的精确关系<br><img src="/../article_img/lifelong/img1.png" srcset="/img/loading.gif" lazyload alt="SIM framework"></p>
+<p>对于GSU部分，模型提出了两种通用搜索方案：<strong>硬搜索Hard Search</strong> 和 <strong>软搜索Soft Search</strong></p>
+<div align="center">
+$$
+r_i =
+\begin{cases} 
+Sign(C_i=C_a) & hard-search \\
+(W_b e_i) \odot (W_a e_a)^T & soft-search
+\end{cases}
+$$
+</div>
+
+<p>硬搜索Hard Search: 根据item_category或item_id对behavior分成若干group，只检索与target item相同的group</p>
+<p>软搜索Soft Search: 其中$W_a$和$W_b$为可训练参数，基于长期行为数据的辅助 CTR 预测任务进行训练。训练完成后，行为表示为$U_r&#x3D;\sum_{i&#x3D;1}^Tr_i e_i$，然后对每个行为表示和目标向量取内积，取分数最高的 Top-K 作为后续模型子集（内积搜索采用ALSH方法， 迅速高效）</p>
+<p>对于ESU部分，通过Target Attention获取检索子集中每个行为和target item之间的注意力，通过多头注意力的方式获得用户长期兴趣表示</p>
+<p><img src="/../article_img/lifelong/img2.png" srcset="/img/loading.gif" lazyload alt="ESU Part"></p>
+<p><strong>小结：</strong><br>SIM模型作为处理用户长序列用于兴趣建模的经典方案仍存在很多问题，例如:</p>
+<ul>
+<li>GSU的检索条件过于简单导致的信息丢失(Optimization: 多场景，多行为等)</li>
+<li>两阶段范式并非端到端模型，建模模型和预估模型目标很难保证强一致性，即GSU与ESU之间的gap<ul>
+<li>Optimization: 将Target Attention直接应用到长期行为序列，将两阶段建模修改为端到端建模 Challenge：如何高效的对长序列进行聚合</li>
+</ul>
+</li>
+<li>依赖ID特征进新用户行为建模，缺乏对用户和商品的语义信息的理解<ul>
+<li>Optimization: 使用LLM对用户行为进行建模  Challenge:（1）受LLM上下文长度的限制，无法直接有效的对lifelong behavior进行建模 （2）LLM很难关注序列中的时间信息，对动态兴趣变化的感知较弱<br>  （3）效率问题：随着输入行为序列长度的增加，训练和推理所需的时间会迅速增加</li>
+</ul>
+</li>
+</ul>
+<ol start="2">
+<li>ETA: Efficient Long Sequential User Data Modeling for Click-Through Rate Prediction</li>
+</ol>
+<p>论文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2209.12212">https://arxiv.org/abs/2209.12212</a></p>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/yuM9ZRR91fMsC5eJBd1yLg">https://mp.weixin.qq.com/s/yuM9ZRR91fMsC5eJBd1yLg</a></p>
+<p>Optimization: 将Target Attention应用到长序列中，缓解GSU和ESU的gap。它通过改善内积计算的方式提高target attention的效率</p>
+<p>ETA 首先通过 SimHash 算法为打分商品和用户历史行为生成 Hash 签名，之后通过 HanmingDistance 为每个从中挑选出最相似的 TopK 个behavior和对应的target item，最后再利用进行标准的 Target Attention。（Novelty: 两个二进制 Hash 签名的 HanmingDistance 的计算是两个两个二进制数的异或运算和异或结果 1 的计数，二进制的运算效率要远远高于两个浮点数向量的内积）</p>
+<p>Locality-sensitive hashing (LSH)是一种高维向量空间快速检索 K 近邻的方法。通常两个向量越相似，则可以以越高的概率获得相同的hash映射。由于概率存在一定的误差，通过 Multi-Round LSH 进行多轮 Hash，即可减少误差，提升精准度。</p>
+<p>Multi-Round LSH：两个向量可以在一个二分类的球面上多次旋转投影，越相似的向量在多次旋转投影中落到同一个分类面的概率就越大。<br><img src="/../article_img/lifelong/img4.png" srcset="/img/loading.gif" lazyload alt="Multi-Round LSH Attention"></p>
+<p>SimHash算法：对稠密向量的每一维计算m次二进制hash，拼接起来作为该向量的SimHash结果<br><img src="/../article_img/lifelong/img5.png" srcset="/img/loading.gif" lazyload alt="SimHash"></p>
+<p>下面给出ETA的框架图：</p>
+<p><img src="/../article_img/lifelong/img3.png" srcset="/img/loading.gif" lazyload alt="ETA"></p>
+<ol start="3">
+<li>TWIN: TWo-stage Interest Network for Lifelong User Behavior Modeling in CTR Prediction at Kuaishou</li>
+</ol>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/DjzXpc-9oenmEKSXEJ74Qw">https://mp.weixin.qq.com/s/DjzXpc-9oenmEKSXEJ74Qw</a></p>
+<p>Optimization: 将Target Attention应用到长序列中，缓解GSU和ESU的gap。他通过改善Attention计算中的线性映射来对target attention进行加速</p>
+<p>具体来说，TWIN将用户行为特征分为固有特征和交互特征，其中固有特征仍然按照$KQ^T&#x2F; \sqrt{d}$的方式计算注意力分数，其中$K_h W_h$是缓存起来的，直接查表获得；而Q的计算与序列长度无关，计算量不大；对于交互特征$K_c$, 直接使用维度较低的变换矩阵得到注意力分数</p>
+<p><img src="/../article_img/lifelong/img6.png" srcset="/img/loading.gif" lazyload alt="Behavior Feature Split"></p>
+<p>TWIN框架图：<br><img src="/../article_img/lifelong/img7.png" srcset="/img/loading.gif" lazyload alt="TWIN"></p>
+<ol start="4">
+<li>TWIN V2: Scaling Ultra-Long User Behavior Sequence Modeling for Enhanced CTR Prediction at Kuaishou</li>
+</ol>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/747198544">https://zhuanlan.zhihu.com/p/747198544</a></p>
+<p>Optimization: 在TWIN工作的基础上，根据简单规则对长序列进行分组，再在每个组内进行层次聚类得到簇，用于降低序列长度（可以处理更长的用户序列）</p>
+<p>需要注意的是，v2版本中的Target Attention的实现基本和TWIN类似, 但需要把原来的Item部分换成聚类。</p>
+<p>TWIN-v2框架图：<br><img src="/../article_img/lifelong/img10.png" srcset="/img/loading.gif" lazyload alt="TWIN v2"></p>
+<ol start="5">
+<li>LREA: Efficient Long Sequential Low-rank Adaptive Attention for Click-through rate Prediction</li>
+</ol>
+<p> </p>
+<p>论文链接：<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/2503.02542">https://arxiv.org/pdf/2503.02542</a> </p>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/D_T5w7bF5DGn1m8VUfie4w">https://mp.weixin.qq.com/s/D_T5w7bF5DGn1m8VUfie4w</a></p>
+<p>MLA参考链接：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/zrq96/p/18732985">https://www.cnblogs.com/zrq96/p/18732985</a></p>
+<p>Optimization: 利用低秩矩阵分解来简化Target Attention计算</p>
+<p>首先回顾下计算Target Attention的时间复杂度，将Target Item视为Q，用户行为序列视为K和V。记L为序列长度，B为target item个数，d为稠密向量维度。用户行为序列表示为$E_s \in R^{L \times d}$，target item表示为$E_t \in R^{1 \times d}$<br>$$ TA(E_s,E_t) &#x3D; E_s^T \odot AttScore(E_s, E_t) $$<br>其中，$E_s^T \in R^{d \times L}$, $AttScore(E_s, E_t) \in R^{L \times B}$.所以Target Attention在线上推理时的时间复杂度为O(L<em>B</em>d)  </p>
+<p>关于模型中低秩矩阵的实现，由于数学过程有些繁杂，这里不再展开，它的功效在于计算target attention时，每个部分能够以低秩矩阵的形式参与计算，时间复杂度变成O(Brd)<br><img src="/../article_img/lifelong/img9.png" srcset="/img/loading.gif" lazyload alt="低秩计算Attention"></p>
+<p>LREA框架图：<br><img src="/../article_img/lifelong/img8.png" srcset="/img/loading.gif" lazyload alt="LREA"></p>
+<ol start="6">
+<li>LONGER: Scaling Up Long Sequence Modeling in Industrial Recommenders</li>
+</ol>
+<p>论文链接：<a target="_blank" rel="noopener" href="https://www.arxiv.org/pdf/2505.04421">https://www.arxiv.org/pdf/2505.04421</a> </p>
+<p>参考链接：<a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/c0dbmF1PdhJOcffRXzzS0Q">https://mp.weixin.qq.com/s/c0dbmF1PdhJOcffRXzzS0Q</a></p>
+<p>Optimization: 不依赖中间阶段(GSU)，直接长序列建模。通过对tokens按时间顺序聚合，使用Cross Attention压缩长序列的方式来降低计算开销</p>
+<p>作者设计了一个全局token放在序列开头，一方面用来稳定长序列的注意力机制，另一方面作为全局信息通过聚合整个上下文信号来影响其他token</p>
+<p><strong>Tokens聚合：</strong> 作者将用户行为长序列按时间顺序每K个Item合并成一组, 这样合并后的序列长度则减少为$\frac{L}{K}$。相关效率分析可见参考链接</p>
+<p><strong>Cross Attention:</strong> 作者从原始的长序列$H$中采样出$H_s$子序列作为部分Query序列，实验发现，直接使用最近的k个交互作为部分Query序列的策略效果最好。然后, 再在前面拼接Global Tokens的表征就得到最终的Query矩阵$O&#x3D;[G;H_s] \in R^{(m+k) \times d}$。 cross attention的具体计算如下：<br><img src="/../article_img/lifelong/img12.png" srcset="/img/loading.gif" lazyload alt="Cross Attention"></p>
+<p>LONGER框架图：<br><img src="/../article_img/lifelong/img11.png" srcset="/img/loading.gif" lazyload alt="LONGER"></p>
+<ol start="7">
+<li>DGIN: Deep Group Interest Network on Full Lifelong User Behaviors for CTR Prediction</li>
+</ol>
+<p>Optimization: 不依赖中间阶段，将完整的终身行为序列分组，通过统计信息和聚类特征分析组内行为，</p>
+<p>DGIN框架图：<br><img src="/../article_img/lifelong/img13.png" srcset="/img/loading.gif" lazyload alt="DGIN"></p>
+
+                
+              </div>
+            
+            <hr/>
+            <div>
+              <div class="post-metas my-3">
+  
+  
+    <div class="post-meta">
+      <i class="iconfont icon-tags"></i>
+      
+        <a href="/tags/Recsys/" class="print-no-link">#Recsys</a>
+      
+    </div>
+  
+</div>
+
+
+              
+  
+
+  <div class="license-box my-3">
+    <div class="license-title">
+      <div>长序列用户建模</div>
+      <div>http://example.com/2025/06/09/长序列用户建模/</div>
+    </div>
+    <div class="license-meta">
+      
+        <div class="license-meta-item">
+          <div>作者</div>
+          <div>Peter</div>
+        </div>
+      
+      
+        <div class="license-meta-item license-meta-date">
+          <div>发布于</div>
+          <div>2025年6月9日</div>
+        </div>
+      
+      
+      
+        <div class="license-meta-item">
+          <div>许可协议</div>
+          <div>
+            
+              
+              
+                <a class="print-no-link" target="_blank" href="https://creativecommons.org/licenses/by/4.0/">
+                  <span class="hint--top hint--rounded" aria-label="BY - 署名">
+                    <i class="iconfont icon-cc-by"></i>
+                  </span>
+                </a>
+              
+            
+          </div>
+        </div>
+      
+    </div>
+    <div class="license-icon iconfont"></div>
+  </div>
+
+
+
+              
+                <div class="post-prevnext my-3">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2025/05/27/%E6%97%B6%E9%97%B4%E5%BA%8F%E5%88%97%E5%88%86%E8%A7%A3/" title="时间序列分解">
+                        <span class="hidden-mobile">时间序列分解</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+  
+  
+    <article id="comments" lazyload>
+      
+  <div id="valine"></div>
+  <script type="text/javascript">
+    Fluid.utils.loadComments('#valine', function() {
+      Fluid.utils.createScript('https://lib.baomitu.com/valine/1.5.1/Valine.min.js', function() {
+        var options = Object.assign(
+          {"appId":"bFZ2utAtP6QxKUNJxwibP07k-gzGzoHsz","appKey":"rWP0FjbzaXytusY91AFDmytV","path":"window.location.pathname","placeholder":"留言仅限讨论，禁止广告等行为","avatar":"retro","meta":["nick","mail","link"],"requiredFields":[],"pageSize":10,"lang":"zh-CN","highlight":false,"recordIP":false,"serverURLs":"https://bfz2utat.lc-cn-n1-shared.com","emojiCDN":null,"emojiMaps":null,"enableQQ":false},
+          {
+            el: "#valine",
+            path: window.location.pathname
+          }
+        )
+        new Valine(options);
+        Fluid.utils.waitElementVisible('#valine .vcontent', () => {
+          var imgSelector = '#valine .vcontent img:not(.vemoji)';
+          Fluid.plugins.imageCaption(imgSelector);
+          Fluid.plugins.fancyBox(imgSelector);
+        })
+      });
+    });
+  </script>
+  <noscript>Please enable JavaScript to view the comments</noscript>
+
+
+    </article>
+  
+
+
+          </article>
+        </div>
+      </div>
+    </div>
+
+    <div class="side-col d-none d-lg-block col-lg-2">
+      
+  <aside class="sidebar" style="margin-left: -1rem">
+    <div id="toc">
+  <p class="toc-header">
+    <i class="iconfont icon-list"></i>
+    <span>目录</span>
+  </p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+
+
+  </aside>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+
+  
+
+
+  
+  
+
+
+
+
+
+
+
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v" for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+  </main>
+
+  <footer>
+    <div class="footer-inner">
+  
+    <div class="footer-content">
+       <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+    </div>
+  
+  
+  
+</div>
+
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script  src="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://lib.baomitu.com/nprogress/0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://lib.baomitu.com/jquery/3.6.4/jquery.min.js" ></script>
+<script  src="https://lib.baomitu.com/twitter-bootstrap/4.6.1/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+
+  <script  src="https://lib.baomitu.com/typed.js/2.0.12/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var subtitle = document.getElementById('subtitle');
+      if (!subtitle || !typing) {
+        return;
+      }
+      var text = subtitle.getAttribute('data-typed-text');
+      
+        typing(text);
+      
+    })(window, document);
+  </script>
+
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/tocbot/4.20.1/tocbot.min.js', function() {
+    var toc = jQuery('#toc');
+    if (toc.length === 0 || !window.tocbot) { return; }
+    var boardCtn = jQuery('#board-ctn');
+    var boardTop = boardCtn.offset().top;
+
+    window.tocbot.init(Object.assign({
+      tocSelector     : '#toc-body',
+      contentSelector : '.markdown-body',
+      linkClass       : 'tocbot-link',
+      activeLinkClass : 'tocbot-active-link',
+      listClass       : 'tocbot-list',
+      isCollapsedClass: 'tocbot-is-collapsed',
+      collapsibleClass: 'tocbot-is-collapsible',
+      scrollSmooth    : true,
+      includeTitleTags: true,
+      headingsOffset  : -boardTop,
+    }, CONFIG.toc));
+    if (toc.find('.toc-list-item').length > 0) {
+      toc.css('visibility', 'visible');
+    }
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('tocbot' in window) {
+        tocbot.refresh();
+        var toc = jQuery('#toc');
+        if (toc.length === 0 || !tocbot) {
+          return;
+        }
+        if (toc.find('.toc-list-item').length > 0) {
+          toc.css('visibility', 'visible');
+        }
+      }
+    });
+  });
+</script>
+
+
+  <script src=https://lib.baomitu.com/clipboard.js/2.0.11/clipboard.min.js></script>
+
+  <script>Fluid.plugins.codeWidget();</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/anchor-js/5.0.0/anchor.min.js', function() {
+    window.anchors.options = {
+      placement: CONFIG.anchorjs.placement,
+      visible  : CONFIG.anchorjs.visible
+    };
+    if (CONFIG.anchorjs.icon) {
+      window.anchors.options.icon = CONFIG.anchorjs.icon;
+    }
+    var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+    var res = [];
+    for (var item of el) {
+      res.push('.markdown-body > ' + item.trim());
+    }
+    if (CONFIG.anchorjs.placement === 'left') {
+      window.anchors.options.class = 'anchorjs-link-left';
+    }
+    window.anchors.add(res.join(', '));
+
+    Fluid.events.registerRefreshCallback(function() {
+      if ('anchors' in window) {
+        anchors.removeAll();
+        var el = (CONFIG.anchorjs.element || 'h1,h2,h3,h4,h5,h6').split(',');
+        var res = [];
+        for (var item of el) {
+          res.push('.markdown-body > ' + item.trim());
+        }
+        if (CONFIG.anchorjs.placement === 'left') {
+          anchors.options.class = 'anchorjs-link-left';
+        }
+        anchors.add(res.join(', '));
+      }
+    });
+  });
+</script>
+
+
+  
+<script>
+  Fluid.utils.createScript('https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js', function() {
+    Fluid.plugins.fancyBox();
+  });
+</script>
+
+
+  <script>Fluid.plugins.imageCaption();</script>
+
+  
+      <script>
+        if (!window.MathJax) {
+          window.MathJax = {
+            tex    : {
+              inlineMath: { '[+]': [['$', '$']] }
+            },
+            loader : {
+              load: ['ui/lazy']
+            },
+            options: {
+              renderActions: {
+                insertedScript: [200, () => {
+                  document.querySelectorAll('mjx-container').forEach(node => {
+                    let target = node.parentNode;
+                    if (target.nodeName.toLowerCase() === 'li') {
+                      target.parentNode.classList.add('has-jax');
+                    }
+                  });
+                }, '', false]
+              }
+            }
+          };
+        } else {
+          MathJax.startup.document.state(0);
+          MathJax.texReset();
+          MathJax.typeset();
+          MathJax.typesetPromise();
+        }
+
+        Fluid.events.registerRefreshCallback(function() {
+          if ('MathJax' in window && MathJax.startup.document && typeof MathJax.startup.document.state === 'function') {
+            MathJax.startup.document.state(0);
+            MathJax.texReset();
+            MathJax.typeset();
+            MathJax.typesetPromise();
+          }
+        });
+      </script>
+    
+
+  <script  src="https://lib.baomitu.com/mathjax/3.2.2/es5/tex-mml-chtml.js" ></script>
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+
+  
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/love.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxingxing.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/xiaoxuehua.js"></script>
+<script src="//cdn.jsdelivr.net/gh/bynotes/texiao/source/js/caidai.js"></script>
+
+
+
+<!-- 主题的启动项，将它保持在最底部 -->
+<!-- the boot of the theme, keep it at the bottom -->
+<script  src="/js/boot.js" ></script>
+
+
+  
+
+  <noscript>
+    <div class="noscript-warning">博客在允许 JavaScript 运行的环境下浏览效果更佳</div>
+  </noscript>
+</body>
+</html>

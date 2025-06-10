@@ -21,16 +21,16 @@
   <meta name="author" content="Peter">
   <meta name="keywords" content="">
   
-    <meta name="description" content="buildVpn图文教程搭建一个vpn准备工作：有支付宝账户，有一个可用邮箱，有10美元。（根据我下面的链接注册，会赠送300美元的体验金，可以试一下没成本，如果长期用可以再去充值）前言：首先我们选择Vultr供应商来购买海外VPS服务器，具有12个地区可以选择，当然也可以选择其他的供应商，但是Vultr的优点在于，所有服务器创建成功后开始计费，并且是按照小时来计费的，如果你删除掉服务器将不再计费">
+    <meta name="description" content="理论部分这里简单介绍下常用的代理工具，并区分下Shadowsocks和ShadowsocksR的区别 代理工具科学上网的原理step:  本地客户端 与 远程代理服务器 建立加密隧道。  本地流量通过隧道发送到代理服务器。  代理服务器解密请求，访问目标网站（如 Google）。  返回的数据再次加密传回本地客户端。   下面是关于代理工具常见的实现方式：  HTTP&#x2F;HTTPS 代理用">
 <meta property="og:type" content="article">
 <meta property="og:title" content="搭建代理服务器访问外网">
 <meta property="og:url" content="http://example.com/2025/02/01/buildvpn/index.html">
 <meta property="og:site_name" content="Peter ThinkTank">
-<meta property="og:description" content="buildVpn图文教程搭建一个vpn准备工作：有支付宝账户，有一个可用邮箱，有10美元。（根据我下面的链接注册，会赠送300美元的体验金，可以试一下没成本，如果长期用可以再去充值）前言：首先我们选择Vultr供应商来购买海外VPS服务器，具有12个地区可以选择，当然也可以选择其他的供应商，但是Vultr的优点在于，所有服务器创建成功后开始计费，并且是按照小时来计费的，如果你删除掉服务器将不再计费">
+<meta property="og:description" content="理论部分这里简单介绍下常用的代理工具，并区分下Shadowsocks和ShadowsocksR的区别 代理工具科学上网的原理step:  本地客户端 与 远程代理服务器 建立加密隧道。  本地流量通过隧道发送到代理服务器。  代理服务器解密请求，访问目标网站（如 Google）。  返回的数据再次加密传回本地客户端。   下面是关于代理工具常见的实现方式：  HTTP&#x2F;HTTPS 代理用">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/article_img/buildvpn/20180307101419422.jpg">
 <meta property="article:published_time" content="2025-01-31T16:00:00.000Z">
-<meta property="article:modified_time" content="2025-03-03T13:01:13.247Z">
+<meta property="article:modified_time" content="2025-05-29T16:09:44.566Z">
 <meta property="article:author" content="Peter">
 <meta property="article:tag" content="Web">
 <meta name="twitter:card" content="summary_large_image">
@@ -290,7 +290,7 @@
         <i class="iconfont icon-chart"></i>
         
           <!-- compatible with older versions-->
-          2.5k 字
+          3.3k 字
         
       </span>
     
@@ -302,7 +302,7 @@
         
         
           <!-- compatible with older versions-->
-          21 分钟
+          28 分钟
         
       </span>
     
@@ -344,8 +344,78 @@
             
               <div class="markdown-body">
                 
-                <h1 id="buildVpn"><a href="#buildVpn" class="headerlink" title="buildVpn"></a>buildVpn</h1><h3 id="图文教程搭建一个vpn"><a href="#图文教程搭建一个vpn" class="headerlink" title="图文教程搭建一个vpn"></a>图文教程搭建一个vpn</h3><h3 id="准备工作：有支付宝账户，有一个可用邮箱，有10美元。（根据我下面的链接注册，会赠送300美元的体验金，可以试一下没成本，如果长期用可以再去充值）"><a href="#准备工作：有支付宝账户，有一个可用邮箱，有10美元。（根据我下面的链接注册，会赠送300美元的体验金，可以试一下没成本，如果长期用可以再去充值）" class="headerlink" title="准备工作：有支付宝账户，有一个可用邮箱，有10美元。（根据我下面的链接注册，会赠送300美元的体验金，可以试一下没成本，如果长期用可以再去充值）"></a>准备工作：有支付宝账户，有一个可用邮箱，有10美元。（根据我下面的链接注册，会赠送300美元的体验金，可以试一下没成本，如果长期用可以再去充值）</h3><h3 id="前言：首先我们选择Vultr供应商来购买海外VPS服务器，具有12个地区可以选择，当然也可以选择其他的供应商，但是Vultr的优点在于，所有服务器创建成功后开始计费，并且是按照小时来计费的，如果你删除掉服务器将不再计费。众所周知，目前国内的VPN打击特别严厉，很多VPN已经被封掉了，我们购买的海外服务器也有可能是被墙掉IP或者用一段时间被墙的。所以Vultr可以随时创建一个新的服务器（会分配一个新的ip），删除掉原有的。"><a href="#前言：首先我们选择Vultr供应商来购买海外VPS服务器，具有12个地区可以选择，当然也可以选择其他的供应商，但是Vultr的优点在于，所有服务器创建成功后开始计费，并且是按照小时来计费的，如果你删除掉服务器将不再计费。众所周知，目前国内的VPN打击特别严厉，很多VPN已经被封掉了，我们购买的海外服务器也有可能是被墙掉IP或者用一段时间被墙的。所以Vultr可以随时创建一个新的服务器（会分配一个新的ip），删除掉原有的。" class="headerlink" title="前言：首先我们选择Vultr供应商来购买海外VPS服务器，具有12个地区可以选择，当然也可以选择其他的供应商，但是Vultr的优点在于，所有服务器创建成功后开始计费，并且是按照小时来计费的，如果你删除掉服务器将不再计费。众所周知，目前国内的VPN打击特别严厉，很多VPN已经被封掉了，我们购买的海外服务器也有可能是被墙掉IP或者用一段时间被墙的。所以Vultr可以随时创建一个新的服务器（会分配一个新的ip），删除掉原有的。"></a>前言：首先我们选择Vultr供应商来购买海外VPS服务器，具有12个地区可以选择，当然也可以选择其他的供应商，但是Vultr的优点在于，所有服务器创建成功后开始计费，并且是按照小时来计费的，如果你删除掉服务器将不再计费。众所周知，目前国内的VPN打击特别严厉，很多VPN已经被封掉了，我们购买的海外服务器也有可能是被墙掉IP或者用一段时间被墙的。所以Vultr可以随时创建一个新的服务器（会分配一个新的ip），删除掉原有的。</h3><h3 id="创建账户及购买VPS服务器"><a href="#创建账户及购买VPS服务器" class="headerlink" title="创建账户及购买VPS服务器"></a>创建账户及购买VPS服务器</h3><p>第一步：登录vultr官网注册一个账户，只需要一个邮箱和密码即可。然后到你注册的邮箱中去验证你的账户。</p>
-<h4 id="官网推广链接-https-www-vultr-com-ref-9695214-9J-这个链接是官网一个推荐链接，有300刀体验金"><a href="#官网推广链接-https-www-vultr-com-ref-9695214-9J-这个链接是官网一个推荐链接，有300刀体验金" class="headerlink" title="官网推广链接(https://www.vultr.com/?ref=9695214-9J) 这个链接是官网一个推荐链接，有300刀体验金"></a>官网推广链接(<a target="_blank" rel="noopener" href="https://www.vultr.com/?ref=9695214-9J">https://www.vultr.com/?ref=9695214-9J</a>) 这个链接是官网一个推荐链接，有300刀体验金</h4><p>官网链接(<a target="_blank" rel="noopener" href="https://www.vultr.com/?ref=7348872">https://www.vultr.com/?ref=7348872</a>)        这个链接就是普通的推荐链接</p>
+                <h2 id="理论部分"><a href="#理论部分" class="headerlink" title="理论部分"></a>理论部分</h2><p>这里简单介绍下常用的代理工具，并区分下Shadowsocks和ShadowsocksR的区别</p>
+<h3 id="代理工具科学上网的原理"><a href="#代理工具科学上网的原理" class="headerlink" title="代理工具科学上网的原理"></a>代理工具科学上网的原理</h3><p>step:</p>
+<ol>
+<li><p><code>本地客户端</code> 与 <code>远程代理服务器</code> 建立加密隧道。</p>
+</li>
+<li><p>本地流量通过隧道发送到代理服务器。</p>
+</li>
+<li><p>代理服务器解密请求，访问目标网站（如 Google）。</p>
+</li>
+<li><p>返回的数据再次加密传回本地客户端。</p>
+</li>
+</ol>
+<p>下面是关于代理工具常见的实现方式：</p>
+<ol>
+<li>HTTP&#x2F;HTTPS 代理<br>用于网页浏览器等支持 HTTP&#x2F;S 的客户端。</li>
+</ol>
+<p>代理服务器处理 HTTP 请求，并转发给目标网站。</p>
+<p>缺点：不能代理非 HTTP 协议的流量（如游戏、软件更新等）。</p>
+<ol start="2">
+<li>SOCKS5 代理<br>更通用的代理协议，支持任何协议（TCP、UDP）。</li>
+</ol>
+<p>应用层更透明，可以代理 Telegram、游戏、FTP、P2P 等流量。</p>
+<p>常见工具：Shadowsocks、V2Ray 的 SOCKS5 模式。</p>
+<ol start="3">
+<li>VPN（虚拟专用网络）<br>创建一个本地设备与远端服务器之间的加密通道。</li>
+</ol>
+<p>所有流量都通过该通道传输，相当于把你“搬到”另一个国家上网。</p>
+<p>协议示例：OpenVPN、WireGuard、L2TP、IPSec。</p>
+<ol start="4">
+<li>隧道转发工具（Tunneling）<br>例如：Shadowsocks、V2Ray、Trojan、Clash、Brook 等。</li>
+</ol>
+<p>这些工具结合 SOCKS5、HTTP 和自定义协议，提供加密代理服务，并通过 TLS 等方式隐藏特征。</p>
+<h3 id="Shadowsocks与V2ray"><a href="#Shadowsocks与V2ray" class="headerlink" title="Shadowsocks与V2ray"></a>Shadowsocks与V2ray</h3><ol>
+<li>Shadowsocks（SS）<br>特点</li>
+</ol>
+<ul>
+<li><p>轻量级：专注于简单的 SOCKS5 代理，核心代码仅几千行。</p>
+</li>
+<li><p>设计目标：绕过网络封锁，不追求隐匿性（流量特征较明显）。</p>
+</li>
+<li><p>加密方式：支持 AES、ChaCha20 等对称加密。</p>
+</li>
+<li><p>协议：自定义协议（基于 SOCKS5），无完整握手过程，速度快。</p>
+</li>
+</ul>
+<p>适用场景：适合个人翻墙、低延迟需求（如浏览网页、视频）。</p>
+<p>优点: 1. 配置简单，资源占用低。 2. 客户端广泛（Windows&#x2F;macOS&#x2F;Android&#x2F;iOS 均有成熟客户端）。</p>
+<p>缺点: 1. 流量特征易被识别（如 DPI 深度包检测可能封锁 SS 端口）。 2. 功能单一（仅代理 TCP&#x2F;UDP，无负载均衡等高级功能）。</p>
+<ol start="2">
+<li>V2Ray（Project V）<br>特点</li>
+</ol>
+<ul>
+<li><p>模块化设计：支持多种协议（VMess、VLESS、Shadowsocks、Trojan 等）。</p>
+</li>
+<li><p>隐匿性强：流量可伪装成 HTTPS（与正常网页流量混合），抗封锁能力更强。</p>
+</li>
+<li><p>功能丰富：支持多入口&#x2F;多出口（路由分流、负载均衡）。内置 DNS 代理、动态端口、mKCP（基于 UDP 的加速协议）。</p>
+</li>
+<li><p>加密与传输：默认使用 VMess 协议（基于 TLS + 动态 ID）。支持 WebSocket + TLS（伪装成 HTTPS 流量）。</p>
+</li>
+</ul>
+<p>优点：1. 抗封锁能力强（适合严格审查环境，如中国 GFW）。 2. 灵活配置（可组合多种协议和传输方式）。 3. 支持多平台，生态完善（如 Clash、Qv2ray 等客户端）。</p>
+<p>缺点：1. 配置复杂（需手动编写 JSON 配置文件）。 2. 资源占用略高（功能多导致性能开销稍大）。</p>
+<h3 id="Shadowsocks与ShadowsocksR"><a href="#Shadowsocks与ShadowsocksR" class="headerlink" title="Shadowsocks与ShadowsocksR"></a>Shadowsocks与ShadowsocksR</h3><p>（1）协议与混淆<br>Shadowsocks：仅使用简单的 SOCKS5 代理协议，流量特征较明显；无内置混淆，易被防火墙通过流量分析识别（如 GFW 的主动探测）。</p>
+<p>ShadowsocksR：支持 协议插件（如 auth_chain_a、auth_sha1_v4），混淆流量特征；可伪装成 HTTP&#x2F;TLS 流量，降低被封锁概率。</p>
+<p>（2）加密方式<br>SS：固定加密（如 aes-256-cfb、chacha20-ietf）</p>
+<p>SSR：支持更多加密组合（如 aes-256-gcm + tls1.2_ticket_auth）</p>
+<h2 id="实操部分"><a href="#实操部分" class="headerlink" title="实操部分"></a>实操部分</h2><p>准备工作：有支付宝账户，有一个可用邮箱，有10美元。（根据我下面的链接注册，会赠送300美元的体验金，可以试一下没成本，如果长期用可以再去充值）</p>
+<p>前言：首先我们选择Vultr供应商来购买海外VPS服务器，具有12个地区可以选择，当然也可以选择其他的供应商，但是Vultr的优点在于，所有服务器创建成功后开始计费，并且是按照小时来计费的，如果你删除掉服务器将不再计费。众所周知，目前国内的VPN打击特别严厉，很多VPN已经被封掉了，我们购买的海外服务器也有可能是被墙掉IP或者用一段时间被墙的。所以Vultr可以随时创建一个新的服务器（会分配一个新的ip），删除掉原有的。</p>
+<h3 id="创建账户及购买VPS服务器"><a href="#创建账户及购买VPS服务器" class="headerlink" title="创建账户及购买VPS服务器"></a>创建账户及购买VPS服务器</h3><p>第一步：登录vultr官网注册一个账户，只需要一个邮箱和密码即可。然后到你注册的邮箱中去验证你的账户。</p>
+<p>官网推广链接(<a target="_blank" rel="noopener" href="https://www.vultr.com/?ref=9695214-9J">https://www.vultr.com/?ref=9695214-9J</a>) 这个链接是官网一个推荐链接，有300刀体验金</p>
+<p>官网链接(<a target="_blank" rel="noopener" href="https://www.vultr.com/?ref=7348872">https://www.vultr.com/?ref=7348872</a>) 这个链接就是普通的推荐链接</p>
 <p><img src="/article_img/buildvpn/20180307101419422.jpg" srcset="/img/loading.gif" lazyload alt="第一步"></p>
 <p>第二步：登录你的账户，然后在如图所示地方进行充值。这里我们可以使用微信或支付宝扫码支付，充值成功后，可以再右上角看到你的账户余额。</p>
 <p><img src="/article_img/buildvpn/20180307101506198.jpg" srcset="/img/loading.gif" lazyload alt="第二步"></p>
@@ -382,7 +452,7 @@
 <p>wget –no-check-certificate <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocksR.sh">https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocksR.sh</a></p>
 <p>chmod +x shadowsocksR.sh</p>
 <p>.&#x2F;shadowsocksR.sh 2&gt;&amp;1 | tee shadowsocksR.log</p>
-<h3 id="主脚本安装SSR："><a href="#主脚本安装SSR：" class="headerlink" title="主脚本安装SSR："></a>主脚本安装SSR：</h3><p>第一步：设定密码，default 为默认密码</p>
+<h3 id="主脚本安装SSR"><a href="#主脚本安装SSR" class="headerlink" title="主脚本安装SSR"></a>主脚本安装SSR</h3><p>第一步：设定密码，default 为默认密码</p>
 <p><img src="/article_img/buildvpn/new2.png" srcset="/img/loading.gif" lazyload alt="第十六-1步"></p>
 <p>第二步：设定端口，default 为随机生成默认端口<br><img src="/article_img/buildvpn/new3.png" srcset="/img/loading.gif" lazyload alt="第十六-2步"></p>
 <p>第三步：设定加密方式，default 为默认加密方式<br><img src="/article_img/buildvpn/new4.png" srcset="/img/loading.gif" lazyload alt="第十六-3步"></p>
@@ -402,7 +472,7 @@
 <p>日志文件路径：&#x2F;var&#x2F;log&#x2F;shadowsocks.log </p>
 <p>安装路径：&#x2F;usr&#x2F;local&#x2F;shadowsocks&#x2F;shadowsoks</p>
 <p>卸载.&#x2F;shadowsocksR.sh uninstall</p>
-<h3 id="备用脚本安装SSR：（如果此时链接断了，重连后输入-ssr-sh-就可以进入下面安装操作，以后修改时也输入-ssr-sh）"><a href="#备用脚本安装SSR：（如果此时链接断了，重连后输入-ssr-sh-就可以进入下面安装操作，以后修改时也输入-ssr-sh）" class="headerlink" title="备用脚本安装SSR：（如果此时链接断了，重连后输入.&#x2F;ssr.sh 就可以进入下面安装操作，以后修改时也输入.&#x2F;ssr.sh）"></a>备用脚本安装SSR：（如果此时链接断了，重连后输入.&#x2F;ssr.sh 就可以进入下面安装操作，以后修改时也输入.&#x2F;ssr.sh）</h3><p>备用脚本（上面的脚步不可用再输入这个）：</p>
+<h3 id="备用脚本安装SSR"><a href="#备用脚本安装SSR" class="headerlink" title="备用脚本安装SSR"></a>备用脚本安装SSR</h3><p>如果此时链接断了，重连后输入.&#x2F;ssr.sh 就可以进入下面安装操作，以后修改时也输入<code>./ssr.sh</code> 备用脚本（上面的脚步不可用再输入这个）：</p>
 <p>wget -N –no-check-certificate <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/ToyoDAdoubi/doubi/master/ssr.sh">https://raw.githubusercontent.com/ToyoDAdoubi/doubi/master/ssr.sh</a> &amp;&amp; chmod +x ssr.sh &amp;&amp; bash ssr.sh</p>
 <p>如果在输入命令式提示wget:command not found，则表示没有wget工具，先输入下面指令进行安装，然后再部署管理脚本<br>yum -y install wget</p>
 <p>第一步：选择1 </p>
@@ -421,12 +491,17 @@
 <p><img src="/article_img/buildvpn/20180307102008416.jpg" srcset="/img/loading.gif" lazyload alt="第二十三步"></p>
 <p>如果遇到输入项，问y还是n时，输入y 回车确认。</p>
 <p><img src="/article_img/buildvpn/20180307102018140.jpg" srcset="/img/loading.gif" lazyload alt="第二十四步"></p>
-<h3 id="到此安装就完成了。可以通过客户端进行链接翻墙上网了。"><a href="#到此安装就完成了。可以通过客户端进行链接翻墙上网了。" class="headerlink" title="到此安装就完成了。可以通过客户端进行链接翻墙上网了。"></a>到此安装就完成了。可以通过客户端进行链接翻墙上网了。</h3><p><img src="/article_img/buildvpn/2018030710205260.jpg" srcset="/img/loading.gif" lazyload alt="第二十五步"></p>
+<p><strong>到此安装就完成了。可以通过客户端进行链接翻墙上网了。</strong></p>
+<p><img src="/article_img/buildvpn/2018030710205260.jpg" srcset="/img/loading.gif" lazyload alt="第二十五步"></p>
 <p>如果SSR成功安装，但是不能正常启动，在centOS中主要原因是缺少python环境，利用以下指令进行安装</p>
 <p>yum -y install python36</p>
 <p>cd &#x2F;usr&#x2F;bin</p>
 <p>ln -s python3 python</p>
-<h3 id="为了能够提高上网速度，YouTube从480-体验为1080。我们接下来进行安装加速软件（速锐、BBR两者选其一，不可共存）。"><a href="#为了能够提高上网速度，YouTube从480-体验为1080。我们接下来进行安装加速软件（速锐、BBR两者选其一，不可共存）。" class="headerlink" title="为了能够提高上网速度，YouTube从480 体验为1080。我们接下来进行安装加速软件（速锐、BBR两者选其一，不可共存）。"></a>为了能够提高上网速度，YouTube从480 体验为1080。我们接下来进行安装加速软件（速锐、BBR两者选其一，不可共存）。</h3><h3 id="BBR加速（如果需要速锐，跳过此段）"><a href="#BBR加速（如果需要速锐，跳过此段）" class="headerlink" title="BBR加速（如果需要速锐，跳过此段）"></a>BBR加速（如果需要速锐，跳过此段）</h3><p>BBR加速特别简单，复制下面脚本代码即可。<br>谷歌BBR加速脚本：</p>
+<p>为了能够提高上网速度，YouTube从480 体验为1080。我们接下来进行安装加速软件（速锐、BBR两者选其一，不可共存）。</p>
+<h3 id="备用脚本安装SS"><a href="#备用脚本安装SS" class="headerlink" title="备用脚本安装SS"></a>备用脚本安装SS</h3><p>wget –no-check-certificate -O shadowsocks-all.sh <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh">https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh</a></p>
+<p>第一项选1 python安装，其他选择与主脚本描述一样</p>
+<h3 id="BBR加速"><a href="#BBR加速" class="headerlink" title="BBR加速"></a>BBR加速</h3><p>（如果需要速锐，跳过此段）</p>
+<p>BBR加速特别简单，复制下面脚本代码即可。<br>谷歌BBR加速脚本：</p>
 <p>第一个指令：wget –no-check-certificate <a target="_blank" rel="noopener" href="https://github.com/teddysun/across/raw/master/bbr.sh">https://github.com/teddysun/across/raw/master/bbr.sh</a></p>
 <p>第二个指令：chmod +x bbr.sh</p>
 <p>第三个指令：.&#x2F;bbr.sh</p>
@@ -436,8 +511,6 @@
 <p><img src="/article_img/buildvpn/20180307102114503.jpg" srcset="/img/loading.gif" lazyload alt="第二十七步"></p>
 <p>3、重新连接后，输入 lsmod | grep bbr 查看BBR是否启动，可以看到已经启动了。</p>
 <p><img src="/article_img/buildvpn/20180307102126665.jpg" srcset="/img/loading.gif" lazyload alt="第二十八步"></p>
-<h3 id="备用脚本安装SS："><a href="#备用脚本安装SS：" class="headerlink" title="备用脚本安装SS："></a>备用脚本安装SS：</h3><p>wget –no-check-certificate -O shadowsocks-all.sh <a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh">https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh</a></p>
-<p>第一项选1 python安装，其他选择与主脚本描述一样</p>
 <h3 id="速锐加速"><a href="#速锐加速" class="headerlink" title="速锐加速"></a>速锐加速</h3><p>1、首先输入<br>uname -a 查看内核为</p>
 <p>2、然后输入<br>cat &#x2F;etc&#x2F;redhat-release  查看系统版本</p>
 <p>3、下载CentOS 6.6版本的内核（速锐支持6.6版本的）<br>wget <a target="_blank" rel="noopener" href="http://ftp.scientificlinux.org/linux/scientific/6.6/x86_64/updates/security/kernel-2.6.32-504.3.3.el6.x86_64.rpm">http://ftp.scientificlinux.org/linux/scientific/6.6/x86_64/updates/security/kernel-2.6.32-504.3.3.el6.x86_64.rpm</a></p>
@@ -447,14 +520,16 @@
 <p>这时正常情况速锐就已经安装完成并且启动了。</p>
 <p><img src="/article_img/buildvpn/20180307102140531.jpg" srcset="/img/loading.gif" lazyload alt="第二十九步"></p>
 <p>service serverSpeeder status     查看速锐的状态<br>service serverSpeeder start | stop | restart  停止暂停重启锐速</p>
-<h3 id="到此为止，通过BBR或速锐加速的VPN服务器已经全部搭建完成了。"><a href="#到此为止，通过BBR或速锐加速的VPN服务器已经全部搭建完成了。" class="headerlink" title="到此为止，通过BBR或速锐加速的VPN服务器已经全部搭建完成了。"></a>到此为止，通过BBR或速锐加速的VPN服务器已经全部搭建完成了。</h3><h3 id="接下来使用SSR或者SS客户端连接即可"><a href="#接下来使用SSR或者SS客户端连接即可" class="headerlink" title="接下来使用SSR或者SS客户端连接即可"></a>接下来使用SSR或者SS客户端连接即可</h3><p>MAC：<a target="_blank" rel="noopener" href="https://github.com/shadowsocksr-backup/ShadowsocksX-NG/releases">https://github.com/shadowsocksr-backup/ShadowsocksX-NG/releases</a><br>WIN：<a target="_blank" rel="noopener" href="https://github.com/shadowsocksr-backup/shadowsocksr-csharp/releases">https://github.com/shadowsocksr-backup/shadowsocksr-csharp/releases</a><br>IPHONE：FirstWingy、potatso lite  （商店里有，实在找不到可以弄个美国APPLEID，什么都能下）</p>
+<p>到此为止，通过BBR或速锐加速的VPN服务器已经全部搭建完成了。接下来使用SSR或者SS客户端连接即可</p>
+<h3 id="SSR-SS客户端链连接"><a href="#SSR-SS客户端链连接" class="headerlink" title="SSR&#x2F;SS客户端链连接"></a>SSR&#x2F;SS客户端链连接</h3><p>MAC：<a target="_blank" rel="noopener" href="https://github.com/shadowsocksr-backup/ShadowsocksX-NG/releases">https://github.com/shadowsocksr-backup/ShadowsocksX-NG/releases</a><br>WIN：<a target="_blank" rel="noopener" href="https://github.com/shadowsocksr-backup/shadowsocksr-csharp/releases">https://github.com/shadowsocksr-backup/shadowsocksr-csharp/releases</a><br>IPHONE：FirstWingy、potatso lite  （商店里有，实在找不到可以弄个美国APPLEID，什么都能下）</p>
 <p>以iphone为例：首先右上角加号，添加服务器配置信息。</p>
 <p><img src="/article_img/buildvpn/20180307102153178.jpg" srcset="/img/loading.gif" lazyload alt="第三十步"></p>
 <p>然后：填写一开始安装时的信息,保存。如果忘了记得 .&#x2F;ssr.sh  选择5 查看连接信息</p>
 <p><img src="/article_img/buildvpn/20180307102204995.jpg" srcset="/img/loading.gif" lazyload alt="第三十一步"></p>
 <p>这时你可以愉快的翻墙上网了。</p>
 <p><img src="/article_img/buildvpn/20180307102258394.jpg" srcset="/img/loading.gif" lazyload alt="第三十二步"></p>
-<h3 id="如果使用SSR无法连接网络，则可能是centOS未开放相关端口，接下来查询并开启端口"><a href="#如果使用SSR无法连接网络，则可能是centOS未开放相关端口，接下来查询并开启端口" class="headerlink" title="如果使用SSR无法连接网络，则可能是centOS未开放相关端口，接下来查询并开启端口"></a>如果使用SSR无法连接网络，则可能是centOS未开放相关端口，接下来查询并开启端口</h3><p>.&#x2F;ssr.sh 选择5 查看配置信息中的端口号</p>
+<p><strong>如果使用SSR无法连接网络，则可能是centOS未开放相关端口，接下来查询并开启端口</strong></p>
+<p>.&#x2F;ssr.sh 选择5 查看配置信息中的端口号</p>
 <p>假如我们使用的是2333端口</p>
 <p>用以下指令可以查看是否开启对应端口</p>
 <p>firewall-cmd –list-ports</p>
@@ -532,9 +607,9 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2025/02/01/lab/" title="Recsys大牛实验室官网链接">
+                      <a href="/2025/02/01/competition/" title="人工智能竞赛汇总">
                         <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile">Recsys大牛实验室官网链接</span>
+                        <span class="hidden-mobile">人工智能竞赛汇总</span>
                         <span class="visible-mobile">上一篇</span>
                       </a>
                     
